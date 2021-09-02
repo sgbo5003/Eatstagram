@@ -3,6 +3,9 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import "../src/css/style.css";
 import { BrowserRouter } from "react-router-dom";
+import axios from "axios";
+
+axios.defaults.baseURL = "http://localhost:8080/";
 
 ReactDOM.render(
   <BrowserRouter>
