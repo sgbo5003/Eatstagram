@@ -1,37 +1,85 @@
-import React from "react";
+import React, { useState } from "react";
 
 import kakaoLogo from "../images/kakaoLogo.svg.png";
 import googleLogo from "../images/Google__G__Logo.svg.png";
 import { Link } from "react-router-dom";
+import axios from "axios";
 const Login = () => {
+  const [userid, setUserid] = useState(""); // 성명
+  const [password, setPassword] = useState(""); // 비밀번호
+  // http://localhost:3000/oauth2/authorization/google -> google
+
+  const onChangeUseridHandler = (e) => {
+    setUserid(e.target.value);
+  };
+
+  const onChangePasswordHandler = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const sendData = () => {
+    const params = new FormData();
+    params.append("username", userid);
+    params.append("password", password);
+    axios({
+      method: "post",
+      url: "",
+      data: params,
+    })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+        console.log("hi");
+      });
+    console.log(params);
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    sendData();
+  };
+
   return (
     <>
       <div>
         <div id="form">
-          <div class="form-logo">
+          <div className="form-logo">
             <h1>Eatstagram</h1>
           </div>
-
           <form action="main.html" method="GET" id="login-form">
-            <input name="userid" type="text" placeholder="아이디" />
-            <input name="userpassword" type="password" placeholder="비밀번호" />
-            <input type="submit" value="로그인" />
-            <div class="line">
+            <input
+              name="userid"
+              type="text"
+              placeholder="아이디"
+              value={userid}
+              onChange={onChangeUseridHandler}
+            />
+            <input
+              name="userpassword"
+              type="password"
+              placeholder="비밀번호"
+              value={password}
+              onChange={onChangePasswordHandler}
+            />
+            <input type="submit" value="로그인" onClick={onSubmit} />
+            <div className="line">
               <span>또는</span>
             </div>
             {/*구글 소셜 로그인*/}
-            <div class="googlebtn">
-              <a class="oauth-container btn darken-4 white black-text">
-                <div class="inside__google">
+            <div className="googlebtn">
+              <a className="oauth-container btn darken-4 white black-text">
+                <div className="inside__google">
                   <img alt="Google sign-in" src={googleLogo} />
                   <span>Login with Google</span>
                 </div>
               </a>
             </div>
             {/*카카오 소셜 로그인*/}
-            <div class="kakaobtn">
-              <a class="oauth-container btn darken-4 white black-text">
-                <div class="inside__kakao">
+            <div className="kakaobtn">
+              <a className="oauth-container btn darken-4 white black-text">
+                <div className="inside__kakao">
                   <img alt="Kakao sign-in" src={kakaoLogo} />
                   <span>Login with Kakao</span>
                 </div>
@@ -43,17 +91,17 @@ const Login = () => {
           </form>
         </div>
 
-        <div class="form-bottom__btn">
+        <div className="form-bottom__btn">
           <h2>계정이 없으신가요?</h2>
           <Link to="/Join">
-            <h2 class="form-bottom__link">가입하기</h2>
+            <h2 className="form-bottom__link">가입하기</h2>
           </Link>
         </div>
       </div>
 
       <div id="footer">
         <div>
-          <ul class="footer-top">
+          <ul className="footer-top">
             <li>소개</li>
             <li>블로그</li>
             <li>채용 정보</li>
@@ -66,7 +114,7 @@ const Login = () => {
             <li>위치</li>
           </ul>
         </div>
-        <div class="footer-bottom">
+        <div className="footer-bottom">
           <p>© 2021 Eatstagram from JinYedo ParkSangJun BaeGyuri</p>
         </div>
       </div>
