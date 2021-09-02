@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import kakaoLogo from "../images/kakaoLogo.svg.png";
 import googleLogo from "../images/Google__G__Logo.svg.png";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import axios from "axios";
+// import * as fnc from "../commonFunc/CommonFunctions";
 
 const Join = () => {
   //   const [inputData, setInputData] = useState({
@@ -15,14 +17,17 @@ const Join = () => {
   const [usermail, setUsermail] = useState(""); // 이메일 주소
   const [userid, setUserid] = useState(""); // 아이디
   const [nickname, setNickname] = useState(""); // 사용자 이름
+  const [nicknameError, setNickNameError] = useState(false); // 사용자 이름 일치 여부 확인 (db)
   const [name, setName] = useState(""); // 성명
   const [password, setPassword] = useState(""); // 비밀번호
   const [passwordChecked, setPasswordChecked] = useState(""); // 비밀번호 확인
   const [emailError, setEmailError] = useState(false); // 이메일 양식 체크
   const [idError, setIdError] = useState(false); // 아이디 양식 체크
+  const [idCheckError, setIdCheckError] = useState(false); // 아이디 일치여부 확인 (DB)
   const [nameError, setNameError] = useState(false); // 성명 양식 체크
   const [passwordError, setPasswordError] = useState(false); // 비밀번호 양식 체크
   const [passwordIsSame, setPasswordIsSame] = useState(false); // 비밀번호 일치 여부 체크
+  const hitory = useHistory();
   // input 제어
   const onChangeUsermailHandler = (e) => {
     setUsermail(e.target.value);
@@ -101,6 +106,83 @@ const Join = () => {
     }
   };
 
+  const sendData = () => {
+    const params = {
+      email: usermail,
+      username: userid,
+      nickname: nickname,
+      name: name,
+      password: password,
+      confirmPassword: passwordChecked,
+    };
+    axios({
+      method: "post",
+      url: "join/step/one",
+      data: params,
+    })
+      .then((response) => {
+        if (response.data.response == "fail") {
+          alert("값을 제대로 입력해주세요.");
+        } else if (response.data.response == "ok") {
+          hitory.push("/JoinEmail");
+        } else {
+          console.log("error");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const getUseridData = () => {
+    const params = new FormData();
+    params.append("username", userid);
+    axios({
+      method: "post",
+      url: "checkUsername",
+      data: params,
+    })
+      .then((response) => {
+        if (response.data.response === "ok") {
+          setIdCheckError(false);
+        } else if (response.data.response === "fail") {
+          setIdCheckError(true);
+        } else {
+          return;
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const getNickNameData = () => {
+    const params = new FormData();
+    params.append("nickname", nickname);
+    axios({
+      method: "post",
+      url: "checkNickname",
+      data: params,
+    })
+      .then((response) => {
+        if (response.data.response === "ok") {
+          setNickNameError(false);
+        } else if (response.data.response === "fail") {
+          setNickNameError(true);
+        } else {
+          return;
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    sendData();
+  };
+
   return (
     <>
       <div>
@@ -149,19 +231,27 @@ const Join = () => {
               placeholder="아이디"
               value={userid}
               onChange={onChangeUseridHandler}
+              onBlur={getUseridData}
             />
             {idError && (
               <div style={{ color: "red" }}>
                 아이디 형식이 일치하지 않습니다.
               </div>
             )}
+            {idCheckError && (
+              <div style={{ color: "red" }}>아이디가 중복됩니다.</div>
+            )}
             <input
               name="nickname"
               type="text"
-              placeholder="사용자 이름"
+              placeholder="닉네임"
               value={nickname}
               onChange={onChangeNicknameHandler}
+              onBlur={getNickNameData}
             />
+            {nicknameError && (
+              <div style={{ color: "red" }}>닉네임이 중복됩니다.</div>
+            )}
             <input
               name="name"
               type="text"
@@ -194,7 +284,7 @@ const Join = () => {
             {passwordIsSame && (
               <div style={{ color: "red" }}>비밀번호가 일치하지 않습니다.</div>
             )}
-            <input type="submit" value="가입" />
+            <input type="submit" value="가입" onClick={onSubmit} />
           </form>
         </div>
 
