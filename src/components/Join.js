@@ -289,8 +289,8 @@ const Join = () => {
               onFail={console.log}
               token={kakaoAppKey}
             >
-              {/* <img src={kakaoImg} alt="kakao" /> */}
-              카카오 3초만에 가입하기
+              <img src={kakaoLogo} alt="kakao" />
+              <span>Start with Kakao</span>
             </KakaoLogin>
             <div className="line">
               <span>또는</span>

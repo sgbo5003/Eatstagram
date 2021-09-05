@@ -191,6 +191,31 @@
   font-weight: 600;
 }
 
+.KaKaoLogin {
+  display: inline-block;
+  width: 80% !important;
+  height: 32px !important;
+  border-radius: 5px !important;
+  border: thin solid #dbdbdb !important;
+  /* box-shadow: 1px 1px 1px grey; */
+  white-space: nowrap !important;
+  margin-top: 6px !important;
+  line-height: 26px !important;
+  padding: 2px !important;
+}
+
+.KaKaoLogin span {
+  color: #0e0e0e;
+  font-size: 14px;
+  margin-left: 9px;
+}
+
+.KaKaoLogin img {
+  width: 20px;
+  vertical-align: middle;
+  padding-left: 3px;
+}
+
 /********mail********/
 #mail-form {
   display: flex;
