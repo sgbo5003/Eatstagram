@@ -6,6 +6,7 @@ import okImg from "../images/ok.png";
 import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 import KakaoLogin from "react-kakao-login";
+import Footer from "./Footer";
 // import * as fnc from "../commonFunc/CommonFunctions";
 
 const Join = () => {
@@ -103,6 +104,26 @@ const Join = () => {
     } else {
       return true;
     }
+  };
+
+  const kakaoSuccess = (data) => {
+    //   const social_id = data.profile.id; // 고유번호
+    //   const social_name = data.profile.properties.nickname; // 이름
+    //   const social_email = data.profile.kakao_account.email; // 이메일
+    //   const social_profileImg = data.profile.properties.profile_image; // 프로필 이미지
+    //   const params = new FormData();
+    //   params.append("data", data);
+    axios({
+      method: "post",
+      url: "oauth2/authorization/kakao",
+      data: {},
+    })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const sendData = () => {
@@ -232,27 +253,6 @@ const Join = () => {
     checkBtnOn();
   });
 
-  const kakaoSuccess = (data) => {
-    //   const social_id = data.profile.id; // 고유번호
-    //   const social_name = data.profile.properties.nickname; // 이름
-    //   const social_email = data.profile.kakao_account.email; // 이메일
-    //   const social_profileImg = data.profile.properties.profile_image; // 프로필 이미지
-    //   const params = new FormData();
-    //   params.append("data", data);
-    axios({
-      method: "post",
-      url: "oauth2/authorization/kakao",
-      data: {},
-    })
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-        console.log("hi");
-      });
-  };
-
   return (
     <>
       <div>
@@ -283,9 +283,6 @@ const Join = () => {
                 </div>
               </a>
             </div> */}
-            <div className="line">
-              <span>또는</span>
-            </div>
             <KakaoLogin
               className="KaKaoLogin"
               onSuccess={kakaoSuccess}
@@ -295,6 +292,9 @@ const Join = () => {
               {/* <img src={kakaoImg} alt="kakao" /> */}
               카카오 3초만에 가입하기
             </KakaoLogin>
+            <div className="line">
+              <span>또는</span>
+            </div>
             <input
               name="usermail"
               type="text"
@@ -473,7 +473,6 @@ const Join = () => {
             )}
           </div>
         </div>
-
         <div className="form-bottom__btn">
           <h2>계정이 있으신가요?</h2>
           <Link to="/">
@@ -481,25 +480,7 @@ const Join = () => {
           </Link>
         </div>
       </div>
-      <div id="footer">
-        <div>
-          <ul className="footer-top">
-            <li>소개</li>
-            <li>블로그</li>
-            <li>채용 정보</li>
-            <li>도움말</li>
-            <li>API</li>
-            <li>개인정보처리방침</li>
-            <li>약관</li>
-            <li>인기 계정</li>
-            <li>해시태그</li>
-            <li>위치</li>
-          </ul>
-        </div>
-        <div className="footer-bottom">
-          <p>© 2021 Eatstagram from JinYedo ParkSangJun BaeGyuri</p>
-        </div>
-      </div>
+      <Footer />
     </>
   );
 };
