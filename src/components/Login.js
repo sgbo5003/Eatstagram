@@ -2,9 +2,10 @@ import React, { useState } from "react";
 
 import kakaoLogo from "../images/kakaoLogo.svg.png";
 import googleLogo from "../images/Google__G__Logo.svg.png";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 const Login = () => {
+  const history = useHistory();
   const [userid, setUserid] = useState(""); // 성명
   const [password, setPassword] = useState(""); // 비밀번호
   // http://localhost:3000/oauth2/authorization/google -> google
@@ -28,10 +29,10 @@ const Login = () => {
     })
       .then((response) => {
         console.log(response);
+        history.push("/Main");
       })
       .catch((error) => {
         console.log(error);
-        console.log("hi");
       });
     console.log(params);
   };

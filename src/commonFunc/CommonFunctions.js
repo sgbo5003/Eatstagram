@@ -8,7 +8,7 @@ export const executeQuery = ({
   error,
   fail,
 }) => {
-  axios.defaults.baseURL = "https://api.on-startup.co.kr/";
+  //  axios.defaults.baseURL = "https://api.on-startup.co.kr/";
   //   axios.defaults.headers = { "content-type": "multipart/form-data" };
   //   axios.defaults.withCredentials = true;
 
@@ -16,8 +16,6 @@ export const executeQuery = ({
   Object.keys(data).map((element) => {
     params.append(element, data[element]);
   });
-  params.append("currenturl", location.href);
-  params.append("token", sessionStorage.getItem("token"));
 
   axios({
     method: "post",

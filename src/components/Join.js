@@ -1,33 +1,32 @@
 import React, { useEffect, useState } from "react";
 import kakaoLogo from "../images/kakaoLogo.svg.png";
 import googleLogo from "../images/Google__G__Logo.svg.png";
+import cancelImg from "../images/cancel.png";
+import okImg from "../images/ok.png";
 import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
+import KakaoLogin from "react-kakao-login";
 // import * as fnc from "../commonFunc/CommonFunctions";
 
 const Join = () => {
-  //   const [inputData, setInputData] = useState({
-  //     usermail: "",
-  //     userid: "",
-  //     nickname: "",
-  //     name: "",
-  //     password: "",
-  //     passwordChecked: "",
-  //   });
   const [usermail, setUsermail] = useState(""); // 이메일 주소
   const [userid, setUserid] = useState(""); // 아이디
   const [nickname, setNickname] = useState(""); // 사용자 이름
   const [nicknameError, setNickNameError] = useState(false); // 사용자 이름 일치 여부 확인 (db)
+  const [nicknameIsOk, setNickNameIsOk] = useState(false);
   const [name, setName] = useState(""); // 성명
   const [password, setPassword] = useState(""); // 비밀번호
   const [passwordChecked, setPasswordChecked] = useState(""); // 비밀번호 확인
   const [emailError, setEmailError] = useState(false); // 이메일 양식 체크
   const [idError, setIdError] = useState(false); // 아이디 양식 체크
   const [idCheckError, setIdCheckError] = useState(false); // 아이디 일치여부 확인 (DB)
+  const [idCheckIsOk, setIdCheckIsOk] = useState(false);
   const [nameError, setNameError] = useState(false); // 성명 양식 체크
   const [passwordError, setPasswordError] = useState(false); // 비밀번호 양식 체크
   const [passwordIsSame, setPasswordIsSame] = useState(false); // 비밀번호 일치 여부 체크
+  const [button, setButton] = useState(false);
   const hitory = useHistory();
+  const kakaoAppKey = "6bd6889a5435fbc5a9c77e8d49c9e5f3";
   // input 제어
   const onChangeUsermailHandler = (e) => {
     setUsermail(e.target.value);
@@ -121,6 +120,7 @@ const Join = () => {
       data: params,
     })
       .then((response) => {
+        console.log(response);
         if (response.data.response == "fail") {
           alert("값을 제대로 입력해주세요.");
         } else if (response.data.response == "ok") {
@@ -143,10 +143,13 @@ const Join = () => {
       data: params,
     })
       .then((response) => {
+        console.log(response);
         if (response.data.response === "ok") {
           setIdCheckError(false);
+          setIdCheckIsOk(true);
         } else if (response.data.response === "fail") {
           setIdCheckError(true);
+          setIdCheckIsOk(false);
         } else {
           return;
         }
@@ -165,10 +168,13 @@ const Join = () => {
       data: params,
     })
       .then((response) => {
+        console.log(response);
         if (response.data.response === "ok") {
           setNickNameError(false);
+          setNickNameIsOk(true);
         } else if (response.data.response === "fail") {
           setNickNameError(true);
+          setNickNameIsOk(false);
         } else {
           return;
         }
@@ -180,7 +186,86 @@ const Join = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
+    if (
+      emailError ||
+      passwordError ||
+      nicknameError ||
+      nicknameIsOk ||
+      passwordIsSame ||
+      idError ||
+      idCheckError ||
+      idCheckIsOk ||
+      nameError
+    ) {
+      alert("형식을 다시 확인해주세요");
+      return;
+    } else if (
+      usermail === "" ||
+      userid === "" ||
+      nickname === "" ||
+      name === "" ||
+      password === "" ||
+      passwordChecked === ""
+    ) {
+      alert("값이 비어있습니다");
+      return;
+    }
     sendData();
+  };
+
+  const checkBtnOn = () => {
+    if (
+      usermail === "" ||
+      userid === "" ||
+      nickname === "" ||
+      name === "" ||
+      password === "" ||
+      passwordChecked === ""
+    ) {
+      setButton(false);
+    } else {
+      setButton(true);
+    }
+  };
+
+  useEffect(() => {
+    checkBtnOn();
+  });
+
+  //   const kakaoSuccess = () => {
+  //     axios({
+  //       method: "post",
+  //       url: "login/oauth2/code/kakao",
+  //       data: {},
+  //     })
+  //       .then((response) => {
+  //         console.log(response);
+  //       })
+  //       .catch((error) => {
+  //         console.log(error);
+  //         console.log("hi");
+  //       });
+  //   };
+
+  const kakaoSuccess = (data) => {
+    // const social_id = data.profile.id; // 고유번호
+    // const social_name = data.profile.properties.nickname; // 이름
+    // const social_email = data.profile.kakao_account.email; // 이메일
+    // const social_profileImg = data.profile.properties.profile_image; // 프로필 이미지
+    const params = new FormData();
+    params.append("data", data);
+    axios({
+      method: "post",
+      url: "login/oauth2/code/kakao",
+      data: params,
+    })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+        console.log("hi");
+      });
   };
 
   return (
@@ -191,7 +276,7 @@ const Join = () => {
             <h1>Eatstagram</h1>
             <h4>나만의 맛집을 친구들과 공유하고 싶다면 가입하세요.</h4>
           </div>
-          <form action="main.html" method="GET" id="join-form">
+          <form id="join-form">
             {/*구글 소셜 로그인*/}
             <div className="googlebtn">
               <a className="oauth-container btn darken-4 white black-text">
@@ -202,17 +287,28 @@ const Join = () => {
               </a>
             </div>
             {/*카카오 소셜 로그인*/}
-            <div className="kakaobtn">
-              <a className="oauth-container btn darken-4 white black-text">
+            {/* <div className="kakaobtn">
+              <a
+                className="oauth-container btn darken-4 white black-text"
+                onClick={kakaoSuccess}
+              >
                 <div className="inside__kakao">
-                  <img alt="Kakao sign-in" src={kakaoLogo} />
                   <span>Start with Kakao</span>
                 </div>
               </a>
             </div>
             <div className="line">
               <span>또는</span>
-            </div>
+            </div> */}
+            <KakaoLogin
+              className="KaKaoLogin"
+              onSuccess={kakaoSuccess}
+              onFail={console.log}
+              token={kakaoAppKey}
+            >
+              {/* <img src={kakaoImg} alt="kakao" />
+                  카카오 3초만에 가입하기 */}
+            </KakaoLogin>
             <input
               name="usermail"
               type="text"
@@ -221,10 +317,18 @@ const Join = () => {
               onChange={onChangeUsermailHandler}
             />
             {emailError && (
-              <div style={{ color: "red" }}>
+              <div
+                style={{
+                  color: "red",
+                  paddingRight: "110px",
+                  fontSize: "13px",
+                  marginBottom: "5px",
+                }}
+              >
                 이메일 형식이 일치하지 않습니다.
               </div>
             )}
+
             <input
               name="userid"
               type="text"
@@ -234,13 +338,45 @@ const Join = () => {
               onBlur={getUseridData}
             />
             {idError && (
-              <div style={{ color: "red" }}>
+              <div
+                style={{
+                  color: "red",
+                  paddingRight: "110px",
+                  fontSize: "13px",
+                  marginBottom: "5px",
+                }}
+              >
                 아이디 형식이 일치하지 않습니다.
               </div>
             )}
             {idCheckError && (
-              <div style={{ color: "red" }}>아이디가 중복됩니다.</div>
+              <div style={{ position: "relative" }}>
+                <img
+                  src={cancelImg}
+                  style={{
+                    position: "absolute",
+                    width: "20px",
+                    height: "20px",
+                    top: "-34px",
+                    right: "-139px",
+                  }}
+                />
+              </div>
             )}
+            {/* {idCheckIsOk && (
+              <div style={{ position: "relative" }}>
+                <img
+                  src={okImg}
+                  style={{
+                    position: "absolute",
+                    width: "20px",
+                    height: "20px",
+                    top: "-34px",
+                    right: "-139px",
+                  }}
+                />
+              </div>
+            )} */}
             <input
               name="nickname"
               type="text"
@@ -250,7 +386,32 @@ const Join = () => {
               onBlur={getNickNameData}
             />
             {nicknameError && (
-              <div style={{ color: "red" }}>닉네임이 중복됩니다.</div>
+              <div style={{ position: "relative" }}>
+                <img
+                  src={cancelImg}
+                  style={{
+                    position: "absolute",
+                    width: "20px",
+                    height: "20px",
+                    top: "-34px",
+                    right: "-139px",
+                  }}
+                />
+              </div>
+            )}
+            {nicknameIsOk && (
+              <div style={{ position: "relative" }}>
+                <img
+                  src={okImg}
+                  style={{
+                    position: "absolute",
+                    width: "20px",
+                    height: "20px",
+                    top: "-34px",
+                    right: "-139px",
+                  }}
+                />
+              </div>
             )}
             <input
               name="name"
@@ -260,7 +421,16 @@ const Join = () => {
               onChange={onChangeNameHandler}
             />
             {nameError && (
-              <div style={{ color: "red" }}>이름 형식이 일치하지 않습니다.</div>
+              <div
+                style={{
+                  color: "red",
+                  paddingRight: "121px",
+                  fontSize: "13px",
+                  marginBottom: "5px",
+                }}
+              >
+                이름 형식이 일치하지 않습니다.
+              </div>
             )}
             <input
               name="password"
@@ -270,7 +440,14 @@ const Join = () => {
               onChange={onChangePasswordHandler}
             />
             {passwordError && (
-              <div style={{ color: "red" }}>
+              <div
+                style={{
+                  color: "red",
+                  paddingRight: "97px",
+                  fontSize: "13px",
+                  marginBottom: "5px",
+                }}
+              >
                 비밀번호 형식이 일치하지 않습니다.
               </div>
             )}
@@ -282,10 +459,34 @@ const Join = () => {
               onChange={onChangePasswordCheckedHandler}
             />
             {passwordIsSame && (
-              <div style={{ color: "red" }}>비밀번호가 일치하지 않습니다.</div>
+              <div
+                style={{
+                  color: "red",
+                  paddingRight: "121px",
+                  fontSize: "13px",
+                  marginBottom: "5px",
+                }}
+              >
+                비밀번호가 일치하지 않습니다.
+              </div>
             )}
-            <input type="submit" value="가입" onClick={onSubmit} />
           </form>
+          <div className="submit-btn__join">
+            {button ? (
+              <button type="submit" className="noselected" onClick={onSubmit}>
+                가입
+              </button>
+            ) : (
+              <button
+                type="submit"
+                className="selected"
+                disabled
+                onClick={onSubmit}
+              >
+                가입
+              </button>
+            )}
+          </div>
         </div>
 
         <div className="form-bottom__btn">

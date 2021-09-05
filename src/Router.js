@@ -4,6 +4,7 @@ import FindPassword from "./components/FindPassword";
 import Join from "./components/Join";
 import JoinEmail from "./components/JoinEmail";
 import Login from "./components/Login";
+import Main from "./components/Main";
 
 const Router = () => {
   return (
@@ -12,6 +13,7 @@ const Router = () => {
       <Route path="/Join" component={Join} />
       <Route path="/FindPassword" component={FindPassword} />
       <Route path="/JoinEmail" component={JoinEmail} />
+      <Route path="/Main" component={Main} />
     </Switch>
   );
 };
