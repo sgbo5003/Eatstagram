@@ -202,6 +202,7 @@
   margin-top: 6px !important;
   line-height: 26px !important;
   padding: 2px !important;
+  cursor: pointer;
 }
 
 .KaKaoLogin span {
