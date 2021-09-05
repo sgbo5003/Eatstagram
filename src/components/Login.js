@@ -39,7 +39,8 @@ const Login = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    sendData();
+    // sendData();
+    history.push("/Main");
   };
 
   return (
