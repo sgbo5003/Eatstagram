@@ -25,7 +25,7 @@ const Join = () => {
   const [passwordError, setPasswordError] = useState(false); // 비밀번호 양식 체크
   const [passwordIsSame, setPasswordIsSame] = useState(false); // 비밀번호 일치 여부 체크
   const [button, setButton] = useState(false);
-  const hitory = useHistory();
+  const history = useHistory();
   const kakaoAppKey = "6bd6889a5435fbc5a9c77e8d49c9e5f3";
   // input 제어
   const onChangeUsermailHandler = (e) => {
@@ -124,7 +124,7 @@ const Join = () => {
         if (response.data.response == "fail") {
           alert("값을 제대로 입력해주세요.");
         } else if (response.data.response == "ok") {
-          hitory.push("/JoinEmail");
+          history.push("/JoinEmail");
         } else {
           console.log("error");
         }
@@ -232,32 +232,17 @@ const Join = () => {
     checkBtnOn();
   });
 
-  //   const kakaoSuccess = () => {
-  //     axios({
-  //       method: "post",
-  //       url: "login/oauth2/code/kakao",
-  //       data: {},
-  //     })
-  //       .then((response) => {
-  //         console.log(response);
-  //       })
-  //       .catch((error) => {
-  //         console.log(error);
-  //         console.log("hi");
-  //       });
-  //   };
-
   const kakaoSuccess = (data) => {
-    // const social_id = data.profile.id; // 고유번호
-    // const social_name = data.profile.properties.nickname; // 이름
-    // const social_email = data.profile.kakao_account.email; // 이메일
-    // const social_profileImg = data.profile.properties.profile_image; // 프로필 이미지
-    const params = new FormData();
-    params.append("data", data);
+    //   const social_id = data.profile.id; // 고유번호
+    //   const social_name = data.profile.properties.nickname; // 이름
+    //   const social_email = data.profile.kakao_account.email; // 이메일
+    //   const social_profileImg = data.profile.properties.profile_image; // 프로필 이미지
+    //   const params = new FormData();
+    //   params.append("data", data);
     axios({
       method: "post",
-      url: "login/oauth2/code/kakao",
-      data: params,
+      url: "oauth2/authorization/kakao",
+      data: {},
     })
       .then((response) => {
         console.log(response);
@@ -290,24 +275,25 @@ const Join = () => {
             {/* <div className="kakaobtn">
               <a
                 className="oauth-container btn darken-4 white black-text"
-                onClick={kakaoSuccess}
+                href="http://localhost:8080/oauth2/authorization/kakao"
+                // onClick={kakaoSuccess}
               >
                 <div className="inside__kakao">
                   <span>Start with Kakao</span>
                 </div>
               </a>
-            </div>
+            </div> */}
             <div className="line">
               <span>또는</span>
-            </div> */}
+            </div>
             <KakaoLogin
               className="KaKaoLogin"
               onSuccess={kakaoSuccess}
               onFail={console.log}
               token={kakaoAppKey}
             >
-              {/* <img src={kakaoImg} alt="kakao" />
-                  카카오 3초만에 가입하기 */}
+              {/* <img src={kakaoImg} alt="kakao" /> */}
+              카카오 3초만에 가입하기
             </KakaoLogin>
             <input
               name="usermail"
@@ -328,7 +314,6 @@ const Join = () => {
                 이메일 형식이 일치하지 않습니다.
               </div>
             )}
-
             <input
               name="userid"
               type="text"
