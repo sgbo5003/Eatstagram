@@ -66,6 +66,10 @@
   width: 500px;
   height: 500px;
 }
+/*2번째 이미지부터 display:none 처리*/
+.write-contnets__main img:nth-child(n + 2) {
+  display: none;
+}
 
 .write-contnets__main {
   padding: 0 150px;
