@@ -1,0 +1,45 @@
+.header {
+  position: fixed;
+  background-color: #ffffff;
+  width: 100%;
+  height: 3em;
+  line-height: 3em;
+  top: 0;
+  left: 0;
+  z-index: 101;
+  border-bottom: 1px solid #dbdbdb;
+}
+
+.header-area {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  width: 1055px;
+}
+
+.header-area h1 {
+  font-size: 24px;
+  font-weight: bolder;
+  font-family: "Shadows Into Light", cursive;
+}
+
+.header-area__icons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.header-area__icons p {
+  font-size: 20px;
+  margin-right: 16px;
+  color: #0e0e0e;
+  cursor: pointer;
+  padding-top: 3px;
+}
+
+.user-img__header img {
+  width: 24px;
+  height: 24px;
+  border-radius: 50px;
+  margin-top: 12px;
+  cursor: pointer;
+}
