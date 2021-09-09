@@ -93,12 +93,6 @@ const WriteModal = () => {
     }
   };
 
-  /*userImg.length === 0
-                      ? WriteDefaultImg
-                      : userImg.map((data, idx) => {
-                          return data[idx];
-                        }) */
-
   return (
     <div className="write-window">
       <div className="write-area">
