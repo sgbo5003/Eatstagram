@@ -107,12 +107,6 @@ const Join = () => {
   };
 
   const kakaoSuccess = (data) => {
-    //   const social_id = data.profile.id; // 고유번호
-    //   const social_name = data.profile.properties.nickname; // 이름
-    //   const social_email = data.profile.kakao_account.email; // 이메일
-    //   const social_profileImg = data.profile.properties.profile_image; // 프로필 이미지
-    //   const params = new FormData();
-    //   params.append("data", data);
     axios({
       method: "post",
       url: "oauth2/authorization/kakao",
@@ -208,15 +202,13 @@ const Join = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     if (
-      emailError ||
-      passwordError ||
-      nicknameError ||
-      nicknameIsOk ||
-      passwordIsSame ||
-      idError ||
-      idCheckError ||
-      idCheckIsOk ||
-      nameError
+      emailError == true ||
+      passwordError == true ||
+      nicknameError == true ||
+      passwordIsSame == true ||
+      idError == true ||
+      idCheckError == true ||
+      nameError == true
     ) {
       alert("형식을 다시 확인해주세요");
       return;
@@ -230,8 +222,9 @@ const Join = () => {
     ) {
       alert("값이 비어있습니다");
       return;
+    } else {
+      sendData();
     }
-    sendData();
   };
 
   const checkBtnOn = () => {
@@ -300,7 +293,7 @@ const Join = () => {
               type="text"
               placeholder="이메일 주소"
               value={usermail}
-              onChange={onChangeUsermailHandler}
+              onBlur={onChangeUsermailHandler}
             />
             {emailError && (
               <div
@@ -335,33 +328,17 @@ const Join = () => {
               </div>
             )}
             {idCheckError && (
-              <div style={{ position: "relative" }}>
-                <img
-                  src={cancelImg}
-                  style={{
-                    position: "absolute",
-                    width: "20px",
-                    height: "20px",
-                    top: "-34px",
-                    right: "-139px",
-                  }}
-                />
+              <div
+                style={{
+                  color: "red",
+                  paddingRight: "172px",
+                  fontSize: "13px",
+                  marginBottom: "5px",
+                }}
+              >
+                아이디가 중복됩니다.
               </div>
             )}
-            {/* {idCheckIsOk && (
-              <div style={{ position: "relative" }}>
-                <img
-                  src={okImg}
-                  style={{
-                    position: "absolute",
-                    width: "20px",
-                    height: "20px",
-                    top: "-34px",
-                    right: "-139px",
-                  }}
-                />
-              </div>
-            )} */}
             <input
               name="nickname"
               type="text"
@@ -371,31 +348,15 @@ const Join = () => {
               onBlur={getNickNameData}
             />
             {nicknameError && (
-              <div style={{ position: "relative" }}>
-                <img
-                  src={cancelImg}
-                  style={{
-                    position: "absolute",
-                    width: "20px",
-                    height: "20px",
-                    top: "-34px",
-                    right: "-139px",
-                  }}
-                />
-              </div>
-            )}
-            {nicknameIsOk && (
-              <div style={{ position: "relative" }}>
-                <img
-                  src={okImg}
-                  style={{
-                    position: "absolute",
-                    width: "20px",
-                    height: "20px",
-                    top: "-34px",
-                    right: "-139px",
-                  }}
-                />
+              <div
+                style={{
+                  color: "red",
+                  paddingRight: "172px",
+                  fontSize: "13px",
+                  marginBottom: "5px",
+                }}
+              >
+                닉네임이 중복됩니다.
               </div>
             )}
             <input
@@ -459,7 +420,7 @@ const Join = () => {
           <div className="submit-btn__join">
             {button ? (
               <button type="submit" className="noselected" onClick={onSubmit}>
-                가입
+                다음
               </button>
             ) : (
               <button
@@ -468,7 +429,7 @@ const Join = () => {
                 disabled
                 onClick={onSubmit}
               >
-                가입
+                다음
               </button>
             )}
           </div>
