@@ -40,7 +40,7 @@ const Login = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     // sendData();
-    history.push("/Main");
+    history.push("/Home");
   };
 
   return (
