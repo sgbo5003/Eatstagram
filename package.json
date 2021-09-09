@@ -34,8 +34,11 @@
   "dependencies": {
     "axios": "^0.21.1",
     "file-loader": "^6.2.0",
+    "loadsh": "^0.0.4",
     "react-icons": "^4.2.0",
     "react-kakao-login": "^2.1.0",
-    "react-router-dom": "^5.2.1"
+    "react-router-dom": "^5.2.1",
+    "react-slick": "^0.28.1",
+    "slick-carousel": "^1.8.1"
   }
 }
