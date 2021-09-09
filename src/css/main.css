@@ -1,0 +1,168 @@
+/********story********/
+.story-area {
+    background-color: #fff;
+    border: 1px solid #dbdbdb;
+    width: 642px;
+    margin-top: 20px;
+}
+
+.friends-story {
+    display: flex;
+    position: relative;
+}
+
+.friends-story li {
+    margin: 16px 8px;
+}
+
+.friends-story:first-child  {
+    margin-left: 8px;
+}
+
+.friends-story:last-child {
+    margin-right: 8px;
+}
+
+.friends-story img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50px;
+    border: 3px solid #e02a85;
+    padding: 1px;
+    cursor: pointer;
+}
+
+.friends-story button {
+    background-color: transparent;
+    height: 60px;
+    line-height: 60px;
+    border: none;
+    color: #0e0e0e;
+    cursor: pointer;
+}
+
+.upload-story img {
+    border: 3px solid #dbdbdb;
+    opacity: 0.6;
+}
+
+.upload-btn {
+    color: #0095f6;
+    font-size: 20px;
+}
+
+.plusbtn {
+    position: absolute;
+    z-index: 100;
+    top: 56px;
+    left: 52px;
+}
+
+/********lank********/
+.main-area__right{
+    position: fixed;
+    left: 62%;
+}
+
+.lank-area {
+    margin-left: 20px;
+    margin-top: 20px;
+    width: 292px;
+}
+
+.main-user {
+    display: flex;
+    height: 100px;
+    align-items: center;
+    margin-left: 10px;
+}
+
+.main-user__img img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50px;
+}
+
+.main-user__id {
+    margin-left: 10px;
+}
+
+.main-user__id h1 {
+    font-size: 14px;
+    color: #0e0e0e;
+}
+
+.main-lank {
+    margin-left: 10px;
+}
+
+.main-lank__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 12px;
+}
+
+.main-lank__top h1 {
+    font-size: 16px;
+    color: #6e6e6e;
+}
+
+.main-lank__top h3 {
+    font-size: 12px;
+    color: #0e0e0e;
+}
+
+.main-lank__list {
+    align-items: center;
+    margin-top: 6px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.main-lank__left {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.main-lank__list h1 {
+    margin-left: 4px;
+    margin-right: 12px;
+}
+
+.main-lank__img {
+    margin-right: 12px;
+}
+
+.main-lank__img img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50px;
+    margin-top: 8px;
+}
+
+.main-lank__info h2 {
+    font-size: 14px;
+    color: #0e0e0e;
+}
+
+.main-lank__info h4 {
+    font-size: 12px;
+    color: #6e6e6e;
+}
+
+
+.main-lank__subs h4 {
+    font-size: 12px;
+    color: #0095f6;
+    cursor: pointer;
+}
+
+
+@media screen and (max-width: 1200px) {
+    .main-area__right {
+        display: none;
+    }
+}

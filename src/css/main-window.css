@@ -1,0 +1,349 @@
+.write-window-background {
+  z-index: 5;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.write-window {
+  z-index: 6;
+  background-color: #fff;
+  width: 1200px;
+  height: 640px;
+  position: fixed;
+  top: 80px;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  margin: 0 auto;
+  border: 1px solid #dbdbdb;
+  border-radius: 10px;
+}
+
+.wirte-area__top {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #dbdbdb;
+}
+
+.wirte-area__top p,
+.wirte-area__top button {
+  font-size: 16px;
+  margin: 10px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.wirte-area__top p {
+  margin-left: 584px;
+}
+
+.wirte-area__top button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+/*************************************/
+.write-area__bottom {
+  display: flex;
+}
+
+.write-left {
+  width: 800px;
+  border-right: 1px solid #dbdbdb;
+}
+
+.write-contents {
+  border-bottom: 1px solid #dbdbdb;
+}
+
+.write-contnets__main,
+.write-contnets__main img {
+  width: 500px;
+  height: 500px;
+}
+
+.write-contnets__main {
+  padding: 0 150px;
+}
+
+.write-upload {
+  height: 38px;
+  display: flex;
+  justify-content: center;
+  padding: 21px;
+}
+
+.write-upload__img {
+  width: 40px;
+  height: 40px;
+  padding-right: 20px;
+}
+
+.write-upload__plus {
+  background-color: transparent;
+  color: #6e6e6e;
+  border: 1px solid #dbdbdb;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 47px;
+  height: 47px;
+}
+
+.write-upload__img img,
+.write-upload__plus button {
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+}
+
+.write-upload__plus input {
+  display: none;
+}
+
+.write-upload-plus-icon {
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+/* .write-upload__plus button {
+  font-size: 28px;
+  font-weight: 400;
+  background-color: transparent;
+  color: #6e6e6e;
+  border: 1px solid #dbdbdb;
+  cursor: pointer;
+} */
+
+/*******************************************************/
+.write-right {
+  width: 400px;
+}
+
+.write-user {
+  margin: 16px;
+  display: flex;
+}
+
+.write-user__img img {
+  width: 24px;
+  height: 24px;
+  border-radius: 50px;
+}
+
+.write-user__id h1 {
+  font-size: 14px;
+  margin-left: 10px;
+}
+
+.write-text textarea {
+  width: 374px;
+  height: 166px;
+  border: transparent;
+  margin-left: 10px;
+  resize: none; /* textarea 줄이고 늘리는 기능 없애기*/
+}
+
+.write-text textarea:focus {
+  border: transparent;
+  outline: none; /* textarea 포커스 했을 때 테두리 지우기 */
+}
+
+.write-map,
+.write-category,
+.write-hashtag {
+  border-top: 1px solid #dbdbdb;
+  padding: 10px;
+}
+
+.write-map,
+.write-category,
+.write-hashtag h1 {
+  font-size: 14px;
+  color: #6e6e6e;
+}
+
+.write-map {
+  display: flex;
+  justify-content: space-between;
+}
+
+.write-map button {
+  background-color: transparent;
+  border: none;
+  color: #6e6e6e;
+  cursor: pointer;
+}
+
+.write-hashtag__input {
+  position: relative;
+}
+
+.write-hashtag-icon {
+  position: absolute;
+  left: 3px;
+  top: 11px;
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.write-hashtag-hashlist {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.write-hashtag__input input:first-child {
+  width: 304px;
+  height: 20px;
+  font-size: 14px;
+  background-color: #dbdbdb;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  margin-top: 5px;
+  margin-right: 6px;
+  padding-left: 17px;
+}
+
+.write-hashtag__input input:nth-child(2) {
+  width: 42px;
+  height: 24px;
+  font-size: 14px;
+  background-color: #dbdbdb;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  margin-top: 5px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.write-hashtag__into {
+  /* width: 72px; */
+  background-color: #dbdbdb;
+  border-radius: 5px;
+  margin-top: 5px;
+  padding-left: 4px;
+  display: flex;
+  /* justify-content: space-between; */
+  margin-right: 5px;
+}
+
+.write-hashtag__into h4 {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.write-hashtag__into button {
+  background-color: transparent;
+  border: none;
+  align-items: flex-end;
+  justify-content: space-around;
+  cursor: pointer;
+}
+
+#food-category {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.category-row {
+  padding-top: 5px;
+}
+
+.category-row button {
+  border: 1px solid #dbdbdb;
+  background-color: #dbdbdb;
+  border-radius: 5px;
+  margin-right: 7px;
+  cursor: pointer;
+}
+
+/* .category-row button:focus {
+  background-color: #0094f6;
+  color: #fff;
+} */
+
+.category-row .selected {
+  background-color: #0094f6;
+  color: #fff;
+}
+
+.write-btn {
+  margin-left: 10px;
+  margin-top: 44px;
+}
+
+.write-btn button {
+  margin: 0 auto;
+  border: 1px solid transparent;
+  background-color: #0095f6;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  width: 380px;
+  height: 36px;
+  border-radius: 5px;
+}
+
+/*************************************************/
+.write-delete-background {
+  z-index: 10;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.write-delete-window {
+  z-index: 11;
+  background-color: #fff;
+  width: 500px;
+  height: 240px;
+  position: fixed;
+  top: 260px;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  margin: 0 auto;
+  border: 1px solid #dbdbdb;
+  border-radius: 10px;
+}
+
+.write-delte__top {
+  padding: 30px;
+  border-bottom: 1px solid #dbdbdb;
+  text-align: center;
+}
+
+.write-delte__top h1 {
+  font-size: 18px;
+  padding-bottom: 10px;
+}
+
+.write-delte__top h4 {
+  font-size: 14px;
+  color: #6e6e6e;
+}
+
+.write-delete-btn button,
+.write-cancle-btn button {
+  width: 500px;
+  height: 60px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.write-delete-btn button {
+  border-bottom: 1px solid #dbdbdb;
+  color: #ff0000;
+}
