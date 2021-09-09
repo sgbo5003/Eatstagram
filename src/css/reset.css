@@ -158,3 +158,12 @@ select {
 input:focus {
   outline: none;
 }
+
+ul {
+  list-style: none;
+  padding-left: 0px;
+}
+
+li {
+  list-style: none;
+}
