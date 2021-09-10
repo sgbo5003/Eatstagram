@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import myProfileImg from "../images/묭수.jpg";
 import storyProfileImg1 from "../images/명수스토리.jpg";
 import storyProfileImg2 from "../images/명수스토리2.jpg";
@@ -26,6 +26,7 @@ import Slider from "react-slick";
 import "../css/slick.css";
 import "../css/slick-theme.css";
 import { AiFillRightCircle, AiFillLeftCircle } from "react-icons/ai";
+import axios from "axios";
 
 const Home = () => {
   const history = useHistory();
@@ -92,6 +93,28 @@ const Home = () => {
     setWriteModalOn(true);
   };
 
+  const getData = () => {
+    const params = new FormData();
+    params.append("page", 1);
+    params.append("size", 2);
+    axios({
+      method: "post",
+      url: "/content/getPagingList",
+      data: params,
+      contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+    })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <>
       <Header />
@@ -150,7 +173,12 @@ const Home = () => {
                       <div className="post-content__main">
                         <Slider {...settings}>
                           <img src={foodImg} alt="" />
-                          <img src={foodImg} alt="" />
+                          <video controls height="600">
+                            <source
+                              src="http://localhost:8080/content/stream/왜그래.mp4"
+                              type="video/mp4"
+                            />
+                          </video>
                         </Slider>
                       </div>
                     </div>
