@@ -9,10 +9,10 @@ import { BsPlus } from "react-icons/bs";
 import foodImg from "../images/food.jpg";
 import myProfileImg from "../images/묭수.jpg";
 import WriteDefaultImg from "../images/write_default_image.png";
+import axios from "axios";
+import Qmenu from "./Qmenu";
 
 const WriteModal = () => {
-  //   const { setWriteModalOn } = props;
-
   const category = [
     "한식",
     "양식",
@@ -26,22 +26,24 @@ const WriteModal = () => {
   ];
 
   const [content, setContent] = useState(""); // 글작성 - 글쓰기 부분
+  const [userLocation, setUserLocation] = useState(""); // 위치
   const [inputHash, setInputHash] = useState(""); // 글작성 - 해쉬태그 input
   const [hashList, setHashList] = useState([]); // 해쉬태그를 담는 배열
   const [categoryList, setCategoryList] = useState(new Set()); // 카테고리
-  const [userImg, setUserImg] = useState([]); // 유저가 올린 이미지
-  const [fileImg, setFileImg] = useState(null); // 파일 업로드 할 이미지
+  const [userImg, setUserImg] = useState([]); // 유저가 올린 이미지(하단)
+  const [userImgList, setUserImgList] = useState([]); // 유저가 올린 이미지(상단)
+  const [videoImg, setVideoImg] = useState([]); // 유저가 올린 동영상(하단)
+  //   const [userVideoList, setUserVideoList] = useState([]); // 유저가 올린 동영상(상단)
+  const [fileImg, setFileImg] = useState([]); // 파일 업로드 할 이미지
+  const [isDropClick, setIsDropClick] = useState(false); // Qmenu ON & OFF
 
-  // 모달 창 닫기 버튼
-  //   const exitModalHandler = () => {
-  //     setWriteModalOn(false);
-  //     setHashList([]);
-  //     setInputHash("");
-  //     setContent("");
-  //   };
   // 글작성 textarea부분
   const onContentHandler = (e) => {
     setContent(e.target.value);
+  };
+  // 위치 input 부분
+  const onUserLocationHandler = (e) => {
+    setUserLocation(e.target.value);
   };
   // 해시태그 input부분
   const onInputHashHandler = (e) => {
@@ -80,16 +82,90 @@ const WriteModal = () => {
 
   // 이미지 변경 제어
   const onChangeImg = (e) => {
+    // 이미지 -> type : image/png
+    // 동영상 -> type : video/mp4
+    const fileType = e.target.files[0].type;
     if (e.target.files[0]) {
-      //   console.log("picture", e.target.files[0]);
-      setFileImg(e.target.files[0]);
+      setFileImg(fileImg.concat(e.target.files[0]));
       const reader = new FileReader();
       reader.onload = function (e) {
-        setUserImg(userImg.concat(e.target.result));
-        // setUserImg(e.target.result);
-        console.log(userImg);
+        if (fileType === "image/png") {
+          setUserImgList(
+            userImgList.concat({ type: "image/png", result: e.target.result })
+          );
+          setUserImg(
+            userImg.concat({ type: "image/png", result: e.target.result })
+          );
+        } else if (fileType === "video/mp4") {
+          setUserImgList(
+            userImgList.concat({ type: "video/mp4", result: e.target.result })
+          );
+          setVideoImg(
+            videoImg.concat({ type: "video/mp4", result: e.target.result })
+          );
+        }
       };
       reader.readAsDataURL(e.target.files[0]);
+    }
+  };
+
+  // 하단 이미지 선택 시
+  const onImgClickHandler = (data) => {
+    setUserImgList([data]);
+    console.log(userImgList);
+  };
+  // 카카오맵 검색어 찾기
+  const kakaoMap = () => {
+    const data = encodeURI(userLocation);
+    axios({
+      method: "get",
+      url: `https://dapi.kakao.com/v2/local/search/keyword.json?query=${data}`,
+      headers: {
+        Authorization: "KakaoAK 5e407f97877a18e777c7ef12779007da",
+      },
+    })
+      .then((response) => {
+        console.log(response);
+        console.log(response.data.documents); // 검색결과 []
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const onLocationClick = () => {
+    kakaoMap();
+    // setIsDropClick(true);
+  };
+
+  const onSubmit = () => {
+    const categoryArray = [...categoryList];
+    const params = new FormData();
+    params.append("text", content); // 글쓰기 text
+    params.append("location", userLocation); // 위치
+    params.append("username", "1890067550"); // 유저 아이디
+    for (let i = 0; i < hashList.length; i++) {
+      params.append(`contentHashtagDTOList[${i}].hashtag`, hashList[i]);
+    } // 해쉬태그
+    for (let i = 0; i < categoryArray.length; i++) {
+      params.append(`contentCategoryDTOList[${i}].category`, categoryArray[i]);
+    } // 카테고리
+    for (let i = 0; i < fileImg.length; i++) {
+      params.append("uploadFiles", fileImg[i]);
+    } // 이미지 & 동영상 파일
+    axios({
+      method: "post",
+      url: "content/add",
+      data: params,
+    })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    for (const keyValue of params) {
+      console.log(keyValue);
     }
   };
 
@@ -106,25 +182,65 @@ const WriteModal = () => {
           <div className="write-left">
             <div className="write-contents">
               <div className="write-contnets__main">
-                {userImg.length === 0 ? (
+                {fileImg.length === 0 ? (
                   <img src={WriteDefaultImg} alt="기본 이미지" />
                 ) : (
-                  userImg.map((data, idx) => {
-                    return <img src={data} alt="이미지" key={idx} />;
+                  userImgList.map((data, idx) => {
+                    if (data.type === "image/png") {
+                      return <img src={data.result} alt="이미지" key={idx} />;
+                    } else if (data.type === "video/mp4") {
+                      return (
+                        <video controls width="500" height="500">
+                          <source
+                            src={data.result}
+                            type="video/mp4"
+                            key={idx}
+                          />
+                        </video>
+                      );
+                    } else {
+                      return;
+                    }
                   })
                 )}
               </div>
             </div>
             <div className="write-upload">
-              {/* <div className="write-upload__img">
-                <img src={foodImg} alt="" />
-              </div> */}
+              {userImg.length === 0
+                ? ""
+                : userImg.map((data, idx) => {
+                    return (
+                      <div
+                        className="write-upload__plus"
+                        onClick={() => onImgClickHandler(data)}
+                        key={idx}
+                      >
+                        <img src={data.result} alt="이미지" />
+                      </div>
+                    );
+                  })}
+              {videoImg.length === 0
+                ? ""
+                : videoImg.map((data, idx) => {
+                    return (
+                      <div
+                        className="write-upload__plus"
+                        onClick={() => onImgClickHandler(data)}
+                        key={idx}
+                      >
+                        <video controls>
+                          <source src={data.result} type="video/mp4" />
+                        </video>
+                      </div>
+                    );
+                  })}
               <div className="write-upload__plus">
                 <input
                   type="file"
                   id="getfile"
-                  accept="image/*"
+                  accept="image/*, video/*"
                   onChange={onChangeImg}
+                  multiple
                 />
                 <label htmlFor="getfile">
                   <BsPlus className="write-upload-plus-icon" />
@@ -153,8 +269,14 @@ const WriteModal = () => {
             </div>
             <div className="write-item">
               <div className="write-map">
-                <h1>위치 추가...</h1>
-                <button>
+                <input
+                  type="text"
+                  placeholder="위치 추가..."
+                  value={userLocation}
+                  onChange={onUserLocationHandler}
+                />
+                {isDropClick && <Qmenu />}
+                <button onClick={onLocationClick}>
                   <FaMapMarkerAlt />
                 </button>
               </div>
@@ -204,7 +326,7 @@ const WriteModal = () => {
                 </div>
               </div>
               <div className="write-btn">
-                <button>공유하기</button>
+                <button onClick={onSubmit}>공유하기</button>
               </div>
             </div>
           </div>
