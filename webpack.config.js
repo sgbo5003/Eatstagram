@@ -33,6 +33,18 @@ module.exports = {
           esModule: false,
         },
       },
+      {
+        test: /\.mp4$/,
+        use: [
+          {
+            loader: "file-loader",
+            options: {
+              name: "[name].[ext]",
+              outputPath: "video",
+            },
+          },
+        ],
+      },
     ],
   },
   resolve: {
