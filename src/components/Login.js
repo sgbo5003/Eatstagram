@@ -29,7 +29,7 @@ const Login = () => {
     })
       .then((response) => {
         console.log(response);
-        history.push("/Main");
+        history.push("/Home");
       })
       .catch((error) => {
         console.log(error);
@@ -39,8 +39,7 @@ const Login = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    // sendData();
-    history.push("/Home");
+    sendData();
   };
 
   return (
