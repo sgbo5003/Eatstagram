@@ -114,6 +114,13 @@ const Join = () => {
     })
       .then((response) => {
         console.log(response);
+        if (response.data.response === "ok") {
+          history.push("/Home");
+        } else if (response.data.response === "fail") {
+          alert("카카오톡 회원가입 실패");
+        } else {
+          alert("error");
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -141,7 +148,7 @@ const Join = () => {
         } else if (response.data.response == "ok") {
           history.push("/JoinEmail");
         } else {
-          console.log("error");
+          return;
         }
       })
       .catch((error) => {
@@ -293,6 +300,7 @@ const Join = () => {
               type="text"
               placeholder="이메일 주소"
               value={usermail}
+              onChange={onChangeUsermailHandler}
               onBlur={onChangeUsermailHandler}
             />
             {emailError && (
