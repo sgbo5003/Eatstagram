@@ -6,7 +6,7 @@ import {
   FaHashtag,
 } from "react-icons/fa";
 import { BsPlus } from "react-icons/bs";
-import foodImg from "../images/food.jpg";
+// import foodImg from "../images/food.jpg";
 import myProfileImg from "../images/묭수.jpg";
 import WriteDefaultImg from "../images/write_default_image.png";
 import axios from "axios";
@@ -58,7 +58,7 @@ const WriteModal = () => {
     } else {
       setHashList(hashList.concat(inputHash));
     }
-    console.log(hashList);
+
     setInputHash("");
   };
   // 해시태그 제거 기능
@@ -77,7 +77,6 @@ const WriteModal = () => {
       itemSet.add(data);
       setCategoryList(itemSet);
     }
-    console.log(categoryList);
   };
 
   // 이미지 변경 제어
@@ -112,7 +111,6 @@ const WriteModal = () => {
   // 하단 이미지 선택 시
   const onImgClickHandler = (data) => {
     setUserImgList([data]);
-    console.log(userImgList);
   };
   // 카카오맵 검색어 찾기
   const kakaoMap = () => {
@@ -138,7 +136,8 @@ const WriteModal = () => {
     // setIsDropClick(true);
   };
 
-  const onSubmit = () => {
+  const onSubmit = (e) => {
+    e.preventDefault();
     const categoryArray = [...categoryList];
     const params = new FormData();
     params.append("text", content); // 글쓰기 text
@@ -159,14 +158,16 @@ const WriteModal = () => {
       data: params,
     })
       .then((response) => {
-        console.log(response);
+        if (response.data.response == "ok") {
+          alert("글쓰기 성공");
+        } else {
+          return;
+        }
       })
       .catch((error) => {
         console.log(error);
+        console.log("hi");
       });
-    for (const keyValue of params) {
-      console.log(keyValue);
-    }
   };
 
   return (
