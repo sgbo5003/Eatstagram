@@ -8,7 +8,8 @@ import storyProfileImg5 from "../images/명수스토리5.jpg";
 import storyProfileImg6 from "../images/명수스토리6.jpg";
 import storyProfileImg7 from "../images/명수스토리7.jpg";
 import rankImg from "../images/1위.jpg";
-import foodImg from "../images/food.jpg";
+
+// import foodImg from "../images/food.jpg";
 import {
   FaPlusCircle,
   FaChevronRight,
@@ -28,9 +29,11 @@ import "../css/slick-theme.css";
 import { AiFillRightCircle, AiFillLeftCircle } from "react-icons/ai";
 import axios from "axios";
 
+let page = 0;
+
 const Home = () => {
   const history = useHistory();
-  const posts = [
+  const userProfile = [
     {
       storyProfileImg: storyProfileImg1,
       userId: "whereyedo",
@@ -45,6 +48,8 @@ const Home = () => {
     },
   ];
 
+  const [userPosts, setUserPosts] = useState([]);
+  const [pageError, setPageError] = useState(false);
   const storys = [
     {
       src: storyProfileImg1,
@@ -93,18 +98,41 @@ const Home = () => {
     setWriteModalOn(true);
   };
 
-  const getData = () => {
+  const getData = (page) => {
     const params = new FormData();
-    params.append("page", 1);
-    params.append("size", 2);
+    params.append("page", 0);
+    params.append("size", 3);
     axios({
       method: "post",
       url: "/content/getPagingList",
       data: params,
-      contentType: "application/x-www-form-urlencoded; charset=UTF-8",
     })
-      .then((response) => {
-        console.log(response);
+      .then((res) => {
+        console.log(res);
+        setUserPosts(res.data.content);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const getAddData = (page) => {
+    const params = new FormData();
+    params.append("page", page);
+    params.append("size", 3);
+    axios({
+      method: "post",
+      url: "/content/getPagingList",
+      data: params,
+    })
+      .then((res) => {
+        console.log(res);
+        if (res.data.content.length > 0) {
+          setUserPosts(userPosts.concat(res.data.content));
+          setPageError(false);
+        } else if (res.data.content.length === 0) {
+          return setPageError(true);
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -113,7 +141,32 @@ const Home = () => {
 
   useEffect(() => {
     getData();
+    console.log("렌더링 되었습니다.");
   }, []);
+
+  const handleScroll = () => {
+    const scrollHeight = document.documentElement.scrollHeight;
+    const scrollTop = document.documentElement.scrollTop;
+    const clientHeight = document.documentElement.clientHeight;
+
+    if (scrollTop + clientHeight >= scrollHeight) {
+      if (pageError) {
+        --page;
+      } else {
+        ++page;
+      }
+      getAddData(page);
+      console.log(page);
+      console.log(pageError);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  });
 
   return (
     <>
@@ -149,17 +202,17 @@ const Home = () => {
               </div>
             </div>
             {/*게시글*/}
-            <div className="post-area">
-              {posts.map((data, idx) => {
-                return (
-                  <div className="post" key={idx}>
+            {userPosts.map((data, idx) => {
+              return (
+                <div className="post-area" key={idx}>
+                  <div className="post">
                     <div className="post-top">
                       <div className="post-user">
                         <div className="post-user__img">
-                          <img src={data.storyProfileImg} alt="" />
+                          <img src={storyProfileImg1} alt="" />
                         </div>
                         <div className="post-user__id">
-                          <h1>{data.userId}</h1>
+                          <h1>{data.username}</h1>
                         </div>
                       </div>
                       <div className="post-setting">
@@ -172,13 +225,27 @@ const Home = () => {
                     <div className="post-content">
                       <div className="post-content__main">
                         <Slider {...settings}>
-                          <img src={foodImg} alt="" />
-                          <video controls height="600">
-                            <source
-                              src="http://localhost:8080/content/stream/왜그래.mp4"
-                              type="video/mp4"
-                            />
-                          </video>
+                          {data.contentFileDTOList.map((data, idx) => {
+                            if (data.type === "image/png") {
+                              return (
+                                <img
+                                  src={`/images/${data.name}`}
+                                  alt=""
+                                  key={idx}
+                                />
+                              );
+                            } else if (data.type === "video/mp4") {
+                              return (
+                                <video controls height="600" key={idx}>
+                                  <source
+                                    // src="http://localhost:8080/content/stream/왜그래.mp4"
+                                    src={`/images/${data.name}`}
+                                    type="video/mp4"
+                                  />
+                                </video>
+                              );
+                            }
+                          })}
                         </Slider>
                       </div>
                     </div>
@@ -204,11 +271,18 @@ const Home = () => {
                       </div>
                       <div className="post-etc2">
                         <div className="post-content__article">
-                          <div className="post-content__id">
-                            <h4>whereyedo</h4>
+                          <div className="post-content__hash">
+                            {data.contentHashtagDTOList.map((data, idx) => {
+                              return <p key={idx}>#{data.hashtag}</p>;
+                            })}
                           </div>
-                          <div className="post-content__serve">
-                            <p>오늘은 연하동에 갔다 왔슴다 음~ 맛 좋다~ </p>
+                          <div className="post-content__comment">
+                            <div className="post-content__id">
+                              <h4>whereyedo</h4>
+                            </div>
+                            <div className="post-content__serve">
+                              <p>{data.text}</p>
+                            </div>
                           </div>
                         </div>
                         <div className="post-content__time">
@@ -221,9 +295,9 @@ const Home = () => {
                       </div>
                     </div>
                   </div>
-                );
-              })}
-            </div>
+                </div>
+              );
+            })}
           </div>
           {/*랭킹*/}
           <div className="main-area__right">
