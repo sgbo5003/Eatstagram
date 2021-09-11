@@ -1,112 +1,128 @@
 .post-area {
-    width: 642px;
+  width: 642px;
 }
 
 .post {
-    margin: 20px 0;
-    background-color: #fff;
-    border: 1px solid #dbdbdb;
+  margin: 20px 0;
+  background-color: #fff;
+  border: 1px solid #dbdbdb;
 }
 
 .post-top {
-    display: flex;
-    justify-content: space-between;
-    margin: 22px 16px 18px 16px;
+  display: flex;
+  justify-content: space-between;
+  margin: 22px 16px 18px 16px;
 }
 
 .post-user {
-    display: flex;
+  display: flex;
 }
 
 .post-user__img img {
-    width: 34px;
-    height: 34px;
-    border-radius: 50px;
-    margin-right: 16px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50px;
+  margin-right: 16px;
 }
 
 .post-user__id h1,
 .post-setting p {
-    margin-top: 2px;
-    font-size: 16px;
-    font-weight: 500;
-    cursor: pointer;
+  margin-top: 2px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
 }
-
 
 /*******************************************/
 .post-content__main img {
-    width: 642px;
-    height: 600px;
+  width: 642px;
+  height: 600px;
 }
 
-
 /*******************************************/
-.post-etc, .post-etc__left {
-    display: flex;
+.post-etc,
+.post-etc__left {
+  display: flex;
 }
 
 .post-etc {
-    justify-content: space-between;
-    margin: 10px 16px;
+  justify-content: space-between;
+  margin: 10px 16px;
 }
 
 .post-etc__left p,
 .post-etc__right p {
-    font-size: 26px;
-    cursor: pointer;
+  font-size: 26px;
+  cursor: pointer;
 }
 
 .post-etc__left p {
-    margin-right: 14px;
+  margin-right: 14px;
 }
 
 .post-etc2 {
-    padding-left: 16px;
+  padding-left: 16px;
 }
 
 .post-content__article {
-    display: flex;
-    align-items: flex-end;
+  display: flex;
+  /* align-items: flex-end; */
+  flex-direction: column;
 }
 
 .post-content__id {
-    margin-right: 8px;
-    font-size: 14px;
+  margin-right: 8px;
+  font-size: 14px;
 }
 
 .post-content__serve p {
-    font-weight: 400;
-    font-size: 14px;
+  font-weight: 400;
+  font-size: 14px;
 }
 
 .post-content__time h6 {
-    font-weight: 400;
-    font-size: 12px;
-    margin: 4px 0;
-    color: #6e6e6e;
+  font-weight: 400;
+  font-size: 12px;
+  margin: 4px 0;
+  color: #6e6e6e;
 }
 
 /*******************************************/
 .post-etc__comment {
-    border-top: 1px solid #dbdbdbc6;
-    display: flex;
-    justify-content: space-between;
-    margin-top: 16px;
-    padding: 20px 0;
-    padding-left: 16px;
+  border-top: 1px solid #dbdbdbc6;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+  padding: 20px 0;
+  padding-left: 16px;
 }
 
 .post-etc__comment input {
-    width: 90%;
-    border: none;
-    height: 20px;
+  width: 90%;
+  border: none;
+  height: 20px;
 }
 
 .post-etc__comment button {
-    margin-right: 16px;
-    background-color: transparent;
-    border: none;
-    color: #0095f6;
-    cursor: pointer;
+  margin-right: 16px;
+  background-color: transparent;
+  border: none;
+  color: #0095f6;
+  cursor: pointer;
+}
+
+/* 해쉬 태그 부분 */
+
+.post-content__hash {
+  display: flex;
+  flex-direction: row;
+}
+
+.post-content__hash p {
+  margin-right: 4px;
+}
+
+.post-content__comment {
+  display: flex;
+  flex-direction: row;
 }
