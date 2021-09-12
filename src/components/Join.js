@@ -5,9 +5,8 @@ import cancelImg from "../images/cancel.png";
 import okImg from "../images/ok.png";
 import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
-import KakaoLogin from "react-kakao-login";
 import Footer from "./Footer";
-// import * as fnc from "../commonFunc/CommonFunctions";
+import * as fnc from "../commonFunc/CommonFunctions";
 
 const Join = () => {
   const [usermail, setUsermail] = useState(""); // 이메일 주소
@@ -27,7 +26,7 @@ const Join = () => {
   const [passwordIsSame, setPasswordIsSame] = useState(false); // 비밀번호 일치 여부 체크
   const [button, setButton] = useState(false);
   const history = useHistory();
-  const kakaoAppKey = "6bd6889a5435fbc5a9c77e8d49c9e5f3";
+
   // input 제어
   const onChangeUsermailHandler = (e) => {
     setUsermail(e.target.value);
@@ -106,104 +105,60 @@ const Join = () => {
     }
   };
 
-  const kakaoSuccess = (data) => {
-    axios({
-      method: "post",
-      url: "oauth2/authorization/kakao",
-      data: {},
-    })
-      .then((response) => {
-        console.log(response);
-        if (response.data.response === "ok") {
-          history.push("/Home");
-        } else if (response.data.response === "fail") {
-          alert("카카오톡 회원가입 실패");
-        } else {
-          alert("error");
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
   const sendData = () => {
-    const params = {
-      email: usermail,
-      username: userid,
-      nickname: nickname,
-      name: name,
-      password: password,
-      confirmPassword: passwordChecked,
-    };
-    axios({
-      method: "post",
+    fnc.executeQuery({
       url: "join/step/one",
-      data: params,
-    })
-      .then((response) => {
-        console.log(response);
-        if (response.data.response == "fail") {
-          alert("값을 제대로 입력해주세요.");
-        } else if (response.data.response == "ok") {
-          history.push("/JoinEmail");
-        } else {
-          return;
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      data: {
+        email: usermail,
+        username: userid,
+        nickname: nickname,
+        name: name,
+        password: password,
+        confirmPassword: passwordChecked,
+      },
+      success: (res) => {
+        history.push("/JoinEmail");
+        console.log(res);
+      },
+      fail: (res) => {
+        alert("값을 제대로 입력해주세요.");
+        console.log(res);
+      },
+    });
   };
 
   const getUseridData = () => {
-    const params = new FormData();
-    params.append("username", userid);
-    axios({
-      method: "post",
+    fnc.executeQuery({
       url: "checkUsername",
-      data: params,
-    })
-      .then((response) => {
-        console.log(response);
-        if (response.data.response === "ok") {
-          setIdCheckError(false);
-          setIdCheckIsOk(true);
-        } else if (response.data.response === "fail") {
-          setIdCheckError(true);
-          setIdCheckIsOk(false);
-        } else {
-          return;
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      data: {
+        username: userid,
+      },
+      success: (res) => {
+        setIdCheckError(false);
+        setIdCheckIsOk(true);
+      },
+      fail: (res) => {
+        setIdCheckError(true);
+        setIdCheckIsOk(false);
+      },
+    });
   };
 
   const getNickNameData = () => {
-    const params = new FormData();
-    params.append("nickname", nickname);
-    axios({
-      method: "post",
+    fnc.executeQuery({
       url: "checkNickname",
-      data: params,
-    })
-      .then((response) => {
-        console.log(response);
-        if (response.data.response === "ok") {
-          setNickNameError(false);
-          setNickNameIsOk(true);
-        } else if (response.data.response === "fail") {
-          setNickNameError(true);
-          setNickNameIsOk(false);
-        } else {
-          return;
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      data: {
+        nickname: nickname,
+      },
+      success: (res) => {
+        setNickNameError(false);
+        setNickNameIsOk(true);
+      },
+      fail: (res) => {
+        setNickNameError(true);
+        setNickNameIsOk(false);
+      },
+    });
   };
 
   const onSubmit = (e) => {
@@ -271,27 +226,7 @@ const Join = () => {
                 </div>
               </a>
             </div>
-            {/*카카오 소셜 로그인*/}
-            {/* <div className="kakaobtn">
-              <a
-                className="oauth-container btn darken-4 white black-text"
-                href="http://localhost:8080/oauth2/authorization/kakao"
-                // onClick={kakaoSuccess}
-              >
-                <div className="inside__kakao">
-                  <span>Start with Kakao</span>
-                </div>
-              </a>
-            </div> */}
-            <KakaoLogin
-              className="KaKaoLogin"
-              onSuccess={kakaoSuccess}
-              onFail={console.log}
-              token={kakaoAppKey}
-            >
-              <img src={kakaoLogo} alt="kakao" />
-              <span>Start with Kakao</span>
-            </KakaoLogin>
+
             <div className="line">
               <span>또는</span>
             </div>
