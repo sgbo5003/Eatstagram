@@ -4,10 +4,13 @@ import googleLogo from "../images/Google__G__Logo.svg.png";
 import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 import Footer from "./Footer";
+import KakaoLogin from "react-kakao-login";
+import * as fnc from "../commonFunc/CommonFunctions";
 const Login = () => {
   const history = useHistory();
   const [userid, setUserid] = useState(""); // 성명
   const [password, setPassword] = useState(""); // 비밀번호
+  const kakaoAppKey = "6bd6889a5435fbc5a9c77e8d49c9e5f3";
   // http://localhost:3000/oauth2/authorization/google -> google
 
   const onChangeUseridHandler = (e) => {
@@ -18,23 +21,33 @@ const Login = () => {
     setPassword(e.target.value);
   };
 
-  const sendData = () => {
-    const params = new FormData();
-    params.append("username", userid);
-    params.append("password", password);
-    axios({
-      method: "post",
-      url: "",
-      data: params,
-    })
-      .then((response) => {
-        console.log(response);
+  const kakaoSuccess = (data) => {
+    fnc.executeQuery({
+      url: "oauth2/authorization/kakao",
+      data: {},
+      success: (res) => {
         history.push("/Home");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    console.log(params);
+      },
+      fail: (res) => {
+        alert("카카오톡 로그인 실패");
+      },
+    });
+  };
+
+  const sendData = () => {
+    fnc.executeQuery({
+      url: "",
+      data: {
+        username: userid,
+        password: password,
+      },
+      success: (res) => {
+        history.push("/Home");
+      },
+      fail: (res) => {
+        alert("로그인 오류");
+      },
+    });
   };
 
   const onSubmit = (e) => {
@@ -78,14 +91,15 @@ const Login = () => {
               </a>
             </div>
             {/*카카오 소셜 로그인*/}
-            <div className="kakaobtn">
-              <a className="oauth-container btn darken-4 white black-text">
-                <div className="inside__kakao">
-                  <img alt="Kakao sign-in" src={kakaoLogo} />
-                  <span>Login with Kakao</span>
-                </div>
-              </a>
-            </div>
+            <KakaoLogin
+              className="KaKaoLogin"
+              onSuccess={kakaoSuccess}
+              onFail={console.log}
+              token={kakaoAppKey}
+            >
+              <img src={kakaoLogo} alt="kakao" />
+              <span>Login with Kakao</span>
+            </KakaoLogin>
             <Link to="/FindPassword">
               <h4>비밀번호를 잊으셨나요?</h4>
             </Link>
