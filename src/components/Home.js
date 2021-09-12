@@ -8,77 +8,58 @@ import storyProfileImg5 from "../images/명수스토리5.jpg";
 import storyProfileImg6 from "../images/명수스토리6.jpg";
 import storyProfileImg7 from "../images/명수스토리7.jpg";
 import rankImg from "../images/1위.jpg";
-
-// import foodImg from "../images/food.jpg";
 import {
   FaPlusCircle,
   FaChevronRight,
   FaEllipsisH,
   FaHeart,
+  FaRegHeart,
   FaComment,
   FaPaperPlane,
   FaBookmark,
 } from "react-icons/fa";
 import Header from "./Header";
 import { useHistory } from "react-router";
-import Modal from "../Modal";
-import WriteModal from "./WriteModal";
 import Slider from "react-slick";
 import "../css/slick.css";
 import "../css/slick-theme.css";
 import { AiFillRightCircle, AiFillLeftCircle } from "react-icons/ai";
 import axios from "axios";
+import * as fnc from "../commonFunc/CommonFunctions";
+import * as fncObj from "../commonFunc/CommonObjFunctions";
 
 let page = 0;
 
+const storys = [
+  {
+    src: storyProfileImg1,
+    alt: "명수스토리.jpg",
+  },
+  {
+    src: storyProfileImg2,
+    alt: "명수스토리2.jpg",
+  },
+  {
+    src: storyProfileImg3,
+    alt: "명수스토리3.jpg",
+  },
+  {
+    src: storyProfileImg4,
+    alt: "명수스토리4.jpg",
+  },
+  {
+    src: storyProfileImg5,
+    alt: "명수스토리5.jpg",
+  },
+  {
+    src: storyProfileImg6,
+    alt: "명수스토리6.jpg",
+  },
+];
+const ranks = ["1위", "2위", "3위", "4위", "5위", "6위", "7위", "8위", "9위"];
+
 const Home = () => {
   const history = useHistory();
-  const userProfile = [
-    {
-      storyProfileImg: storyProfileImg1,
-      userId: "whereyedo",
-    },
-    {
-      storyProfileImg: storyProfileImg2,
-      userId: "sangjun",
-    },
-    {
-      storyProfileImg: storyProfileImg3,
-      userId: "gyuxxr",
-    },
-  ];
-
-  const [userPosts, setUserPosts] = useState([]);
-  const [pageError, setPageError] = useState(false);
-  const storys = [
-    {
-      src: storyProfileImg1,
-      alt: "명수스토리.jpg",
-    },
-    {
-      src: storyProfileImg2,
-      alt: "명수스토리2.jpg",
-    },
-    {
-      src: storyProfileImg3,
-      alt: "명수스토리3.jpg",
-    },
-    {
-      src: storyProfileImg4,
-      alt: "명수스토리4.jpg",
-    },
-    {
-      src: storyProfileImg5,
-      alt: "명수스토리5.jpg",
-    },
-    {
-      src: storyProfileImg6,
-      alt: "명수스토리6.jpg",
-    },
-  ];
-
-  const ranks = ["1위", "2위", "3위", "4위", "5위", "6위", "7위", "8위", "9위"];
-  //   const [buttonOn, setButtonOn] = useState(false);
   // Slider 세팅
   const settings = {
     dots: true, // 캐러셀의 점을 보여줄 것인지
@@ -87,62 +68,65 @@ const Home = () => {
     slidesToShow: 1,
     slidesToScroll: 1,
     arrows: true,
-
     nextArrow: <AiFillRightCircle color="#ffffff" />,
     prevArrow: <AiFillLeftCircle color="#ffffff" />,
   };
-  const [writeModalOn, setWriteModalOn] = useState(false);
+  const [userData, setUserData] = useState({});
+  const [userPosts, setUserPosts] = useState([]);
+  const [like, setLike] = useState([]);
 
-  // 글쓰기 모달창 제어
-  const onWriteClick = () => {
-    setWriteModalOn(true);
+  const onLikeHandler = (data, idx) => {
+    getLikeData(data, idx);
   };
 
-  const getData = (page) => {
-    const params = new FormData();
-    params.append("page", 0);
-    params.append("size", 3);
-    axios({
-      method: "post",
+  const getContentData = (page) => {
+    fncObj.executeQuery({
       url: "/content/getPagingList",
-      data: params,
-    })
-      .then((res) => {
-        console.log(res);
-        setUserPosts(res.data.content);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      data: {
+        page: 0,
+        size: 3,
+      },
+      success: (res) => {
+        setUserPosts(res.content);
+        setLike(res.content.likeCount);
+      },
+    });
   };
 
   const getAddData = (page) => {
-    const params = new FormData();
-    params.append("page", page);
-    params.append("size", 3);
-    axios({
-      method: "post",
+    fncObj.executeQuery({
       url: "/content/getPagingList",
-      data: params,
-    })
-      .then((res) => {
-        console.log(res);
-        if (res.data.content.length > 0) {
-          setUserPosts(userPosts.concat(res.data.content));
-          setPageError(false);
-        } else if (res.data.content.length === 0) {
-          return setPageError(true);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      data: {
+        page: page,
+        size: 3,
+      },
+      success: (res) => {
+        if (res.content.length > 0) setUserPosts(userPosts.concat(res.content));
+      },
+    });
   };
 
-  useEffect(() => {
-    getData();
-    console.log("렌더링 되었습니다.");
-  }, []);
+  const getUserData = () => {
+    fncObj.executeQuery({
+      url: "getUser",
+      data: {},
+      success: (res) => {
+        setUserData(res);
+        sessionStorage.setItem("username", res.username);
+      },
+    });
+  };
+
+  const getLikeData = (data, idx) => {
+    fnc.executeQuery({
+      url: "contentLike/save",
+      data: {
+        username: sessionStorage.getItem("username"),
+        contentId: data.contentId,
+      },
+      success: (res) => {},
+    });
+  };
 
   const handleScroll = () => {
     const scrollHeight = document.documentElement.scrollHeight;
@@ -150,16 +134,16 @@ const Home = () => {
     const clientHeight = document.documentElement.clientHeight;
 
     if (scrollTop + clientHeight >= scrollHeight) {
-      if (pageError) {
-        --page;
-      } else {
-        ++page;
-      }
+      ++page;
+
       getAddData(page);
-      console.log(page);
-      console.log(pageError);
     }
   };
+
+  useEffect(() => {
+    getContentData();
+    getUserData();
+  }, []);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -202,10 +186,11 @@ const Home = () => {
               </div>
             </div>
             {/*게시글*/}
-            {userPosts.map((data, idx) => {
-              return (
-                <div className="post-area" key={idx}>
-                  <div className="post">
+
+            <div className="post-area">
+              {userPosts.map((data, idx) => {
+                return (
+                  <div className="post" key={idx}>
                     <div className="post-top">
                       <div className="post-user">
                         <div className="post-user__img">
@@ -221,7 +206,6 @@ const Home = () => {
                         </p>
                       </div>
                     </div>
-
                     <div className="post-content">
                       <div className="post-content__main">
                         <Slider {...settings}>
@@ -249,12 +233,20 @@ const Home = () => {
                         </Slider>
                       </div>
                     </div>
-
                     <div className="post-bottom">
                       <div className="post-etc">
                         <div className="post-etc__left">
                           <p>
-                            <FaHeart />
+                            {data.likeCheck === true ? (
+                              <FaHeart
+                                color="red"
+                                onClick={() => onLikeHandler(data, idx)}
+                              />
+                            ) : (
+                              <FaRegHeart
+                                onClick={() => onLikeHandler(data, idx)}
+                              />
+                            )}
                           </p>
                           <p>
                             <FaComment />
@@ -295,9 +287,9 @@ const Home = () => {
                       </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
           {/*랭킹*/}
           <div className="main-area__right">
@@ -309,12 +301,6 @@ const Home = () => {
                 <div className="main-user__id">
                   <h1>gyuxxr</h1>
                 </div>
-                <input
-                  type="button"
-                  value="글쓰기"
-                  style={{ marginLeft: "10px" }}
-                  onClick={onWriteClick}
-                />
               </div>
               <div className="main-lank">
                 <div className="main-lank__top">
@@ -349,9 +335,6 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <Modal isOpen={writeModalOn} setIsOpen={setWriteModalOn}>
-        <WriteModal />
-      </Modal>
     </>
   );
 };
