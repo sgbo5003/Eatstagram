@@ -183,6 +183,7 @@
 .write-map {
   display: flex;
   justify-content: space-between;
+  position: relative;
 }
 
 .write-map button {
@@ -361,42 +362,30 @@
 
 /********************Qmenu*************************/
 
-.Qmenu_bar_on {
+.map-dropdown {
   position: absolute;
-  z-index: 100;
-  display: block;
-  top: 339px;
-  right: 160px;
-  width: 230px;
-  /* height: 253px; */
-  box-shadow: 0px 3px 6px rgb(0 0 0 / 16%);
+  z-index: 4;
+  top: 25px;
 }
 
-.tail_on {
-  position: absolute;
-  z-index: 100;
-  display: block;
-  top: -16px;
-  right: 7px;
-  width: 30px;
-  height: 16px;
+.map-dropdown-window {
+  width: 200px;
+  height: 100px;
+  background-color: #f5f5f5;
+  overflow: auto;
 }
 
-/* .Qmenu_menu_cove {
-  position: relative;
-  width: 100%;
+.map-dropdown-place h1 {
+  font-size: 13px;
+  font-weight: 500;
+  color: #0e0e0e;
+  padding: 3px;
+  cursor: pointer;
 }
 
-.Qmenu_menu {
-  position: relative;
-  display: inline-block;
-  width: 100%;
-  height: 76px;
-  line-height: 76px;
-  padding-left: 1.25em;
-  padding-right: 1.25em;
-  font-size: 1.375rem;
-  background-color: #fff;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  box-sizing: border-box;
-} */
+.map-dropdown img {
+  width: 22px;
+  height: 10px;
+  z-index: 4;
+  filter: drop-shadow(5px 0px 1px rgb(180, 179, 179));
+}

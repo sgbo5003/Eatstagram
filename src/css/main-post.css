@@ -60,6 +60,10 @@
   margin-right: 14px;
 }
 
+.post-etc__left p svg {
+  cursor: pointer;
+}
+
 .post-etc2 {
   padding-left: 16px;
 }
