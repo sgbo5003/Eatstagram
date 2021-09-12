@@ -2,47 +2,38 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import Footer from "./Footer";
+import * as fnc from "../commonFunc/CommonFunctions";
+import * as fncObj from "../commonFunc/CommonObjFunctions";
 
 const JoinEmail = () => {
   const [userData, setUserData] = useState({});
   const [inputData, setInputData] = useState("");
   const history = useHistory();
-  // certificationNumber
-  // emailAuthId
 
   const onChangeInputHandler = (e) => {
     setInputData(e.target.value);
   };
   const getData = () => {
-    axios({
-      method: "post",
+    fncObj.executeQuery({
       url: "join/step/two",
       data: {},
-    })
-      .then((response) => {
-        console.log(response);
-        setUserData(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      success: (res) => {
+        setUserData(res);
+      },
+    });
   };
 
   const sendData = () => {
-    const params = new FormData();
-    params.append("emailAuthId", userData.emailAuthId);
-    axios({
-      method: "post",
+    fncObj.executeQuery({
       url: "join/step/three",
-      data: params,
-    })
-      .then((response) => {
-        alert(response.data.msg);
+      data: {
+        emailAuthId: userData.emailAuthId,
+      },
+      success: (res) => {
+        alert(res.msg);
         history.push("/");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      },
+    });
   };
 
   const onSubmit = (e) => {
