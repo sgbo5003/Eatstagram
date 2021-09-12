@@ -73,7 +73,7 @@ const Home = () => {
   };
   const [userData, setUserData] = useState({});
   const [userPosts, setUserPosts] = useState([]);
-  const [like, setLike] = useState([]);
+  const [likeCheck, setLikeCheck] = useState(false);
 
   const onLikeHandler = (data, idx) => {
     getLikeData(data, idx);
@@ -88,7 +88,6 @@ const Home = () => {
       },
       success: (res) => {
         setUserPosts(res.content);
-        setLike(res.content.likeCount);
       },
     });
   };
@@ -124,7 +123,9 @@ const Home = () => {
         username: sessionStorage.getItem("username"),
         contentId: data.contentId,
       },
-      success: (res) => {},
+      success: (res) => {
+        setLikeCheck(res.likeCheck);
+      },
     });
   };
 
@@ -141,9 +142,12 @@ const Home = () => {
   };
 
   useEffect(() => {
-    getContentData();
     getUserData();
   }, []);
+
+  useEffect(() => {
+    getContentData();
+  }, [likeCheck]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -186,7 +190,6 @@ const Home = () => {
               </div>
             </div>
             {/*게시글*/}
-
             <div className="post-area">
               {userPosts.map((data, idx) => {
                 return (
@@ -263,6 +266,9 @@ const Home = () => {
                       </div>
                       <div className="post-etc2">
                         <div className="post-content__article">
+                          <div className="post-content__like">
+                            <p key={idx}>좋아요 {data.likeCount}개</p>
+                          </div>
                           <div className="post-content__hash">
                             {data.contentHashtagDTOList.map((data, idx) => {
                               return <p key={idx}>#{data.hashtag}</p>;
