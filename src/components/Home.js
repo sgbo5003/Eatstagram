@@ -58,7 +58,7 @@ const storys = [
     src: storyProfileImg6,
     alt: "명수스토리6.jpg",
   },
-];
+]; // 스토리 배열
 const ranks = ["1위", "2위", "3위", "4위", "5위", "6위", "7위", "8위", "9위"];
 
 const Home = () => {
