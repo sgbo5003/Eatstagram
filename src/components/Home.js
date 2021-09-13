@@ -15,8 +15,11 @@ import {
   FaHeart,
   FaRegHeart,
   FaComment,
+  FaRegComment,
   FaPaperPlane,
+  FaRegPaperPlane,
   FaBookmark,
+  FaRegBookmark,
 } from "react-icons/fa";
 import Header from "./Header";
 import { useHistory } from "react-router";
@@ -73,7 +76,7 @@ const Home = () => {
   };
   const [userData, setUserData] = useState({});
   const [userPosts, setUserPosts] = useState([]);
-  const [likeCheck, setLikeCheck] = useState(false);
+  const [like, setLike] = useState(false);
 
   const onLikeHandler = (data, idx) => {
     getLikeData(data, idx);
@@ -124,7 +127,7 @@ const Home = () => {
         contentId: data.contentId,
       },
       success: (res) => {
-        setLikeCheck(res.likeCheck);
+        setLike(res.likeCheck);
       },
     });
   };
@@ -143,11 +146,8 @@ const Home = () => {
 
   useEffect(() => {
     getUserData();
-  }, []);
-
-  useEffect(() => {
     getContentData();
-  }, [likeCheck]);
+  }, []);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -155,6 +155,8 @@ const Home = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   });
+
+  console.log(like);
 
   return (
     <>
@@ -240,7 +242,18 @@ const Home = () => {
                       <div className="post-etc">
                         <div className="post-etc__left">
                           <p>
-                            {data.likeCheck === true ? (
+                            {/* {data.likeCheck === true || likeCheck ? (
+                              <FaHeart
+                                color="red"
+                                onClick={() => onLikeHandler(data, idx)}
+                              />
+                            ) : (
+                              <FaRegHeart
+                                onClick={() => onLikeHandler(data, idx)}
+                              />
+                            )} */}
+
+                            {like === "true" ? (
                               <FaHeart
                                 color="red"
                                 onClick={() => onLikeHandler(data, idx)}
@@ -252,15 +265,15 @@ const Home = () => {
                             )}
                           </p>
                           <p>
-                            <FaComment />
+                            <FaRegComment />
                           </p>
                           <p>
-                            <FaPaperPlane />
+                            <FaRegPaperPlane />
                           </p>
                         </div>
                         <div className="post-etc__right">
                           <p>
-                            <FaBookmark />
+                            <FaRegBookmark />
                           </p>
                         </div>
                       </div>

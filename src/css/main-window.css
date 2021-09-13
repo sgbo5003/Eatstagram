@@ -186,6 +186,11 @@
   position: relative;
 }
 
+.write-map input {
+  width: 980px;
+  border: none;
+}
+
 .write-map button {
   background-color: transparent;
   border: none;
