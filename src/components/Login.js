@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import kakaoLogo from "../images/kakaoLogo.svg.png";
 import googleLogo from "../images/Google__G__Logo.svg.png";
 import { Link, useHistory } from "react-router-dom";
@@ -10,6 +10,9 @@ const Login = () => {
   const history = useHistory();
   const [userid, setUserid] = useState(""); // 성명
   const [password, setPassword] = useState(""); // 비밀번호
+  const idRef = useRef(null);
+  const passwordRef = useRef(null);
+
   const kakaoAppKey = "6bd6889a5435fbc5a9c77e8d49c9e5f3";
   // http://localhost:3000/oauth2/authorization/google -> google
 
@@ -26,7 +29,8 @@ const Login = () => {
       url: "oauth2/authorization/kakao",
       data: {},
       success: (res) => {
-        history.push("/Home");
+        localStorage.setItem("username", res.username);
+        location.reload();
       },
       fail: (res) => {
         alert("카카오톡 로그인 실패");
@@ -42,17 +46,27 @@ const Login = () => {
         password: password,
       },
       success: (res) => {
-        history.push("/Home");
+        localStorage.setItem("username", res.username);
+        location.reload();
       },
       fail: (res) => {
-        alert("로그인 오류");
+        alert(res.data.msg);
       },
     });
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
-    sendData();
+    // trim() 공백 제거 (문자열의 양쪽 공백을 제거)
+    if (userid.trim() === "") {
+      idRef.current.focus();
+      alert("아이디를 입력해주세요.");
+    } else if (password.trim() === "") {
+      passwordRef.current.focus();
+      alert("비밀번호를 입력해주세요.");
+    } else {
+      sendData();
+    }
   };
 
   return (
@@ -68,6 +82,7 @@ const Login = () => {
               type="text"
               placeholder="아이디"
               value={userid}
+              ref={idRef}
               onChange={onChangeUseridHandler}
             />
             <input
@@ -75,6 +90,7 @@ const Login = () => {
               type="password"
               placeholder="비밀번호"
               value={password}
+              ref={passwordRef}
               onChange={onChangePasswordHandler}
             />
             <input type="submit" value="로그인" onClick={onSubmit} />
