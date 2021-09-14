@@ -20,6 +20,7 @@ module.exports = {
         use: {
           loader: "babel-loader",
           options: {
+            plugins: ["@babel/plugin-transform-runtime"],
             presets: ["@babel/preset-env", "@babel/preset-react"],
           },
         },
@@ -51,6 +52,7 @@ module.exports = {
     extensions: [".js", ".jsx"],
   },
   plugins: [new HtmlWebpackPlugin({ template: "./public/index.html" })],
+
   devServer: {
     // publicPath: "/",
     host: "localhost",
