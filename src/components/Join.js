@@ -13,11 +13,11 @@ const Join = () => {
   const [userid, setUserid] = useState(""); // 아이디
   const [nickname, setNickname] = useState(""); // 사용자 이름
   const [nicknameError, setNickNameError] = useState(false); // 사용자 이름 일치 여부 확인 (db)
-  const [nicknameIsOk, setNickNameIsOk] = useState(false);
   const [name, setName] = useState(""); // 성명
   const [password, setPassword] = useState(""); // 비밀번호
   const [passwordChecked, setPasswordChecked] = useState(""); // 비밀번호 확인
   const [emailError, setEmailError] = useState(false); // 이메일 양식 체크
+  //   const [idIsOk, setIdIsOk] = useState(false);
   const [idError, setIdError] = useState(false); // 아이디 양식 체크
   const [idCheckError, setIdCheckError] = useState(false); // 아이디 일치여부 확인 (DB)
   const [idCheckIsOk, setIdCheckIsOk] = useState(false);
@@ -32,7 +32,14 @@ const Join = () => {
     setUsermail(e.target.value);
     setEmailError(validateEmail(e.target.value));
   };
-  
+
+  const onChangeUseridHandler = (e) => {
+    setUserid(e.target.value);
+    if (!idCheckError) {
+      setIdError(validateId(e.target.value));
+    }
+  };
+
   const onChangeNicknameHandler = (e) => {
     setNickname(e.target.value);
   };
@@ -103,10 +110,6 @@ const Join = () => {
   };
 
   const sendData = () => {
-    const onChangeUseridHandler = (e) => {
-        setUserid(e.target.value);
-        setIdError(validateId(e.target.value));
-      };
     fnc.executeQuery({
       url: "join/step/one",
       data: {
@@ -136,11 +139,9 @@ const Join = () => {
       },
       success: (res) => {
         setIdCheckError(false);
-        setIdCheckIsOk(true);
       },
       fail: (res) => {
         setIdCheckError(true);
-        setIdCheckIsOk(false);
       },
     });
   };
@@ -153,11 +154,9 @@ const Join = () => {
       },
       success: (res) => {
         setNickNameError(false);
-        setNickNameIsOk(true);
       },
       fail: (res) => {
         setNickNameError(true);
-        setNickNameIsOk(false);
       },
     });
   };
@@ -256,6 +255,7 @@ const Join = () => {
               type="text"
               placeholder="아이디"
               value={userid}
+              onChange={onChangeUseridHandler}
               onBlur={getUseridData}
             />
             {idError && (
