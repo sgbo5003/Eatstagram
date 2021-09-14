@@ -77,6 +77,7 @@ const Home = () => {
   const [userData, setUserData] = useState({});
   const [userPosts, setUserPosts] = useState([]);
   const [like, setLike] = useState(false);
+  const getLocalUserName = localStorage.getItem("username");
 
   const onLikeHandler = (data, idx) => {
     getLikeData(data, idx);
@@ -114,7 +115,6 @@ const Home = () => {
       data: {},
       success: (res) => {
         setUserData(res);
-        sessionStorage.setItem("username", res.username);
       },
     });
   };
@@ -123,12 +123,10 @@ const Home = () => {
     fnc.executeQuery({
       url: "contentLike/save",
       data: {
-        username: sessionStorage.getItem("username"),
+        username: localStorage.getItem("username"),
         contentId: data.contentId,
       },
-      success: (res) => {
-        setLike(res.likeCheck);
-      },
+      success: (res) => {},
     });
   };
 
@@ -146,7 +144,12 @@ const Home = () => {
 
   useEffect(() => {
     getUserData();
-    getContentData();
+    if (getLocalUserName == undefined) {
+      alert("올바르지 않은 접근");
+      history.push("/");
+    } else {
+      getContentData();
+    }
   }, []);
 
   useEffect(() => {
@@ -155,8 +158,6 @@ const Home = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   });
-
-  console.log(like);
 
   return (
     <>
@@ -242,18 +243,7 @@ const Home = () => {
                       <div className="post-etc">
                         <div className="post-etc__left">
                           <p>
-                            {/* {data.likeCheck === true || likeCheck ? (
-                              <FaHeart
-                                color="red"
-                                onClick={() => onLikeHandler(data, idx)}
-                              />
-                            ) : (
-                              <FaRegHeart
-                                onClick={() => onLikeHandler(data, idx)}
-                              />
-                            )} */}
-
-                            {like === "true" ? (
+                            {data.likeCheck ? (
                               <FaHeart
                                 color="red"
                                 onClick={() => onLikeHandler(data, idx)}
