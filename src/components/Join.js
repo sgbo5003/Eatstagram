@@ -32,10 +32,7 @@ const Join = () => {
     setUsermail(e.target.value);
     setEmailError(validateEmail(e.target.value));
   };
-  const onChangeUseridHandler = (e) => {
-    setUserid(e.target.value);
-    setIdError(validateId(e.target.value));
-  };
+  
   const onChangeNicknameHandler = (e) => {
     setNickname(e.target.value);
   };
@@ -106,6 +103,10 @@ const Join = () => {
   };
 
   const sendData = () => {
+    const onChangeUseridHandler = (e) => {
+        setUserid(e.target.value);
+        setIdError(validateId(e.target.value));
+      };
     fnc.executeQuery({
       url: "join/step/one",
       data: {
@@ -117,8 +118,8 @@ const Join = () => {
         confirmPassword: passwordChecked,
       },
       success: (res) => {
+        sessionStorage.setItem("joinToken", res.joinToken);
         history.push("/JoinEmail");
-        console.log(res);
       },
       fail: (res) => {
         alert("값을 제대로 입력해주세요.");
@@ -255,7 +256,6 @@ const Join = () => {
               type="text"
               placeholder="아이디"
               value={userid}
-              onChange={onChangeUseridHandler}
               onBlur={getUseridData}
             />
             {idError && (
