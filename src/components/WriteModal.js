@@ -147,7 +147,7 @@ const WriteModal = () => {
     const paramsData = new FormData();
     paramsData.append("text", content); // 글쓰기 text
     paramsData.append("location", userLocation); // 위치
-    paramsData.append("username", sessionStorage.getItem("username")); // 유저 아이디
+    paramsData.append("username", localStorage.getItem("username")); // 유저 아이디
     for (let i = 0; i < hashList.length; i++) {
       paramsData.append(`contentHashtagDTOList[${i}].hashtag`, hashList[i]);
     } // 해쉬태그
