@@ -229,7 +229,10 @@ const Home = () => {
                       <div className="post-content__main">
                         <Slider {...settings}>
                           {data.contentFileDTOList.map((data, idx) => {
-                            if (data.type === "image/png") {
+                            if (
+                              data.type === "image/png" ||
+                              data.type === "image/jpeg"
+                            ) {
                               return (
                                 <img
                                   src={`/images/${data.name}`}

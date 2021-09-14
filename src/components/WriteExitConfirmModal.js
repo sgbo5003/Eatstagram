@@ -12,17 +12,17 @@ const WriteExitConfirmModal = (props) => {
   };
 
   return (
-    <div class="write-delete-window">
-      <div class="write-delete-area">
-        <div class="write-delte__top">
+    <div className="write-delete-window">
+      <div className="write-delete-area">
+        <div className="write-delte__top">
           <h1>게시글을 삭제하시겠어요?</h1>
           <h4>지금 나가면 변경 사항이 모두 사라집니다.</h4>
         </div>
-        <div class="write-delete__bottom">
-          <div class="write-delete-btn">
+        <div className="write-delete__bottom">
+          <div className="write-delete-btn">
             <button onClick={onDeleteButtonHandler}>삭제</button>
           </div>
-          <div class="write-cancle-btn">
+          <div className="write-cancle-btn">
             <button onClick={onCancelButtonHandler}>취소</button>
           </div>
         </div>

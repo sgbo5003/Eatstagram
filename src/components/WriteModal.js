@@ -85,26 +85,26 @@ const WriteModal = () => {
 
   // 이미지 변경 제어
   const onChangeImg = (e) => {
-    // 이미지 -> type : image/png
+    // 이미지 -> type : image/png, image/jpeg
     // 동영상 -> type : video/mp4
     const fileType = e.target.files[0].type;
     if (e.target.files[0]) {
       setFileImg(fileImg.concat(e.target.files[0]));
       const reader = new FileReader();
       reader.onload = function (e) {
-        if (fileType === "image/png") {
+        if (fileType === "image/png" || fileType === "image/jpeg") {
           setUserImgList(
-            userImgList.concat({ type: "image/png", result: e.target.result })
+            userImgList.concat({ type: "image", result: e.target.result })
           );
           setUserImg(
-            userImg.concat({ type: "image/png", result: e.target.result })
+            userImg.concat({ type: "image", result: e.target.result })
           );
         } else if (fileType === "video/mp4") {
           setUserImgList(
-            userImgList.concat({ type: "video/mp4", result: e.target.result })
+            userImgList.concat({ type: "video", result: e.target.result })
           );
           setVideoImg(
-            videoImg.concat({ type: "video/mp4", result: e.target.result })
+            videoImg.concat({ type: "video", result: e.target.result })
           );
         }
       };
@@ -142,7 +142,7 @@ const WriteModal = () => {
     setIsDropClick(true);
   };
 
-  const onSubmit = (e) => {
+  const sendData = () => {
     const categoryArray = [...categoryList];
     const paramsData = new FormData();
     paramsData.append("text", content); // 글쓰기 text
@@ -178,16 +178,20 @@ const WriteModal = () => {
         console.log(error);
         console.log("hi");
       });
-    // fnc.executeQuery({
-    //   url: "content/add",
-    //   data: { paramsData },
-    //   success: (res) => {
-    //     alert("글 작성 성공");
-    //   },
-    //   fail: (res) => {
-    //     alert("글 작성 실패");
-    //   },
-    // });
+  };
+
+  const onSubmit = () => {
+    // 해시태그 => 필수 x
+    if (
+      content == "" ||
+      fileImg.length == 0 ||
+      userLocation == "" ||
+      categoryList.length == 0
+    ) {
+      alert("error");
+    } else {
+      sendData();
+    }
   };
 
   const onExitButtonHandler = () => {
@@ -212,9 +216,9 @@ const WriteModal = () => {
                     <img src={WriteDefaultImg} alt="기본 이미지" />
                   ) : (
                     userImgList.map((data, idx) => {
-                      if (data.type === "image/png") {
+                      if (data.type === "image") {
                         return <img src={data.result} alt="이미지" key={idx} />;
-                      } else if (data.type === "video/mp4") {
+                      } else if (data.type === "video") {
                         return (
                           <video controls width="500" height="500" key={idx}>
                             <source src={data.result} type="video/mp4" />
