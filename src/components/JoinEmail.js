@@ -30,6 +30,7 @@ const JoinEmail = () => {
         emailAuthId: userData.emailAuthId,
       },
       success: (res) => {
+        sessionStorage.removeItem("joinToken");
         alert(res.msg);
         history.push("/");
       },
