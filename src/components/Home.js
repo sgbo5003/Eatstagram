@@ -36,51 +36,69 @@ let page = 0;
 const storys = [
   {
     src: storyProfileImg1,
+
     alt: "명수스토리.jpg",
   },
+
   {
     src: storyProfileImg2,
+
     alt: "명수스토리2.jpg",
   },
+
   {
     src: storyProfileImg3,
+
     alt: "명수스토리3.jpg",
   },
+
   {
     src: storyProfileImg4,
+
     alt: "명수스토리4.jpg",
   },
+
   {
     src: storyProfileImg5,
+
     alt: "명수스토리5.jpg",
   },
+
   {
     src: storyProfileImg6,
+
     alt: "명수스토리6.jpg",
   },
-]; // 스토리 배열
+]; // 스토리 배열
 const ranks = ["1위", "2위", "3위", "4위", "5위", "6위", "7위", "8위", "9위"];
 
 const Home = () => {
   const history = useHistory();
-  // Slider 세팅
+
+  // Slider 세팅
   const settings = {
-    dots: true, // 캐러셀의 점을 보여줄 것인지
-    infinite: true, // 마지막 장 다음에 첫번째가 나오게 할 것인지
-    speed: 500, // 넘어가는 속도는 몇으로 할 것인지
+    dots: true, // 캐러셀의 점을 보여줄 것인지
+    infinite: true, // 마지막 장 다음에 첫번째가 나오게 할 것인지
+    speed: 500, // 넘어가는 속도는 몇으로 할 것인지
     slidesToShow: 1,
     slidesToScroll: 1,
     arrows: true,
     nextArrow: <AiFillRightCircle color="#ffffff" />,
     prevArrow: <AiFillLeftCircle color="#ffffff" />,
   };
-  const [userData, setUserData] = useState({});
+
   const [userPosts, setUserPosts] = useState([]);
   const [like, setLike] = useState(false);
   const getLocalUserName = localStorage.getItem("username");
 
-  const onLikeHandler = (data, idx) => {
-    getLikeData(data, idx);
+  const onLikeHandler = async (data, idx) => {
+    getLikeData(data, idx, (result) => {
+      const likeCheck = result.likeCheck;
+      const likeCount = result.likeCount;
+      userPosts[idx].likeCheck = likeCheck === "true" ? true : false;
+      userPosts[idx].likeCount = likeCount;
+      setUserPosts([...userPosts]);
+    });
   };
 
   const getContentData = (page) => {
@@ -89,6 +107,7 @@ const Home = () => {
       data: {
         page: 0,
         size: 3,
+        username: localStorage.getItem("username"),
       },
       success: (res) => {
         setUserPosts(res.content);
@@ -102,6 +121,7 @@ const Home = () => {
       data: {
         page: page,
         size: 3,
+        username: localStorage.getItem("username"),
       },
       success: (res) => {
         if (res.content.length > 0) setUserPosts(userPosts.concat(res.content));
@@ -109,24 +129,16 @@ const Home = () => {
     });
   };
 
-  const getUserData = () => {
-    fncObj.executeQuery({
-      url: "getUser",
-      data: {},
-      success: (res) => {
-        setUserData(res);
-      },
-    });
-  };
-
-  const getLikeData = (data, idx) => {
+  const getLikeData = (data, idx, callback) => {
     fnc.executeQuery({
-      url: "contentLike/save",
+      url: "content/like/save",
       data: {
         username: localStorage.getItem("username"),
         contentId: data.contentId,
       },
-      success: (res) => {},
+      success: (res) => {
+        callback(res);
+      },
     });
   };
 
@@ -143,9 +155,8 @@ const Home = () => {
   };
 
   useEffect(() => {
-    getUserData();
     if (getLocalUserName == undefined) {
-      alert("올바르지 않은 접근");
+      alert("올바르지 않은 접근");
       history.push("/");
     } else {
       getContentData();
@@ -171,6 +182,7 @@ const Home = () => {
                 <ul className="friends-story">
                   <li className="upload-story">
                     <img src={myProfileImg} alt="묭수.jpg" />
+
                     <div className="upload-btn">
                       <span className="plusbtn">
                         <FaPlusCircle />
@@ -184,6 +196,7 @@ const Home = () => {
                       </li>
                     );
                   })}
+
                   <li>
                     <button>
                       <FaChevronRight />
@@ -228,7 +241,8 @@ const Home = () => {
                               return (
                                 <video controls height="600" key={idx}>
                                   <source
-                                    // src="http://localhost:8080/content/stream/왜그래.mp4"
+                                    // src="http://localhost:8080/content/stream/왜그래.mp4"
+
                                     src={`/images/${data.name}`}
                                     type="video/mp4"
                                   />
@@ -270,7 +284,7 @@ const Home = () => {
                       <div className="post-etc2">
                         <div className="post-content__article">
                           <div className="post-content__like">
-                            <p key={idx}>좋아요 {data.likeCount}개</p>
+                            <p key={idx}>좋아요 {data.likeCount}개</p>
                           </div>
                           <div className="post-content__hash">
                             {data.contentHashtagDTOList.map((data, idx) => {
@@ -287,11 +301,12 @@ const Home = () => {
                           </div>
                         </div>
                         <div className="post-content__time">
-                          <h6>5시간 전</h6>
+                          <h6>5시간 전</h6>
                         </div>
                       </div>
                       <div className="post-etc__comment">
-                        <input type="text" placeholder="댓글 달기..." />
+                        <input type="text" placeholder="댓글 달기..." />
+
                         <button type="submit">게시</button>
                       </div>
                     </div>
@@ -313,9 +328,9 @@ const Home = () => {
               </div>
               <div className="main-lank">
                 <div className="main-lank__top">
-                  <h1>현재 맛집 랭킹</h1>
+                  <h1>현재 맛집 랭킹</h1>
                   <a>
-                    <h3>모두 보기</h3>
+                    <h3>모두 보기</h3>
                   </a>
                 </div>
                 <div className="main-lank__area">
