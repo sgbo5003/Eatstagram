@@ -41,6 +41,7 @@
     "react-kakao-login": "^2.1.0",
     "react-router-dom": "^5.2.1",
     "react-slick": "^0.28.1",
-    "slick-carousel": "^1.8.1"
+    "slick-carousel": "^1.8.1",
+    "websocket": "^1.0.34"
   }
 }
