@@ -16,15 +16,18 @@ const Router = () => {
       {isLogin !== "undefined" && isLogin ? (
         <Route exact path="/" component={Home} />
       ) : (
-        <Route exact path="/" component={Login} />
+        <>
+          <Route exact path="/" component={Login} />
+          <Route path="/Join" component={Join} />
+          <Route path="/FindPassword" component={FindPassword} />
+          {joinToken ? (
+            <Route path="/JoinEmail" component={JoinEmail} />
+          ) : (
+            <Redirect to="/" />
+          )}
+          <Route path="/WriteModal" component={WriteModal} />
+        </>
       )}
-      <Route path="/Join" component={Join} />
-      <Route path="/FindPassword" component={FindPassword} />
-      <Route path="/JoinEmail">
-        {joinToken != null && joinToken ? <JoinEmail /> : <Redirect to="/" />}
-      </Route>
-      <Route path="/Main" component={Main} />
-      <Route path="/WriteModal" component={WriteModal} />
     </Switch>
   );
 };
