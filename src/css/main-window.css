@@ -394,3 +394,170 @@
   z-index: 4;
   filter: drop-shadow(5px 0px 1px rgb(180, 179, 179));
 }
+
+/****************post-window********************/
+.post-window {
+  width: 900px;
+  height: 500px;
+  position: fixed;
+  top: 100px;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  margin: 0 auto;
+  border: 1px solid #dbdbdb;
+  border-radius: 10px;
+  border-radius: 0px;
+  background-color: #ffffff;
+}
+
+.post-window-area {
+  display: flex;
+}
+
+.post-window-contents img {
+  width: 500px;
+  height: 500px;
+  border: none;
+  margin: 0;
+  align-items: center;
+  text-align: center;
+}
+
+.post-window-right {
+  width: 400px;
+}
+
+.post-window-top {
+  border-bottom: 1px solid #dbdbdb;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.post-window-user {
+  display: flex;
+  padding: 16px;
+}
+
+.post-window-user__img img,
+.comment-user__img img {
+  width: 34px;
+  height: 34px;
+  border-radius: 50px;
+}
+
+.post-window-user__id,
+.post-window-map {
+  padding-left: 16px;
+  font-size: 14px;
+}
+
+.post-window-map h2 {
+  font-weight: 400;
+  font-size: 12px;
+}
+
+.post-window-setting {
+  margin: 0 20px;
+  font-size: 14px;
+}
+
+.post-window-setting p {
+  cursor: pointer;
+}
+
+.post-window-comment {
+  height: 372px;
+  overflow: scroll;
+  scrollbar-width: none;
+}
+
+.post-window-comment {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.post-window-comment::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera*/
+}
+
+.comment,
+.first-comment {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin: 10px 16px;
+}
+
+.comment-user__img {
+  height: 34px;
+}
+
+.comment-user__id {
+  font-size: 14px;
+  margin: 0 12px;
+}
+
+.comment-user__text {
+  margin-right: 20px;
+}
+
+.comment-user__text p {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.post-window-bottom {
+  border-top: 1px solid #dbdbdb;
+}
+
+.post-window-comment-input {
+  display: flex;
+  justify-content: space-between;
+  margin: 16px 0;
+}
+
+.post-window-comment-input input {
+  width: 80%;
+  border: none;
+  height: 20px;
+  margin-left: 16px;
+}
+
+.post-window-comment-input button {
+  margin-right: 16px;
+  background-color: transparent;
+  border: none;
+  color: #0095f6;
+  cursor: pointer;
+}
+
+.comment-over-btn {
+  text-align: center;
+}
+
+.comment-over-btn button {
+  border: none;
+  background-color: transparent;
+  font-size: 30px;
+  color: #989898;
+  cursor: pointer;
+  margin: 20px 0;
+}
+
+/************close-btn*****************/
+.window-close {
+  position: fixed;
+  top: 10px;
+  right: 16px;
+}
+
+.window-close button {
+  background: none;
+  border: none;
+  font-weight: 600;
+  font-size: 30px;
+  color: #ffffff;
+  cursor: pointer;
+}
