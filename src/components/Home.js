@@ -30,6 +30,8 @@ import { AiFillRightCircle, AiFillLeftCircle } from "react-icons/ai";
 import axios from "axios";
 import * as fnc from "../commonFunc/CommonFunctions";
 import * as fncObj from "../commonFunc/CommonObjFunctions";
+import Modal from "../Modal";
+import CommentModal from "./CommentModal";
 
 let page = 0;
 
@@ -89,9 +91,16 @@ const Home = () => {
 
   const [userPosts, setUserPosts] = useState([]);
   const [like, setLike] = useState(false);
+  const [commentData, setCommentData] = useState({});
+  const [commentModalOn, setCommentModalOn] = useState(false);
   const getLocalUserName = localStorage.getItem("username");
 
-  const onLikeHandler = async (data, idx) => {
+  const onCommentModalHandler = (data) => {
+    setCommentModalOn(true);
+    setCommentData(data);
+  };
+
+  const onLikeHandler = (data, idx) => {
     getLikeData(data, idx, (result) => {
       const likeCheck = result.likeCheck;
       const likeCount = result.likeCount;
@@ -272,7 +281,9 @@ const Home = () => {
                             )}
                           </p>
                           <p>
-                            <FaRegComment />
+                            <FaRegComment
+                              onClick={() => onCommentModalHandler(data, idx)}
+                            />
                           </p>
                           <p>
                             <FaRegPaperPlane />
@@ -362,6 +373,9 @@ const Home = () => {
           </div>
         </div>
       </div>
+      <Modal isOpen={commentModalOn} setIsOpen={setCommentModalOn}>
+        <CommentModal commentData={commentData} />
+      </Modal>
     </>
   );
 };
