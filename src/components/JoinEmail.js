@@ -51,9 +51,9 @@ const JoinEmail = () => {
     getData();
   };
   useEffect(() => {
-    sessionStorage.removeItem("joinToken");
     getData();
   }, []);
+
   return (
     <>
       <div>
