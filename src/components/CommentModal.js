@@ -3,68 +3,134 @@ import foodImg from "../images/food.jpg";
 import userImg from "../images/묭수.jpg";
 import userImg2 from "../images/명수스토리.jpg";
 import { FaEllipsisH, FaTimes, FaPlusCircle } from "react-icons/fa";
+import * as fncObj from "../commonFunc/CommonObjFunctions";
 
 const CommentModal = (props) => {
   const [comment, setComment] = useState(""); // 댓글
   const [commentBox, setCommentBox] = useState([]); // 댓글 보여지는 부분
-  const [socketConnected, setSocketConnected] = useState(false);
+  const [items, setItems] = useState([]);
   const { commentData } = props;
 
   const webSocketUrl = `ws://localhost:8080/ws/contentReply/${commentData.contentId}`;
-  //let ws = useRef(null);
+  let ws = useRef(null);
 
   useEffect(() => {
-    let ws = new WebSocket(webSocketUrl);
-    console.log(ws);
-    ws.onopen = () => {
+    ws.current = new WebSocket(webSocketUrl);
+    ws.current.onopen = () => {
       console.log("connected to " + webSocketUrl);
-      setSocketConnected(true);
-      ws.send(
-        JSON.stringify({
-          message: "123123",
-        })
-      );
+      getData();
     };
-    ws.onclose = (error) => {
+    ws.current.onclose = (error) => {
       console.log("disconnect from " + webSocketUrl);
       console.log(error);
     };
-    ws.onerror = (error) => {
+    ws.current.onerror = (error) => {
       console.log("connection error " + webSocketUrl);
       console.log(error);
     };
-    ws.onmessage = (evt) => {
-      console.log("reaction");
+    ws.current.onmessage = (evt) => {
       const data = JSON.parse(evt.data);
-      console.log("data", data);
-      //   setItems((prevItems) => [...prevItems, data]);
+      items.push(data);
+      items.forEach((item) => {
+        getRegdate(item);
+      });
+      setItems([...items]);
     };
-
     return () => {
       console.log("clean up");
-      ws.close();
+      ws.current.close();
     };
   }, []);
 
+  // 댓글 입력
   const onCommentInputHandler = (e) => {
     setComment(e.target.value);
   };
 
-  // 댓글 작성
-  const onSubmit = (e) => {
-    console.log("clicked");
-    // 값이 비었으면 리턴
+  // 댓글 전송
+  const onSendMessageHandler = () => {
     if (comment === "") {
       return;
     } else {
-      // 값이 있으면 chatBox 배열에 inputText 추가
-      setCommentBox(commentBox.concat(comment));
+      ws.current.send(
+        JSON.stringify({
+          roomId: commentData.contentId,
+          username: commentData.username,
+          msg: comment,
+        })
+      );
     }
-    console.log(commentBox);
     // 채팅을 보내면 input 비워주기
     setComment("");
   };
 
+  // 채팅들 가져오기
+  const getData = () => {
+    fncObj.executeQuery({
+      url: "content/reply/getPagingList",
+      data: {
+        page: 0,
+        size: 6,
+        contentId: commentData.contentId,
+      },
+      success: (res) => {
+        res.content.map((item, idx) => {
+          getRegdate(item);
+        });
+        setCommentBox(res.content);
+      },
+    });
+  };
+
+  const getRegdate = (item) => {
+    const now = new Date();
+    //글쓴 시간
+    const writeDay = new Date(item.regDate);
+    //또는 파라미터로 시간을 넘겨받아서 계산할 수도 있음..
+    let minus;
+    //현재 년도랑 글쓴시간의 년도 비교
+    if (now.getFullYear() > writeDay.getFullYear()) {
+      minus = now.getFullYear() - writeDay.getFullYear();
+      //두개의 차이를 구해서 표시
+      item.time = minus + "년 전";
+    } else if (now.getMonth() > writeDay.getMonth()) {
+      //년도가 같을 경우 달을 비교해서 출력
+      minus = now.getMonth() - writeDay.getMonth();
+      item.time = minus + "달 전";
+    } else if (now.getDate() > writeDay.getDate()) {
+      //같은 달일 경우 일을 계산
+      minus = now.getDate() - writeDay.getDate();
+      item.time = minus + "일 전";
+    } else if (now.getDate() === writeDay.getDate()) {
+      //당일인 경우에는
+      const nowTime = now.getTime();
+      const writeTime = writeDay.getTime();
+      if (nowTime > writeTime) {
+        //시간을 비교
+        let sec = parseInt(nowTime - writeTime) / 1000;
+        const day = parseInt(sec / 60 / 60 / 24);
+        sec = sec - day * 60 * 60 * 24;
+        const hour = parseInt(sec / 60 / 60);
+        sec = sec - hour * 60 * 60;
+        const min = parseInt(sec / 60);
+        sec = parseInt(sec - min * 60);
+        if (hour > 0) {
+          //몇시간전인지
+          item.time = hour + "시간 전";
+        } else if (min > 0) {
+          //몇분전인지
+          item.time = min + "분 전";
+        } else if (sec > 0) {
+          //몇초전인지 계산
+          item.time = sec + "초 전";
+        } else {
+          item.time = "방금전";
+        }
+      } else {
+        item.time = "방금전";
+      }
+    }
+  };
   return (
     <>
       <div className="post-window">
@@ -74,7 +140,6 @@ const CommentModal = (props) => {
               <img src={foodImg} alt="" />
             </div>
           </div>
-
           <div className="post-window-right">
             <div className="post-window-top">
               <div className="post-window-user">
@@ -83,10 +148,10 @@ const CommentModal = (props) => {
                 </div>
                 <div>
                   <div className="post-window-user__id">
-                    <h1>gyuxxr</h1>
+                    <h1>{commentData.username}</h1>
                   </div>
                   <div className="post-window-map">
-                    <h2>연하동</h2>
+                    <h2>{commentData.location}</h2>
                   </div>
                 </div>
               </div>
@@ -100,15 +165,36 @@ const CommentModal = (props) => {
             <div className="post-window-comment">
               <div className="first-comment">
                 <div className="comment-user__img">
-                  <img src={userImg} alt="" />
+                  <img src={foodImg} alt="" />
                 </div>
                 <div className="comment-user__id">
-                  <h1>gyuxxr</h1>
+                  <h1>{commentData.username}</h1>
                 </div>
                 <div className="comment-user__text">
-                  <p>오늘은 연하동에 갔다왔슴다 음~ 맛 좋다~ </p>
+                  <p>{commentData.text}</p>
                 </div>
               </div>
+              {items
+                .slice(0)
+                .reverse()
+                .map((data, idx) => {
+                  return (
+                    <div className="comment" key={idx}>
+                      <div className="comment-user__img">
+                        <img src={userImg2} alt="" />
+                      </div>
+                      <div className="comment-user__id">
+                        <h1>{data.username}</h1>
+                      </div>
+                      <div className="comment-user__text">
+                        <p>{data.msg}</p>
+                      </div>
+                      <div className="comment-user__text">
+                        <p>{data.time}</p>
+                      </div>
+                    </div>
+                  );
+                })}
               {commentBox.map((data, idx) => {
                 return (
                   <div className="comment" key={idx}>
@@ -116,15 +202,17 @@ const CommentModal = (props) => {
                       <img src={userImg2} alt="" />
                     </div>
                     <div className="comment-user__id">
-                      <h1>whereyedo</h1>
+                      <h1>{data.username}</h1>
                     </div>
                     <div className="comment-user__text">
-                      <p>{data}</p>
+                      <p>{data.reply}</p>
+                    </div>
+                    <div className="comment-user__text">
+                      <p>{data.time}</p>
                     </div>
                   </div>
                 );
               })}
-
               {/*댓글 넘칠 시 더보기 버튼*/}
               {/* <div className="comment-over-btn">
                 <button>
@@ -141,7 +229,7 @@ const CommentModal = (props) => {
                   onChange={onCommentInputHandler}
                   placeholder="댓글 달기..."
                 />
-                <button type="button" onClick={onSubmit}>
+                <button type="button" onClick={onSendMessageHandler}>
                   게시
                 </button>
               </div>
