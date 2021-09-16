@@ -38,37 +38,26 @@ let page = 0;
 const storys = [
   {
     src: storyProfileImg1,
-
     alt: "명수스토리.jpg",
   },
-
   {
     src: storyProfileImg2,
-
     alt: "명수스토리2.jpg",
   },
-
   {
     src: storyProfileImg3,
-
     alt: "명수스토리3.jpg",
   },
-
   {
     src: storyProfileImg4,
-
     alt: "명수스토리4.jpg",
   },
-
   {
     src: storyProfileImg5,
-
     alt: "명수스토리5.jpg",
   },
-
   {
     src: storyProfileImg6,
-
     alt: "명수스토리6.jpg",
   },
 ]; // 스토리 배열
