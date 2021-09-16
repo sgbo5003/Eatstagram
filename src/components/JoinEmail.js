@@ -51,7 +51,12 @@ const JoinEmail = () => {
     getData();
   };
   useEffect(() => {
-    getData();
+    if (sessionStorage.getItem("joinToken")) {
+      getData();
+    } else {
+      history.push("/");
+    }
+    sessionStorage.removeItem("joinToken");
   }, []);
 
   return (

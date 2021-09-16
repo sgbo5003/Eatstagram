@@ -123,7 +123,6 @@ const Join = () => {
       success: (res) => {
         sessionStorage.setItem("joinToken", res.joinToken);
         history.push("/JoinEmail");
-        // setTimeout(() => history.push("/JoinEmail"), 2000);
       },
       fail: (res) => {
         alert("값을 제대로 입력해주세요.");
