@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Redirect, Route, Switch } from "react-router";
+import React from "react";
+import { Route, Switch } from "react-router";
 import FindPassword from "./components/FindPassword";
 import Home from "./components/Home";
 import Join from "./components/Join";
@@ -10,7 +10,6 @@ import WriteModal from "./components/WriteModal";
 
 const Router = () => {
   const isLogin = localStorage.getItem("username");
-  const joinToken = sessionStorage.getItem("joinToken");
   return (
     <Switch>
       {isLogin !== "undefined" && isLogin ? (
@@ -20,11 +19,7 @@ const Router = () => {
           <Route exact path="/" component={Login} />
           <Route path="/Join" component={Join} />
           <Route path="/FindPassword" component={FindPassword} />
-          {joinToken ? (
-            <Route path="/JoinEmail" component={JoinEmail} />
-          ) : (
-            <Redirect to="/" />
-          )}
+          <Route path="/JoinEmail" component={JoinEmail} />
           <Route path="/WriteModal" component={WriteModal} />
         </>
       )}
