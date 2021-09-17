@@ -59,9 +59,18 @@ const CommentModal = (props) => {
           msg: comment,
         })
       );
+      updateCommentBox();
     }
     // 채팅을 보내면 input 비워주기
     setComment("");
+  };
+
+  // 댓글창 업데이트
+  const updateCommentBox = () => {
+    commentBox.map((data) => {
+      getRegdate(data);
+    });
+    setCommentBox([...commentBox]);
   };
 
   // 채팅들 가져오기
