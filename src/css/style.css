@@ -13,6 +13,7 @@
 /***component***/
 @import "./component/footer.css";
 @import "./component/header.css";
+@import "chat.css";
 
 /*********/
 body {

@@ -10,15 +10,22 @@ import {
   FaPlusSquare,
   FaRegPlusSquare,
 } from "react-icons/fa"; // Reg 붙은게 색깔 없는거
+import { useHistory } from "react-router";
 import myProfileImg from "../images/묭수.jpg";
 import Modal from "../Modal";
 import WriteModal from "./WriteModal";
 const Header = () => {
+  const history = useHistory();
   const [writeModalOn, setWriteModalOn] = useState(false);
 
   // 글쓰기 모달창 제어
   const onWriteClick = () => {
     setWriteModalOn(true);
+  };
+
+  // 채팅 화면 이동
+  const onChatClick = () => {
+    history.push("/Chat");
   };
   return (
     <>
@@ -32,7 +39,7 @@ const Header = () => {
             <p>
               <FaHome />
             </p>
-            <p>
+            <p onClick={onChatClick}>
               <FaRegPaperPlane />
             </p>
             <p onClick={onWriteClick}>

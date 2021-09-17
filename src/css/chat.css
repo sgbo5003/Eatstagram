@@ -1,0 +1,186 @@
+.chat-area {
+  border: 1px solid #dbdbdb;
+  background-color: #fff;
+  width: 960px;
+  margin-top: 20px;
+}
+
+.chat-top,
+.chat-me,
+.chat-friend,
+.chat-friend__user {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chat-me {
+  justify-content: center;
+  height: 66px;
+}
+
+.chat-me p {
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.chat-me,
+.chat-left {
+  width: 359px;
+  border-right: 1px solid #dbdbdb;
+}
+
+.chat-top {
+  border-bottom: 1px solid #dbdbdb;
+  height: 66px;
+}
+
+.chat-friend {
+  width: 600px;
+}
+
+.chat-friend__user img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50px;
+}
+
+.chat-me h1,
+.chat-me p,
+.chat-friend__user,
+.chat-info-btn {
+  margin: 16px;
+  cursor: pointer;
+}
+
+.chat-friend__user h5 {
+  font-size: 14px;
+  margin-left: 12px;
+}
+
+.chat-info-btn p {
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.chat-bottom {
+  display: flex;
+}
+
+.chat-left,
+.chat-right,
+.chat-list {
+  height: 594px;
+}
+
+.chat-list {
+  overflow-y: scroll;
+}
+
+.chatting-list {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.chatting-list:hover {
+  background-color: #f7f7f7;
+}
+
+.chatting-friend img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+}
+
+.chatting-friend {
+  margin: 12px;
+  margin-left: 20px;
+  margin-bottom: 0;
+}
+
+.chatting-text h1 {
+  font-weight: 400;
+  font-size: 12px;
+}
+
+.chatting-text h4 {
+  font-weight: 500;
+  font-size: 16px;
+}
+
+/**************right*****************/
+.chat-right {
+  width: 600px;
+}
+
+.chatting-area {
+  height: 530px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  margin: 0 16px 10px 16px;
+}
+
+.chatting-area h4 {
+  font-weight: 300;
+  font-size: 14px;
+  color: #6e6e6e;
+  text-align: center;
+}
+
+.my-message p,
+.friend-message p {
+  border-radius: 20px;
+  background-color: #f1f1f1;
+  height: 30px;
+  margin-top: 10px;
+  padding: 0 16px;
+  padding-top: 4px;
+  font-weight: 300;
+}
+
+.friend-message img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50px;
+  margin-right: 6px;
+}
+
+.input-message {
+  border: 1px solid #dbdbdb;
+  border-radius: 20px;
+  height: 40px;
+  margin: 0px 16px;
+  display: flex;
+  align-items: center;
+}
+
+.input-message input {
+  border: none;
+  width: 500px;
+  margin-left: 10px;
+  padding-top: 4px;
+  font-size: 16px;
+}
+
+.input-message p {
+  font-size: 18px;
+  margin-right: 12px;
+  cursor: pointer;
+}
+
+.friend-message p {
+  border: 1px solid #e4e4e4;
+  background-color: #fff;
+}
+
+.friend-message {
+  display: flex;
+  align-items: flex-end;
+}
+
+.my-message {
+  display: flex;
+  justify-content: flex-end;
+}
