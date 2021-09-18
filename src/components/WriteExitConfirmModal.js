@@ -1,14 +1,17 @@
 import React from "react";
+import { useHistory } from "react-router";
 
 const WriteExitConfirmModal = (props) => {
   const { setModalOn } = props;
+  const history = useHistory();
   // 취소 버튼
   const onCancelButtonHandler = () => {
     setModalOn(false);
   };
   // 삭제 버튼
   const onDeleteButtonHandler = () => {
-    location.reload(); // 페이지 새로고침
+    history.push("/");
+    location.reload();
   };
 
   return (
