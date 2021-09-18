@@ -28,10 +28,19 @@ const Modal = ({ children, fade = false, isOpen, setIsOpen }, ref) => {
 
   useEffect(() => {
     if (isOpen) document.addEventListener("keydown", handleEscape, false);
+
     return () => {
       document.removeEventListener("keydown", handleEscape, false);
     };
   }, [handleEscape, isOpen]);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.classList.add("modal-open");
+    } else {
+      document.body.classList.remove("modal-open");
+    }
+  }, [isOpen]);
 
   return createPortal(
     isOpen ? (

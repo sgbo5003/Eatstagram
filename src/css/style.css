@@ -25,6 +25,10 @@ body {
   background-color: #dbdbdb28;
 }
 
+.modal-open {
+  overflow: hidden;
+}
+
 #service-screen {
   max-width: 960px;
 }
