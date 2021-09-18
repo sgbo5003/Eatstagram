@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
-  FaHome,
   FaPaperPlane,
   FaRegPaperPlane,
   FaCompass,
@@ -10,23 +9,82 @@ import {
   FaPlusSquare,
   FaRegPlusSquare,
 } from "react-icons/fa"; // Reg 붙은게 색깔 없는거
+import { AiFillHome, AiOutlineHome } from "react-icons/ai";
 import { useHistory } from "react-router";
+import { Link } from "react-router-dom";
 import myProfileImg from "../images/묭수.jpg";
 import Modal from "../Modal";
 import WriteModal from "./WriteModal";
 const Header = () => {
   const history = useHistory();
   const [writeModalOn, setWriteModalOn] = useState(false);
+  const [checkedHeader, setCheckedHeader] = useState(new Set()); // 헤더 -> 클릭 된 것들 담는 state
 
   // 글쓰기 모달창 제어
   const onWriteClick = () => {
     setWriteModalOn(true);
   };
 
-  // 채팅 화면 이동
-  const onChatClick = () => {
-    history.push("/Chat");
+  const onCheckHeaderHandler = (data) => {
+    let itemSet = new Set(checkedHeader);
+    if (location.pathname === "/") {
+      itemSet.clear();
+      itemSet.add("/");
+      setCheckedHeader(itemSet);
+    } else if (location.pathname === "/Chat") {
+      itemSet.clear();
+      itemSet.add("/Chat");
+      setCheckedHeader(itemSet);
+    } else if (location.pathname === "/WriteModal") {
+      itemSet.clear();
+      itemSet.add("/WriteModal");
+      setCheckedHeader(itemSet);
+    } else if (location.pathname === "/Recommend") {
+      itemSet.clear();
+      itemSet.add("/Recommend");
+      setCheckedHeader(itemSet);
+    } else if (location.pathname === "/Notification") {
+      itemSet.clear();
+      itemSet.add("/Notification");
+      setCheckedHeader(itemSet);
+    } else {
+      itemSet.clear();
+      setCheckedHeader(itemSet);
+    }
   };
+
+  useEffect(() => {
+    onCheckHeaderHandler();
+  }, [location.pathname]);
+
+  const headerItems = [
+    {
+      url: "/",
+      iconIsClick: <AiFillHome />,
+      iconNoClick: <AiOutlineHome />,
+    },
+    {
+      url: "/Chat",
+      iconIsClick: <FaPaperPlane />,
+      iconNoClick: <FaRegPaperPlane />,
+    },
+    {
+      url: "/WriteModal",
+      iconIsClick: <FaPlusSquare />,
+      iconNoClick: <FaRegPlusSquare />,
+    },
+    {
+      url: "/Recommend",
+      iconIsClick: <FaCompass />,
+      iconNoClick: <FaRegCompass />,
+    },
+    {
+      url: "/Notification",
+      iconIsClick: <FaHeart />,
+      iconNoClick: <FaRegHeart />,
+    },
+  ];
+
   return (
     <>
       <div className="header">
@@ -36,21 +94,48 @@ const Header = () => {
           </div>
 
           <div className="header-area__icons">
-            <p>
-              <FaHome />
-            </p>
-            <p onClick={onChatClick}>
-              <FaRegPaperPlane />
-            </p>
+            {headerItems.map((data, idx) => {
+              return (
+                <Link to={data.url} key={idx}>
+                  <p onClick={() => onCheckHeaderHandler(data)}>
+                    {checkedHeader.has(data.url)
+                      ? data.iconIsClick
+                      : data.iconNoClick}
+                  </p>
+                </Link>
+              );
+            })}
+            {/* <Link to="/">
+              <p onClick={onCheckHeaderHandler}>
+                {checkedHeader.has("/") ? <FaHome /> : ""}
+              </p>
+            </Link>
+            <Link to="/Chat">
+              <p onClick={onCheckHeaderHandler}>
+                {checkedHeader.has("/Chat") ? (
+                  <FaPaperPlane />
+                ) : (
+                  <FaRegPaperPlane />
+                )}
+              </p>
+            </Link>
             <p onClick={onWriteClick}>
               <FaRegPlusSquare />
             </p>
             <p>
-              <FaRegCompass />
+              {checkedHeader.has("/Recommend") ? (
+                <FaCompass />
+              ) : (
+                <FaRegCompass />
+              )}
             </p>
             <p>
-              <FaRegHeart />
-            </p>
+              {checkedHeader.has("/Notification") ? (
+                <FaHeart />
+              ) : (
+                <FaRegHeart />
+              )}
+            </p> */}
             <div className="user-img__header">
               <img src={myProfileImg} alt="" />
             </div>
