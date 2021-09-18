@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import myProfileImg from "../images/묭수.jpg";
 import storyProfileImg1 from "../images/명수스토리.jpg";
 import storyProfileImg2 from "../images/명수스토리2.jpg";
@@ -66,6 +66,8 @@ const ranks = ["1위", "2위", "3위", "4위", "5위", "6위", "7위", "8위", "
 const Home = () => {
   const history = useHistory();
 
+  let ws = useRef(null);
+
   // Slider 세팅
   const settings = {
     dots: true, // 캐러셀의 점을 보여줄 것인지
@@ -82,13 +84,16 @@ const Home = () => {
   const [like, setLike] = useState(false);
   const [commentData, setCommentData] = useState({});
   const [commentModalOn, setCommentModalOn] = useState(false);
+  const [inputComment, setInputComment] = useState("");
   const getLocalUserName = localStorage.getItem("username");
+  const [items, setItems] = useState([]);
 
+  // 댓글 모달 창 관련
   const onCommentModalHandler = (data) => {
     setCommentModalOn(true);
     setCommentData(data);
   };
-
+  // 좋아요 제어
   const onLikeHandler = (data, idx) => {
     getLikeData(data, idx, (result) => {
       const likeCheck = result.likeCheck;
@@ -99,6 +104,7 @@ const Home = () => {
     });
   };
 
+  // 초기 데이터 불러오기 (컨텐츠)
   const getContentData = (page) => {
     fncObj.executeQuery({
       url: "/content/getPagingList",
@@ -113,6 +119,7 @@ const Home = () => {
     });
   };
 
+  // 스크롤 했을 때 데이터 더 가져오기
   const getAddData = (page) => {
     fncObj.executeQuery({
       url: "/content/getPagingList",
@@ -127,6 +134,7 @@ const Home = () => {
     });
   };
 
+  // 좋아요 데이터 가져오기
   const getLikeData = (data, idx, callback) => {
     fnc.executeQuery({
       url: "content/like/save",
@@ -140,6 +148,7 @@ const Home = () => {
     });
   };
 
+  // 스크롤 감지
   const handleScroll = () => {
     const scrollHeight = document.documentElement.scrollHeight;
     const scrollTop = document.documentElement.scrollTop;
@@ -161,6 +170,88 @@ const Home = () => {
     }
   }, []);
 
+  const webSocketUrl = `ws://localhost:8080/ws/contentReply/${userPosts.contentId}`;
+
+  // 댓글 달기 감지
+  const onCommentHandler = (e) => {
+    console.log(e.target.value);
+    setInputComment(e.target.value);
+  };
+
+  const onClickCommentSubmit = () => {
+    ws.current.onopen = () => {
+      console.log("connected to " + webSocketUrl);
+      getData();
+    };
+    ws.current.onclose = (error) => {
+      console.log("disconnect from " + webSocketUrl);
+      console.log(error);
+    };
+    ws.current.onerror = (error) => {
+      console.log("connection error " + webSocketUrl);
+      console.log(error);
+    };
+    ws.current.onmessage = (evt) => {
+      const data = JSON.parse(evt.data);
+      items.push(data);
+      items.forEach((item) => {
+        getRegdate(item);
+      });
+      setItems([...items]);
+    };
+  };
+
+  const getRegdate = (item) => {
+    const now = new Date();
+    //글쓴 시간
+    const writeDay = new Date(item.regDate);
+    //또는 파라미터로 시간을 넘겨받아서 계산할 수도 있음..
+    let minus;
+    //현재 년도랑 글쓴시간의 년도 비교
+    if (now.getFullYear() > writeDay.getFullYear()) {
+      minus = now.getFullYear() - writeDay.getFullYear();
+      //두개의 차이를 구해서 표시
+      item.time = minus + "년 전";
+    } else if (now.getMonth() > writeDay.getMonth()) {
+      //년도가 같을 경우 달을 비교해서 출력
+      minus = now.getMonth() - writeDay.getMonth();
+      item.time = minus + "달 전";
+    } else if (now.getDate() > writeDay.getDate()) {
+      //같은 달일 경우 일을 계산
+      minus = now.getDate() - writeDay.getDate();
+      item.time = minus + "일 전";
+    } else if (now.getDate() === writeDay.getDate()) {
+      //당일인 경우에는
+      const nowTime = now.getTime();
+      const writeTime = writeDay.getTime();
+      if (nowTime > writeTime) {
+        //시간을 비교
+        let sec = parseInt(nowTime - writeTime) / 1000;
+        const day = parseInt(sec / 60 / 60 / 24);
+        sec = sec - day * 60 * 60 * 24;
+        const hour = parseInt(sec / 60 / 60);
+        sec = sec - hour * 60 * 60;
+        const min = parseInt(sec / 60);
+        sec = parseInt(sec - min * 60);
+        if (hour > 0) {
+          //몇시간전인지
+          item.time = hour + "시간 전";
+        } else if (min > 0) {
+          //몇분전인지
+          item.time = min + "분 전";
+        } else if (sec > 0) {
+          //몇초전인지 계산
+          item.time = sec + "초 전";
+        } else {
+          item.time = "방금전";
+        }
+      } else {
+        item.time = "방금전";
+      }
+    }
+  };
+
+  // 스크롤 이벤트
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => {
@@ -307,8 +398,12 @@ const Home = () => {
                         </div>
                       </div>
                       <div className="post-etc__comment">
-                        <input type="text" placeholder="댓글 달기..." />
-
+                        <input
+                          type="text"
+                          placeholder="댓글 달기..."
+                          value={inputComment}
+                          onChange={onCommentHandler}
+                        />
                         <button type="submit">게시</button>
                       </div>
                     </div>
@@ -362,7 +457,13 @@ const Home = () => {
         </div>
       </div>
       <Modal isOpen={commentModalOn} setIsOpen={setCommentModalOn}>
-        <CommentModal commentData={commentData} />
+        <CommentModal
+          commentData={commentData}
+          setCommentModalOn={setCommentModalOn}
+          items={items}
+          setItems={setItems}
+          getRegdate={getRegdate}
+        />
       </Modal>
     </>
   );
