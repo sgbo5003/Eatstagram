@@ -13,6 +13,9 @@ import storyProfileImg1 from "../images/명수스토리.jpg";
 import * as fncObj from "../commonFunc/CommonObjFunctions";
 import Modal from "../Modal";
 import ChatCreateModal from "./ChatCreateModal";
+import Header from "./Header";
+
+let page = 0;
 
 const userList = [
   {
@@ -37,14 +40,22 @@ const Chat = () => {
   const webSocketUrl = `ws://localhost:8080/ws/directMessage/1`;
   const localUserName = localStorage.getItem("username");
   let ws = useRef(null);
-  const messagesEndRef = useRef(null);
+  const scrollRef = useRef(null);
   const [inputText, setInputText] = useState(""); // input 부분
   const [myChatBox, setMyChatBox] = useState([]); // 나의 메세지를 담는 배열
   const [friendChatBox, setFriendChatBox] = useState([]); // 상대 메세지를 담는 배열
   const [chatList, setChatList] = useState([]); // 받아온 채팅 리스트
   const [roomList, setRoomList] = useState([]); // 채팅 목록 리스트
-  const [chatCreateModalOn, setChatCreateModalOn] = useState(false);
+  const [chatCreateModalOn, setChatCreateModalOn] = useState(false); // 채팅 생성 모달 제어
+  const [initialScroll, setInitialScroll] = useState(false); // 처음 스크롤 제어
+  const [isDone, setIsDone] = useState(false); // 스크롤해서 데이터 가져오고 난뒤 체크
+  const [image, setImage] = useState(null); // 이미지 파일
 
+  // 이미지 핸들러
+  const onImageHandler = (e) => {
+    setImage(e.target.files[0]);
+    console.log(image);
+  };
   // 채팅 입력
   const onInputTextHandler = (e) => {
     setInputText(e.target.value);
@@ -57,6 +68,7 @@ const Chat = () => {
         return;
       } else {
         // 값이 있으면 chatBox 배열에 inputText 추가
+        // 텍스트면 type: "text", 사진이면 type: "file" <- 내가 지정한대로 반환되어 온다
         ws.current.send(
           JSON.stringify({
             msg: inputText,
@@ -90,6 +102,7 @@ const Chat = () => {
       const data = JSON.parse(evt.data);
       console.log(data);
       setMyChatBox((prevItems) => [...prevItems, data]);
+      scrollToBottom();
     };
     return () => {
       console.log("clean up");
@@ -103,7 +116,7 @@ const Chat = () => {
       url: "directMessage/getPagingList",
       data: {
         page: 0,
-        size: 12,
+        size: 16,
         directMessageRoomId: "1",
       },
       success: (res) => {
@@ -112,12 +125,79 @@ const Chat = () => {
     });
   };
 
+  const getAddChatData = (page) => {
+    fncObj.executeQuery({
+      url: "directMessage/getPagingList",
+      data: {
+        page: page,
+        size: 7,
+        directMessageRoomId: "1",
+      },
+      success: (res) => {
+        if (res.content.length > 0) {
+          setChatList(chatList.concat(res.content));
+        } else {
+          setIsDone(true);
+        }
+      },
+    });
+  };
+
+  // 새로운 메세지 모달 띄우기
   const onCreateWriteModalHandler = () => {
     setChatCreateModalOn(true);
   };
 
+  // 스크롤 감지
+  const handleScroll = () => {
+    const scrollTop = scrollRef.current.scrollTop; // 스크롤 상단으로부터의 위치
+    if (!isDone) {
+      if (scrollTop === 0) {
+        ++page;
+        getAddChatData(page);
+        scrollUpdate();
+        setInitialScroll(true);
+      }
+    } else {
+      return;
+    }
+  };
+
+  // 스크롤 이벤트
+  useEffect(() => {
+    scrollRef.current.addEventListener("scroll", handleScroll);
+    return () => {
+      scrollRef.current.removeEventListener("scroll", handleScroll);
+    };
+  });
+
+  // 스크롤 젤 위에 도달 시, 채팅 더 가져오고 스크롤 내리기
+  const scrollUpdate = () => {
+    scrollRef.current.scrollTo({ top: 400, behavior: "smooth" });
+  };
+
+  // 채팅을 보낸 후 스크롤 젤 하단으로 내리기
+  const scrollToBottom = () => {
+    const scrollHeight = scrollRef.current.scrollHeight;
+    scrollRef.current.scrollTo({ top: scrollHeight, behavior: "smooth" });
+  };
+
+  // 처음 스크롤 젤 하단으로 내리기
+  const initialScrollPosition = () => {
+    scrollRef.current.scrollTop = 194;
+  };
+
+  useEffect(() => {
+    if (!initialScroll) {
+      initialScrollPosition();
+    } else {
+      return;
+    }
+  });
+
   return (
     <>
+      <Header />
       <div className="service-screen">
         <div className="main-area">
           <div className="chat-area">
@@ -160,7 +240,7 @@ const Chat = () => {
               </div>
 
               <div className="chat-right">
-                <div className="chatting-area">
+                <div className="chatting-area" ref={scrollRef}>
                   <h4>2021년 9월 17일</h4>
                   {chatList
                     .slice(0)
@@ -197,9 +277,18 @@ const Chat = () => {
                     onChange={onInputTextHandler}
                     onKeyPress={onKeyPress}
                   />
-                  <p>
-                    <FaRegImage />
-                  </p>
+                  <div className="input-image">
+                    <input
+                      type="file"
+                      id="getfile"
+                      accept="image/*, video/*"
+                      multiple
+                      onChange={onImageHandler}
+                    />
+                    <label htmlFor="getfile">
+                      <FaRegImage />
+                    </label>
+                  </div>
                   <p>
                     <FaRegHeart />
                   </p>

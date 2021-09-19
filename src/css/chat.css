@@ -191,6 +191,19 @@
   margin-right: 10px;
 }
 
+.input-image {
+  margin-right: 12px;
+}
+
+.input-image input {
+  display: none;
+}
+
+.input-image label {
+  font-size: 18px;
+  cursor: pointer;
+}
+
 /* 채팅 유저 초대 화면 */
 
 .chat-start-background {
