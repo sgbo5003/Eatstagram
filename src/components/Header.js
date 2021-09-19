@@ -16,6 +16,33 @@ import myProfileImg from "../images/묭수.jpg";
 import Modal from "../Modal";
 import WriteModal from "./WriteModal";
 const Header = () => {
+  const headerItems = [
+    {
+      url: "/",
+      iconIsClick: <AiFillHome />,
+      iconNoClick: <AiOutlineHome />,
+    },
+    {
+      url: "/Chat",
+      iconIsClick: <FaPaperPlane />,
+      iconNoClick: <FaRegPaperPlane />,
+    },
+    {
+      url: "/WriteModal",
+      iconIsClick: <FaPlusSquare />,
+      iconNoClick: <FaRegPlusSquare />,
+    },
+    {
+      url: "/Recommend",
+      iconIsClick: <FaCompass />,
+      iconNoClick: <FaRegCompass />,
+    },
+    {
+      url: "/Notification",
+      iconIsClick: <FaHeart />,
+      iconNoClick: <FaRegHeart />,
+    },
+  ];
   const history = useHistory();
   const [writeModalOn, setWriteModalOn] = useState(false);
   const [checkedHeader, setCheckedHeader] = useState(new Set()); // 헤더 -> 클릭 된 것들 담는 state
@@ -25,7 +52,7 @@ const Header = () => {
     setWriteModalOn(true);
   };
 
-  const onCheckHeaderHandler = (data) => {
+  const onCheckHeaderHandler = () => {
     let itemSet = new Set(checkedHeader);
     if (location.pathname === "/") {
       itemSet.clear();
@@ -57,34 +84,6 @@ const Header = () => {
     onCheckHeaderHandler();
   }, [location.pathname]);
 
-  const headerItems = [
-    {
-      url: "/",
-      iconIsClick: <AiFillHome />,
-      iconNoClick: <AiOutlineHome />,
-    },
-    {
-      url: "/Chat",
-      iconIsClick: <FaPaperPlane />,
-      iconNoClick: <FaRegPaperPlane />,
-    },
-    {
-      url: "/WriteModal",
-      iconIsClick: <FaPlusSquare />,
-      iconNoClick: <FaRegPlusSquare />,
-    },
-    {
-      url: "/Recommend",
-      iconIsClick: <FaCompass />,
-      iconNoClick: <FaRegCompass />,
-    },
-    {
-      url: "/Notification",
-      iconIsClick: <FaHeart />,
-      iconNoClick: <FaRegHeart />,
-    },
-  ];
-
   return (
     <>
       <div className="header">
@@ -97,7 +96,7 @@ const Header = () => {
             {headerItems.map((data, idx) => {
               return (
                 <Link to={data.url} key={idx}>
-                  <p onClick={() => onCheckHeaderHandler(data)}>
+                  <p onClick={onCheckHeaderHandler}>
                     {checkedHeader.has(data.url)
                       ? data.iconIsClick
                       : data.iconNoClick}
@@ -105,37 +104,6 @@ const Header = () => {
                 </Link>
               );
             })}
-            {/* <Link to="/">
-              <p onClick={onCheckHeaderHandler}>
-                {checkedHeader.has("/") ? <FaHome /> : ""}
-              </p>
-            </Link>
-            <Link to="/Chat">
-              <p onClick={onCheckHeaderHandler}>
-                {checkedHeader.has("/Chat") ? (
-                  <FaPaperPlane />
-                ) : (
-                  <FaRegPaperPlane />
-                )}
-              </p>
-            </Link>
-            <p onClick={onWriteClick}>
-              <FaRegPlusSquare />
-            </p>
-            <p>
-              {checkedHeader.has("/Recommend") ? (
-                <FaCompass />
-              ) : (
-                <FaRegCompass />
-              )}
-            </p>
-            <p>
-              {checkedHeader.has("/Notification") ? (
-                <FaHeart />
-              ) : (
-                <FaRegHeart />
-              )}
-            </p> */}
             <div className="user-img__header">
               <img src={myProfileImg} alt="" />
             </div>
