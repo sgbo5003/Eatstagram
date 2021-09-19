@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import storyProfileImg1 from "../images/명수스토리.jpg";
 import * as fncObj from "../commonFunc/CommonObjFunctions";
 import { VscLoading } from "react-icons/vsc";
+import * as fnc from "../commonFunc/CommonFunctions";
 
 const ChatCreateModal = () => {
   const [inputText, setInputText] = useState("");
@@ -9,6 +10,7 @@ const ChatCreateModal = () => {
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
   const [userChecked, setUserChecked] = useState("");
+  const localUser = localStorage.getItem("username");
 
   // input 입력값
   const onInputTextHandler = (e) => {
@@ -35,8 +37,19 @@ const ChatCreateModal = () => {
   };
 
   const onUserCheckHandler = (data) => {
-    setUserChecked(data.nickname);
+    setUserChecked(data.username);
     console.log(userChecked);
+  };
+
+  const onSubmit = () => {
+    fnc.executeQuery({
+      url: "directMessageRoom/add",
+      data: {
+        "directMessageRoomMemberDTOList[0].username": localUser,
+        "directMessageRoomMemberDTOList[1].username": userChecked,
+      },
+      success: (res) => {},
+    });
   };
 
   return (
@@ -47,7 +60,7 @@ const ChatCreateModal = () => {
             <i className="fas fa-times"></i>
           </p>
           <h4>새로운 메시지</h4>
-          <h2>초대</h2>
+          <h2 onClick={onSubmit}>초대</h2>
         </div>
         <div className="chat-start__middle">
           <h4>받는 사람 :</h4>
@@ -76,7 +89,7 @@ const ChatCreateModal = () => {
                   </div>
                   <input
                     type="radio"
-                    checked={userChecked === data.nickname ? true : false}
+                    checked={userChecked === data.username ? true : false}
                     onClick={() => onUserCheckHandler(data)}
                     readOnly
                   />
