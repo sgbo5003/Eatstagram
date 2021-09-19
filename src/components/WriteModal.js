@@ -16,6 +16,7 @@ import Modal from "../Modal";
 import WriteExitConfirmModal from "./WriteExitConfirmModal";
 import { useHistory } from "react-router";
 import Home from "./Home";
+import Header from "./Header";
 
 const WriteModal = () => {
   const category = [
@@ -220,6 +221,7 @@ const WriteModal = () => {
 
   return (
     <>
+      <Header />
       <Home />
       <div className="ly_popover">
         <div className="ly_popover-overlay" onClick={onExitModalHandler} />
