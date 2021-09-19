@@ -174,32 +174,78 @@ const Home = () => {
 
   // 댓글 달기 감지
   const onCommentHandler = (e) => {
-    console.log(e.target.value);
     setInputComment(e.target.value);
   };
 
-  const onClickCommentSubmit = () => {
-    ws.current.onopen = () => {
-      console.log("connected to " + webSocketUrl);
-      getData();
-    };
-    ws.current.onclose = (error) => {
-      console.log("disconnect from " + webSocketUrl);
-      console.log(error);
-    };
-    ws.current.onerror = (error) => {
-      console.log("connection error " + webSocketUrl);
-      console.log(error);
-    };
-    ws.current.onmessage = (evt) => {
-      const data = JSON.parse(evt.data);
-      items.push(data);
-      items.forEach((item) => {
-        getRegdate(item);
-      });
-      setItems([...items]);
-    };
+  // 댓글 게시 클릭 시
+  const onClickCommentSubmit = (data) => {
+    if (inputComment === "") {
+      return;
+    } else {
+      ws.current = new WebSocket(webSocketUrl);
+      ws.current.onopen = () => {
+        console.log("connected to " + webSocketUrl);
+        ws.current.send(
+          JSON.stringify({
+            roomId: data.contentId,
+            username: localStorage.getItem("username"),
+            msg: inputComment,
+            roomType: "contentReply",
+          })
+        );
+        ws.current.close();
+      };
+      ws.current.onclose = (error) => {
+        console.log("disconnect from " + webSocketUrl);
+        console.log(error);
+      };
+      ws.current.onerror = (error) => {
+        console.log("connection error " + webSocketUrl);
+        console.log(error);
+      };
+      ws.current.onmessage = (evt) => {
+        const data = JSON.parse(evt.data);
+        console.log(data);
+      };
+    }
+    setInputComment("");
   };
+
+  // 댓글 엔터로 전송 시
+  //   const onKeyPress = (e) => {
+  //     if (e.key == "Enter") {
+  //       if (inputComment === "") {
+  //         return;
+  //       } else {
+  //         ws.current = new WebSocket(webSocketUrl);
+  //         ws.current.onopen = () => {
+  //           console.log("connected to " + webSocketUrl);
+  //           ws.current.send(
+  //             JSON.stringify({
+  //               roomId: userPosts.contentId,
+  //               username: localStorage.getItem("username"),
+  //               msg: inputComment,
+  //               roomType: "contentReply",
+  //             })
+  //           );
+  //           ws.current.close();
+  //         };
+  //         ws.current.onclose = (error) => {
+  //           console.log("disconnect from " + webSocketUrl);
+  //           console.log(error);
+  //         };
+  //         ws.current.onerror = (error) => {
+  //           console.log("connection error " + webSocketUrl);
+  //           console.log(error);
+  //         };
+  //         ws.current.onmessage = (evt) => {
+  //           const data = JSON.parse(evt.data);
+  //           console.log(data);
+  //         };
+  //       }
+  //       setInputComment("");
+  //     }
+  //   };
 
   const getRegdate = (item) => {
     const now = new Date();
@@ -261,6 +307,7 @@ const Home = () => {
 
   return (
     <>
+      <Header />
       <div className="service-screen">
         {/*스토리*/}
         <div className="main-area">
@@ -404,7 +451,12 @@ const Home = () => {
                           value={inputComment}
                           onChange={onCommentHandler}
                         />
-                        <button type="submit">게시</button>
+                        <button
+                          type="button"
+                          onClick={() => onClickCommentSubmit(data)}
+                        >
+                          게시
+                        </button>
                       </div>
                     </div>
                   </div>
