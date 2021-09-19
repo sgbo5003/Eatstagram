@@ -8,6 +8,8 @@ import Join from "./components/Join";
 import JoinEmail from "./components/JoinEmail";
 import Login from "./components/Login";
 import Main from "./components/Main";
+import Notification from "./components/Notification";
+import Recommend from "./components/Recommend";
 import WriteModal from "./components/WriteModal";
 
 const Router = () => {
@@ -16,10 +18,11 @@ const Router = () => {
     <Switch>
       {isLogin !== "undefined" && isLogin ? (
         <>
-          <Header />
           <Route exact path="/" component={Home} />
           <Route path="/WriteModal" component={WriteModal} />
           <Route path="/Chat" component={Chat} />
+          <Route path="/Recommend" component={Recommend} />
+          <Route path="/Notification" component={Notification} />
         </>
       ) : (
         <>
