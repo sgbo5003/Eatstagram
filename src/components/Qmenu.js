@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import tailImg from "../images/tail.png";
+import tailImg from "../../public/images/tail.png";
 
 const Qmenu = (props) => {
   const { locationList, setUserLocation, setIsDropClick } = props;

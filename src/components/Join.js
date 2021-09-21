@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
-import kakaoLogo from "../images/kakaoLogo.svg.png";
-import googleLogo from "../images/Google__G__Logo.svg.png";
-import cancelImg from "../images/cancel.png";
-import okImg from "../images/ok.png";
+import kakaoLogo from "../../public/images/kakaoLogo.svg.png";
+import googleLogo from "../../public/images/Google__G__Logo.svg.png";
 import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 import Footer from "./Footer";

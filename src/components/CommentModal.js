@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
-import foodImg from "../images/food.jpg";
-import userImg from "../images/묭수.jpg";
-import userImg2 from "../images/명수스토리.jpg";
+import foodImg from "../../public/images/food.jpg";
+import userImg from "../../public/images/묭수.jpg";
+import userImg2 from "../../public/images/명수스토리.jpg";
 import { FaEllipsisH, FaTimes, FaPlusCircle } from "react-icons/fa";
 import * as fncObj from "../commonFunc/CommonObjFunctions";
 

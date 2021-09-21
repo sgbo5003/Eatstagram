@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
-import kakaoLogo from "../images/kakaoLogo.svg.png";
-import googleLogo from "../images/Google__G__Logo.svg.png";
+import kakaoLogo from "../../public/images/kakaoLogo.svg.png";
+import googleLogo from "../../public/images/Google__G__Logo.svg.png";
 import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 import Footer from "./Footer";

@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
-import myProfileImg from "../images/묭수.jpg";
-import storyProfileImg1 from "../images/명수스토리.jpg";
-import storyProfileImg2 from "../images/명수스토리2.jpg";
-import storyProfileImg3 from "../images/명수스토리3.jpg";
-import storyProfileImg4 from "../images/명수스토리4.jpg";
-import storyProfileImg5 from "../images/명수스토리5.jpg";
-import storyProfileImg6 from "../images/명수스토리6.jpg";
-import storyProfileImg7 from "../images/명수스토리7.jpg";
-import rankImg from "../images/1위.jpg";
+import myProfileImg from "../../public/images/묭수.jpg";
+import storyProfileImg1 from "../../public/images/명수스토리.jpg";
+import storyProfileImg2 from "../../public/images/명수스토리2.jpg";
+import storyProfileImg3 from "../../public/images/명수스토리3.jpg";
+import storyProfileImg4 from "../../public/images/명수스토리4.jpg";
+import storyProfileImg5 from "../../public/images/명수스토리5.jpg";
+import storyProfileImg6 from "../../public/images/명수스토리6.jpg";
+import storyProfileImg7 from "../../public/images/명수스토리7.jpg";
+import rankImg from "../../public/images/1위.jpg";
 import {
   FaPlusCircle,
   FaChevronRight,

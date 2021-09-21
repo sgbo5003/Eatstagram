@@ -6,9 +6,8 @@ import {
   FaHashtag,
 } from "react-icons/fa";
 import { BsPlus } from "react-icons/bs";
-// import foodImg from "../images/food.jpg";
-import myProfileImg from "../images/묭수.jpg";
-import WriteDefaultImg from "../images/write_default_image.png";
+import myProfileImg from "../../public/images/묭수.jpg";
+import WriteDefaultImg from "../../public/images/write_default_image.png";
 import axios from "axios";
 import Qmenu from "./Qmenu";
 import * as fnc from "../commonFunc/CommonFunctions";
