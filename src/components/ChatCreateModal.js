@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
-import storyProfileImg1 from "../images/명수스토리.jpg";
+import storyProfileImg1 from "../../public/images/명수스토리.jpg";
 import * as fncObj from "../commonFunc/CommonObjFunctions";
 import { VscLoading } from "react-icons/vsc";
 import * as fnc from "../commonFunc/CommonFunctions";
+import { useHistory } from "react-router";
 
-const ChatCreateModal = () => {
+const ChatCreateModal = (props) => {
+  const { setChatCreateModalOn } = props;
+  const history = useHistory();
   const [inputText, setInputText] = useState("");
   const [userList, setUserList] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -29,6 +32,7 @@ const ChatCreateModal = () => {
       url: "getListByNameAndNickname",
       data: {
         condition: inputText,
+        username: localUser,
       },
       success: (res) => {
         setUserList(res);
@@ -48,7 +52,10 @@ const ChatCreateModal = () => {
         "directMessageRoomMemberDTOList[0].username": localUser,
         "directMessageRoomMemberDTOList[1].username": userChecked,
       },
-      success: (res) => {},
+      success: (res) => {
+        setChatCreateModalOn(false);
+        location.reload();
+      },
     });
   };
 
