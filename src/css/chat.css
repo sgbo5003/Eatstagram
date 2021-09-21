@@ -2,7 +2,9 @@
   border: 1px solid #dbdbdb;
   background-color: #fff;
   width: 960px;
+  height: 660px;
   margin-top: 20px;
+  display: flex;
 }
 
 .chat-top,
@@ -24,19 +26,14 @@
   cursor: pointer;
 }
 
-.chat-me,
-.chat-left {
-  width: 359px;
-  border-right: 1px solid #dbdbdb;
-}
-
-.chat-top {
-  border-bottom: 1px solid #dbdbdb;
-  height: 66px;
-}
-
 .chat-friend {
   width: 600px;
+}
+
+.chat-me,
+.chat-friend {
+  border-bottom: 1px solid #dbdbdb;
+  height: 66px;
 }
 
 .chat-friend__user img {
@@ -63,19 +60,20 @@
   cursor: pointer;
 }
 
-.chat-bottom {
-  display: flex;
+.chat-left,
+.chat-right {
+  height: 660px;
 }
 
-.chat-left,
-.chat-right,
-.chat-list {
-  height: 594px;
+.chat-me,
+.chat-left {
+  width: 359px;
+  border-right: 1px solid #dbdbdb;
 }
 
 .chat-list {
   overflow-y: scroll;
-  -ms-overflow-style: none;
+  height: 594px;
 }
 
 .chat-list::-webkit-scrollbar {
@@ -202,6 +200,40 @@
 .input-image label {
   font-size: 18px;
   cursor: pointer;
+}
+
+/***********chat-start*************/
+.chat-space {
+  text-align: center;
+  align-items: center;
+  margin-top: 140px;
+}
+
+.chat-space p {
+  font-size: 100px;
+}
+
+.chat-space h1 {
+  font-size: 30px;
+  font-weight: 300;
+}
+
+.chat-space h5 {
+  font-size: 16px;
+  font-weight: 300;
+  color: #6e6e6e;
+}
+
+.chat-space button {
+  border: none;
+  border-radius: 5px;
+  width: 160px;
+  height: 30px;
+  background-color: #0095f6;
+  cursor: pointer;
+  font-size: 16px;
+  color: #fff;
+  margin-top: 16px;
 }
 
 /* 채팅 유저 초대 화면 */
