@@ -12,7 +12,7 @@ import {
 import { AiFillHome, AiOutlineHome } from "react-icons/ai";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
-import myProfileImg from "../images/묭수.jpg";
+import myProfileImg from "../../public/images/묭수.jpg";
 import Modal from "../Modal";
 import WriteModal from "./WriteModal";
 const Header = () => {
@@ -52,13 +52,21 @@ const Header = () => {
     setWriteModalOn(true);
   };
 
+  const onLogoClick = () => {
+    history.push("/");
+    location.reload();
+  };
+
   const onCheckHeaderHandler = () => {
     let itemSet = new Set(checkedHeader);
     if (location.pathname === "/") {
       itemSet.clear();
       itemSet.add("/");
       setCheckedHeader(itemSet);
-    } else if (location.pathname === "/Chat") {
+    } else if (
+      location.pathname === "/Chat" ||
+      location.pathname === "/ChatRoom"
+    ) {
       itemSet.clear();
       itemSet.add("/Chat");
       setCheckedHeader(itemSet);
@@ -89,7 +97,7 @@ const Header = () => {
       <div className="header">
         <div className="header-area">
           <div>
-            <h1>Eatstagram</h1>
+            <h1 onClick={onLogoClick}>Eatstagram</h1>
           </div>
 
           <div className="header-area__icons">
