@@ -9,6 +9,7 @@
 @import "main.css";
 @import "main-post.css";
 @import "main-window.css";
+@import "profile.css";
 
 /***component***/
 @import "./component/footer.css";

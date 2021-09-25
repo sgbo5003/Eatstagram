@@ -29,7 +29,7 @@
   justify-content: space-between;
 }
 
-.header-area__icons p {
+.header-area__icons_items {
   font-size: 20px;
   margin-right: 16px;
   color: #0e0e0e;
@@ -37,7 +37,11 @@
   padding-top: 3px;
 }
 
-.user-img__header img {
+.user-img__header {
+  position: relative;
+}
+
+.user-img__header_profile_img {
   width: 24px;
   height: 24px;
   border-radius: 50px;
