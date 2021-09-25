@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const executeQuery = ({ url, data, success, error, fail }) => {
-  axios.defaults.baseURL = "http://www.whereyedo:8080";
+  axios.defaults.baseURL = "http://www.whereyedo.com:8080";
 
   const params = new FormData();
   Object.keys(data).map((element) => {

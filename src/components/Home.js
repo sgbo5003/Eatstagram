@@ -170,7 +170,7 @@ const Home = () => {
     }
   }, []);
 
-  const webSocketUrl = `ws://http://www.whereyedo:8080/ws/contentReply/${userPosts.contentId}`;
+  const webSocketUrl = `ws://http://www.whereyedo.com:8080/ws/contentReply/${userPosts.contentId}`;
 
   // 댓글 달기 감지
   const onCommentHandler = (e) => {

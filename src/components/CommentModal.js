@@ -11,7 +11,7 @@ const CommentModal = (props) => {
   const [count, setCount] = useState(1);
   const { commentData, setCommentModalOn, items, setItems, getRegdate } = props;
 
-  const webSocketUrl = `ws://http://www.whereyedo:8080/ws/contentReply/${commentData.contentId}`;
+  const webSocketUrl = `ws://http://www.whereyedo.com:8080/ws/contentReply/${commentData.contentId}`;
   let ws = useRef(null);
 
   useEffect(() => {
