@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const executeQuery = ({ url, data, success, error, fail }) => {
-  axios.defaults.withCredentials = true;
+  axios.defaults.baseURL = "http://www.whereyedo:8080";
 
   const params = new FormData();
   Object.keys(data).map((element) => {
@@ -10,8 +10,9 @@ export const executeQuery = ({ url, data, success, error, fail }) => {
 
   axios({
     method: "post",
-    url: "http://www.whereyedo:8080" + url,
+    url,
     data: params || {},
+    withCredentials: true,
   })
     .then((res) => {
       if (res.data.response === "error") {

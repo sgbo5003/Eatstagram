@@ -135,7 +135,6 @@ const WriteModal = () => {
       method: "get",
       url: `https://dapi.kakao.com/v2/local/search/keyword.json?query=${data}`,
       headers: { Authorization: "KakaoAK 5e407f97877a18e777c7ef12779007da" },
-      withCredentials: true,
     })
       .then((response) => {
         console.log(response);
