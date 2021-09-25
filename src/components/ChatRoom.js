@@ -13,7 +13,7 @@ const ChatRoom = (props) => {
   const { paramsId } = props;
   const history = useHistory();
   const localUserName = localStorage.getItem("username");
-  const webSocketUrl = `ws://http://www.whereyedo.com:8080/ws/directMessage/${paramsId}`;
+  const webSocketUrl = `ws://www.whereyedo.com:8080/ws/directMessage/${paramsId}`;
   let ws = useRef(null);
   const scrollRef = useRef(null);
   const [inputText, setInputText] = useState(""); // input 부분
@@ -215,7 +215,7 @@ const ChatRoom = (props) => {
                   return (
                     <div className="my-message" key={idx}>
                       <img
-                        src={`upload/dm/${data.directMessage}`}
+                        src={`/upload/dm/${data.directMessage}`}
                         style={{ width: "30px", height: "30px" }}
                       />
                     </div>
@@ -241,7 +241,7 @@ const ChatRoom = (props) => {
               return (
                 <div className="my-message" key={idx}>
                   <img
-                    src={`upload/dm/${data.msg}`}
+                    src={`/upload/dm/${data.msg}`}
                     style={{ width: "30px", height: "30px" }}
                   />
                 </div>

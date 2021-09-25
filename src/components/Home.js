@@ -170,7 +170,7 @@ const Home = () => {
     }
   }, []);
 
-  const webSocketUrl = `ws://http://www.whereyedo.com:8080/ws/contentReply/${userPosts.contentId}`;
+  const webSocketUrl = `ws://www.whereyedo.com:8080/ws/contentReply/${userPosts.contentId}`;
 
   // 댓글 달기 감지
   const onCommentHandler = (e) => {
@@ -370,7 +370,7 @@ const Home = () => {
                             ) {
                               return (
                                 <img
-                                  src={`/images/${data.name}`}
+                                  src={`/upload/content/${data.name}`}
                                   alt=""
                                   key={idx}
                                 />
@@ -381,7 +381,7 @@ const Home = () => {
                                   <source
                                     // src="http://localhost:8080/content/stream/왜그래.mp4"
 
-                                    src={`/images/${data.name}`}
+                                    src={`/upload/content/${data.name}`}
                                     type="video/mp4"
                                   />
                                 </video>
