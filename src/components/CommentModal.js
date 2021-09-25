@@ -58,6 +58,7 @@ const CommentModal = (props) => {
           roomId: commentData.contentId,
           username: localStorage.getItem("username"),
           msg: comment,
+          type: "text",
           roomType: "contentReply",
         })
       );
@@ -78,6 +79,7 @@ const CommentModal = (props) => {
             roomId: commentData.contentId,
             username: localStorage.getItem("username"),
             msg: comment,
+            type: "text",
             roomType: "contentReply",
           })
         );
