@@ -9,6 +9,7 @@ import JoinEmail from "./components/JoinEmail";
 import Login from "./components/Login";
 import Main from "./components/Main";
 import Notification from "./components/Notification";
+import Profile from "./components/Profile";
 import Recommend from "./components/Recommend";
 import WriteModal from "./components/WriteModal";
 
@@ -23,6 +24,7 @@ const Router = () => {
           <Route path="/Chat" component={Chat} />
           <Route path="/Recommend" component={Recommend} />
           <Route path="/Notification" component={Notification} />
+          <Route path="/Profile" component={Profile} />
         </>
       ) : (
         <>
