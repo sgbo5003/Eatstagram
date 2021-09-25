@@ -1,7 +1,6 @@
 import axios from "axios";
 
 export const executeQuery = ({ url, data, success, error, fail }) => {
-  axios.defaults.baseURL = "http://www.whereyedo:8080";
   axios.defaults.withCredentials = true;
 
   const params = new FormData();
@@ -11,11 +10,10 @@ export const executeQuery = ({ url, data, success, error, fail }) => {
 
   axios({
     method: "post",
-    url,
+    url: "http://www.whereyedo:8080" + url,
     data: params || {},
   })
     .then((res) => {
-      console.log(res);
       if (res.data.response === "error") {
         if (error) {
           error(res.data);

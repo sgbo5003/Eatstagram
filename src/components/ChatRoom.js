@@ -13,7 +13,7 @@ const ChatRoom = (props) => {
   const { paramsId } = props;
   const history = useHistory();
   const localUserName = localStorage.getItem("username");
-  const webSocketUrl = `ws://localhost:8080/ws/directMessage/${paramsId}`;
+  const webSocketUrl = `ws://http://www.whereyedo:8080/ws/directMessage/${paramsId}`;
   let ws = useRef(null);
   const scrollRef = useRef(null);
   const [inputText, setInputText] = useState(""); // input 부분
