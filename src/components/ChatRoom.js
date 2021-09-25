@@ -215,7 +215,7 @@ const ChatRoom = (props) => {
                   return (
                     <div className="my-message" key={idx}>
                       <img
-                        src={`/upload/dm/${data.directMessage}`}
+                        src={`public/upload/dm/${data.directMessage}`}
                         style={{ width: "30px", height: "30px" }}
                       />
                     </div>
@@ -241,7 +241,7 @@ const ChatRoom = (props) => {
               return (
                 <div className="my-message" key={idx}>
                   <img
-                    src={`/upload/dm/${data.msg}`}
+                    src={`public/upload/dm/${data.msg}`}
                     style={{ width: "30px", height: "30px" }}
                   />
                 </div>

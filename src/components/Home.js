@@ -370,7 +370,7 @@ const Home = () => {
                             ) {
                               return (
                                 <img
-                                  src={`/upload/content/${data.name}`}
+                                  src={`public/upload/content/${data.name}`}
                                   alt=""
                                   key={idx}
                                 />
@@ -381,7 +381,7 @@ const Home = () => {
                                   <source
                                     // src="http://localhost:8080/content/stream/왜그래.mp4"
 
-                                    src={`/upload/content/${data.name}`}
+                                    src={`public/upload/content/${data.name}`}
                                     type="video/mp4"
                                   />
                                 </video>
