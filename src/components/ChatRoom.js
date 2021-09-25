@@ -216,36 +216,67 @@ const ChatRoom = (props) => {
                     <div className="my-message" key={idx}>
                       <img
                         src={`public/upload/dm/${data.directMessage}`}
-                        style={{ width: "30px", height: "30px" }}
+                        style={{ width: "60px", height: "60px" }}
                       />
                     </div>
                   );
                 }
               } else {
+                if (data.directMessageType === "text") {
+                  return (
+                    <div className="friend-message" key={idx}>
+                      <img src={storyProfileImg1} alt="" />
+                      <p>{data.directMessage}</p>
+                    </div>
+                  );
+                } else if (data.directMessageType === "file") {
+                  return (
+                    <div className="friend-message" key={idx}>
+                      <img
+                        src={`public/upload/dm/${data.directMessage}`}
+                        style={{ width: "60px", height: "60px" }}
+                      />
+                    </div>
+                  );
+                }
+              }
+            })}
+          {myChatBox.map((data, idx) => {
+            if (data.username === localUserName) {
+              if (data.type === "text") {
+                return (
+                  <div className="my-message" key={idx}>
+                    <p>{data.msg}</p>
+                  </div>
+                );
+              } else if (data.type === "file") {
+                return (
+                  <div className="my-message" key={idx}>
+                    <img
+                      src={`public/upload/dm/${data.msg}`}
+                      style={{ width: "60px", height: "60px" }}
+                    />
+                  </div>
+                );
+              }
+            } else {
+              if (data.directMessageType === "text") {
                 return (
                   <div className="friend-message" key={idx}>
                     <img src={storyProfileImg1} alt="" />
                     <p>{data.directMessage}</p>
                   </div>
                 );
+              } else if (data.directMessageType === "file") {
+                return (
+                  <div className="friend-message" key={idx}>
+                    <img
+                      src={`public/upload/dm/${data.directMessage}`}
+                      style={{ width: "60px", height: "60px" }}
+                    />
+                  </div>
+                );
               }
-            })}
-          {myChatBox.map((data, idx) => {
-            if (data.type === "text") {
-              return (
-                <div className="my-message" key={idx}>
-                  <p>{data.msg}</p>
-                </div>
-              );
-            } else if (data.type === "file") {
-              return (
-                <div className="my-message" key={idx}>
-                  <img
-                    src={`public/upload/dm/${data.msg}`}
-                    style={{ width: "30px", height: "30px" }}
-                  />
-                </div>
-              );
             }
           })}
         </div>
