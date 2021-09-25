@@ -29,25 +29,30 @@ const ChatRoom = (props) => {
 
   // 이미지 핸들러
   const onImageHandler = (e) => {
+    const maxSize = 2000000; // 2MB
     // setImage(e.target.files[0]);
     const imageFile = e.target.files[0];
     const fileReader = new FileReader();
-    fileReader.onload = function (e) {
-      ws.current.send(
-        JSON.stringify({
-          msg: imageFile.name,
-          type: "file",
-          file: imageFile,
-          roomType: "directMessage",
-          roomId: paramsId,
-          username: localUserName,
-        })
-      );
-      const arrayBuffer = e.target.result;
-      ws.current.send(arrayBuffer);
-    };
-    fileReader.readAsArrayBuffer(imageFile);
-    console.log(imageFile);
+    if (imageFile.size > maxSize) {
+      alert("파일 용량은 2MB까지만 가능합니다.");
+    } else {
+      fileReader.onload = function (e) {
+        ws.current.send(
+          JSON.stringify({
+            msg: imageFile.name,
+            type: "file",
+            file: imageFile,
+            roomType: "directMessage",
+            roomId: paramsId,
+            username: localUserName,
+          })
+        );
+        const arrayBuffer = e.target.result;
+        ws.current.send(arrayBuffer);
+      };
+      fileReader.readAsArrayBuffer(imageFile);
+      console.log(imageFile);
+    }
   };
   // 채팅 입력
   const onInputTextHandler = (e) => {
