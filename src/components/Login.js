@@ -6,6 +6,7 @@ import axios from "axios";
 import Footer from "./Footer";
 import KakaoLogin from "react-kakao-login";
 import * as fnc from "../commonFunc/CommonFunctions";
+import * as fncObj from "../commonFunc/CommonObjFunctions";
 const Login = () => {
   const history = useHistory();
   const [userid, setUserid] = useState(""); // 성명
@@ -25,12 +26,22 @@ const Login = () => {
   };
 
   const kakaoSuccess = (data) => {
-    fnc.executeQuery({
-      url: "oauth2/authorization/kakao",
-      data: {},
+    const social_id = data.profile.id; // 고유번호
+    const social_name = data.profile.properties.nickname; // 이름
+    const social_email = data.profile.kakao_account.email; // 이메일
+    const social_profileImg = data.profile.properties.profile_image; // 프로필 이미지
+
+    fncObj.executeQuery({
+      url: "join/social",
+      data: {
+        email: social_email,
+        username: social_id,
+        name: social_name,
+        nickname: social_id,
+        socialType: "Kakao",
+      },
       success: (res) => {
-        localStorage.setItem("username", res.username);
-        location.reload();
+        sendData(res.username, res.password);
       },
       fail: (res) => {
         alert("카카오톡 로그인 실패");
@@ -38,12 +49,12 @@ const Login = () => {
     });
   };
 
-  const sendData = () => {
+  const sendData = (socialId, socialPassword) => {
     fnc.executeQuery({
       url: "",
       data: {
-        username: userid,
-        password: password,
+        username: userid || socialId,
+        password: password || socialPassword,
       },
       success: (res) => {
         localStorage.setItem("username", res.username);
