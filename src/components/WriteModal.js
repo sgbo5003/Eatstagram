@@ -172,7 +172,7 @@ const WriteModal = () => {
 
     axios({
       method: "post",
-      url: "http://www.whereyedo:8080/content/add",
+      url: "http://www.whereyedo.com:8080/content/add",
       data: paramsData,
     })
       .then((response) => {
