@@ -265,14 +265,14 @@ const ChatRoom = (props) => {
                 );
               }
             } else {
-              if (data.directMessageType === "text") {
+              if (data.type === "text") {
                 return (
                   <div className="friend-message" key={idx}>
                     <img src={storyProfileImg1} alt="" />
                     <p>{data.directMessage}</p>
                   </div>
                 );
-              } else if (data.directMessageType === "file") {
+              } else if (data.type === "file") {
                 return (
                   <div className="friend-message" key={idx}>
                     <img
