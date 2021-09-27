@@ -16,6 +16,7 @@ const Chat = (props) => {
   const [chatStart, setChatStart] = useState(false); // 채팅 시작 여부
   const [roomList, setRoomList] = useState([]); // 채팅방 목록 array
   const [newRoomList, setNewRoomList] = useState([]); // 새로 초대한 채팅방 목록 array
+  const [newRoomUserInfo, setNewRoomUserInfo] = useState([]);
   const history = useHistory();
   const webSocketUrl = `ws://localhost:8080/eatstagram/ws/directMessageRoomList/${localUserName}`;
   let ws = useRef(null);
@@ -69,6 +70,7 @@ const Chat = (props) => {
       if (data.newYn === "Y") {
         newRoomList.push(data);
         setNewRoomList([...newRoomList]);
+        setNewRoomUserInfo([...data.userList]);
       } else if (data.newYn === "N") {
         return;
       }
@@ -121,12 +123,20 @@ const Chat = (props) => {
                     key={idx}
                     onClick={() => onChatStartHandler(data)}
                   >
-                    <div className="chatting-friend">
-                      <img src={storyProfileImg1} alt="" />
-                    </div>
-                    <div className="chatting-text">
-                      <h1>{data.directMessageRoomId}</h1>
-                    </div>
+                    {newRoomUserInfo.map((data, idx) => {
+                      if (data.username !== localUserName) {
+                        return (
+                          <>
+                            <div className="chatting-friend" key={idx}>
+                              <img src={storyProfileImg1} alt="" />
+                            </div>
+                            <div className="chatting-text">
+                              <h1>{data.nickname}</h1>
+                            </div>
+                          </>
+                        );
+                      }
+                    })}
                   </div>
                 );
               })}
