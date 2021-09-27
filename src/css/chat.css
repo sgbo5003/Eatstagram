@@ -86,6 +86,12 @@
   cursor: pointer;
 }
 
+.chatting-list-items {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
 .chatting-list:hover {
   background-color: #f7f7f7;
 }

@@ -126,14 +126,14 @@ const Chat = (props) => {
                     {newRoomUserInfo.map((data, idx) => {
                       if (data.username !== localUserName) {
                         return (
-                          <>
-                            <div className="chatting-friend" key={idx}>
+                          <div className="chatting-list-items" key={idx}>
+                            <div className="chatting-friend">
                               <img src={storyProfileImg1} alt="" />
                             </div>
                             <div className="chatting-text">
                               <h1>{data.nickname}</h1>
                             </div>
-                          </>
+                          </div>
                         );
                       }
                     })}
