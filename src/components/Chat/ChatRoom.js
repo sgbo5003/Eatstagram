@@ -206,7 +206,7 @@ const ChatRoom = (props) => {
         </div>
         <div className="chatting-area" ref={scrollRef}>
           <div className="fixed"></div>
-          <h4>2021년 9월 17일</h4>
+          {/* <h4>2021년 9월 17일</h4> */}
           {chatList
             .slice(0)
             .reverse()
@@ -232,7 +232,11 @@ const ChatRoom = (props) => {
                 if (data.directMessageType === "text") {
                   return (
                     <div className="friend-message" key={idx}>
-                      <img src={storyProfileImg1} alt="" />
+                      <img
+                        className="friend-message-profile-img"
+                        src={storyProfileImg1}
+                        alt=""
+                      />
                       <p>{data.directMessage}</p>
                     </div>
                   );
@@ -270,7 +274,11 @@ const ChatRoom = (props) => {
               if (data.type === "text") {
                 return (
                   <div className="friend-message" key={idx}>
-                    <img src={storyProfileImg1} alt="" />
+                    <img
+                      className="friend-message-profile-img"
+                      src={storyProfileImg1}
+                      alt=""
+                    />
                     <p>{data.msg}</p>
                   </div>
                 );
