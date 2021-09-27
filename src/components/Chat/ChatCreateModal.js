@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import storyProfileImg1 from "../../../public/images/명수스토리.jpg";
 import * as fncObj from "../../commonFunc/CommonObjFunctions";
-import { VscLoading } from "react-icons/vsc";
 import * as fnc from "../../commonFunc/CommonFunctions";
 import { useHistory } from "react-router";
 
@@ -10,8 +9,6 @@ const ChatCreateModal = (props) => {
   const history = useHistory();
   const [inputText, setInputText] = useState("");
   const [userList, setUserList] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [done, setDone] = useState(false);
   const [userChecked, setUserChecked] = useState("");
   const localUser = localStorage.getItem("username");
 
@@ -21,7 +18,6 @@ const ChatCreateModal = (props) => {
     if (inputText === "") {
       return;
     } else {
-      console.log(inputText);
       getUserSearchData();
     }
   };
@@ -42,7 +38,6 @@ const ChatCreateModal = (props) => {
 
   const onUserCheckHandler = (data) => {
     setUserChecked(data.username);
-    console.log(userChecked);
   };
 
   const onSubmit = () => {
@@ -52,6 +47,7 @@ const ChatCreateModal = (props) => {
         userList: [localUser, userChecked],
       })
     );
+    setChatCreateModalOn(false);
   };
 
   return (

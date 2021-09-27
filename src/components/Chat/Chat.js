@@ -15,6 +15,7 @@ const Chat = (props) => {
   const [chatCreateModalOn, setChatCreateModalOn] = useState(false); // 채팅 생성 모달 제어
   const [chatStart, setChatStart] = useState(false); // 채팅 시작 여부
   const [roomList, setRoomList] = useState([]); // 채팅방 목록 array
+  const [newRoomList, setNewRoomList] = useState([]); // 새로 초대한 채팅방 목록 array
   const history = useHistory();
   const webSocketUrl = `ws://localhost:8080/eatstagram/ws/directMessageRoomList/${localUserName}`;
   let ws = useRef(null);
@@ -65,6 +66,12 @@ const Chat = (props) => {
     ws.current.onmessage = (evt) => {
       const data = JSON.parse(evt.data);
       console.log(data);
+      if (data.newYn === "Y") {
+        newRoomList.push(data);
+        setNewRoomList([...newRoomList]);
+      } else if (data.newYn === "N") {
+        return;
+      }
     };
     return () => {
       console.log("clean up");
@@ -98,10 +105,28 @@ const Chat = (props) => {
                     {data.directMessageRoomMemberDTOList.map((data, idx) => {
                       return (
                         <div className="chatting-text" key={idx}>
-                          <h1>{data.nickname}</h1>
+                          <h1>
+                            {data.nickname === null ? "유저1" : data.nickname}
+                          </h1>
                         </div>
                       );
                     })}
+                  </div>
+                );
+              })}
+              {newRoomList.map((data, idx) => {
+                return (
+                  <div
+                    className="chatting-list"
+                    key={idx}
+                    onClick={() => onChatStartHandler(data)}
+                  >
+                    <div className="chatting-friend">
+                      <img src={storyProfileImg1} alt="" />
+                    </div>
+                    <div className="chatting-text">
+                      <h1>{data.directMessageRoomId}</h1>
+                    </div>
                   </div>
                 );
               })}
