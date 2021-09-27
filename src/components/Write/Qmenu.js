@@ -11,7 +11,7 @@ const Qmenu = (props) => {
   };
   return (
     <div className="map-dropdown">
-      <div class="map-dropdown-tail">
+      <div className="map-dropdown-tail">
         <img src={tailImg} alt="" />
       </div>
       <div className="map-dropdown-window">

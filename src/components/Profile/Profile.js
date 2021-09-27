@@ -39,14 +39,14 @@ const Profile = () => {
 
         <div className="profile-area-border">
           <div className="profile-area-border-li">
-            <span class="profile-bar-post"></span>
+            <span className="profile-bar-post"></span>
             <p>
               <FaTh />
             </p>
             <p>게시물</p>
           </div>
           <div className="profile-area-border-li">
-            <span class="profile-bar-bookmark"></span>
+            <span className="profile-bar-bookmark"></span>
             <p>
               <FaBookmark />
             </p>
