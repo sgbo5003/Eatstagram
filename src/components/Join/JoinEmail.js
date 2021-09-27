@@ -1,9 +1,9 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import Footer from "./Footer";
-import * as fnc from "../commonFunc/CommonFunctions";
-import * as fncObj from "../commonFunc/CommonObjFunctions";
+import Footer from "../Footer";
+import * as fnc from "../../commonFunc/CommonFunctions";
+import * as fncObj from "../../commonFunc/CommonObjFunctions";
 
 const JoinEmail = () => {
   const [userData, setUserData] = useState({});

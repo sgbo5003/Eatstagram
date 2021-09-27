@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { FaImage, FaRegImage, FaHeart, FaRegHeart } from "react-icons/fa";
 import { BsInfoCircle } from "react-icons/bs";
-import storyProfileImg1 from "../../public/images/명수스토리.jpg";
-import * as fncObj from "../commonFunc/CommonObjFunctions";
-import Header from "./Header";
+import storyProfileImg1 from "../../../public/images/명수스토리.jpg";
+import * as fncObj from "../../commonFunc/CommonObjFunctions";
+import Header from "../Header";
 import Chat from "./Chat";
 import { useHistory } from "react-router";
 
@@ -13,7 +13,8 @@ const ChatRoom = (props) => {
   const { paramsId } = props;
   const history = useHistory();
   const localUserName = localStorage.getItem("username");
-  const webSocketUrl = `ws://www.whereyedo.com:8080/ws/directMessage/${paramsId}`;
+  // const webSocketUrl = `ws://www.whereyedo.com:8080/eatstagram/ws/directMessage/${paramsId}`;
+  const webSocketUrl = `ws://localhost:8080/eatstagram/ws/directMessage/${paramsId}`;
   let ws = useRef(null);
   const scrollRef = useRef(null);
   const [inputText, setInputText] = useState(""); // input 부분
@@ -204,6 +205,7 @@ const ChatRoom = (props) => {
           </div>
         </div>
         <div className="chatting-area" ref={scrollRef}>
+          <div className="fixed"></div>
           <h4>2021년 9월 17일</h4>
           {chatList
             .slice(0)
@@ -219,10 +221,10 @@ const ChatRoom = (props) => {
                 } else if (data.directMessageType === "file") {
                   return (
                     <div className="my-message" key={idx}>
-                      <img
-                        src={`public/upload/dm/${data.directMessage}`}
-                        style={{ width: "60px", height: "60px" }}
-                      />
+                      <div className="img-message">
+                        {/*<img src={`public/upload/dm/${data.directMessage}`} />*/}
+                        <img src={`upload/dm/${data.directMessage}`} />
+                      </div>
                     </div>
                   );
                 }
@@ -237,10 +239,10 @@ const ChatRoom = (props) => {
                 } else if (data.directMessageType === "file") {
                   return (
                     <div className="friend-message" key={idx}>
-                      <img
-                        src={`public/upload/dm/${data.directMessage}`}
-                        style={{ width: "60px", height: "60px" }}
-                      />
+                      <div className="img-message">
+                        {/*<img src={`public/upload/dm/${data.directMessage}`} />*/}
+                        <img src={`upload/dm/${data.directMessage}`} />
+                      </div>
                     </div>
                   );
                 }
@@ -257,10 +259,10 @@ const ChatRoom = (props) => {
               } else if (data.type === "file") {
                 return (
                   <div className="my-message" key={idx}>
-                    <img
-                      src={`public/upload/dm/${data.msg}`}
-                      style={{ width: "60px", height: "60px" }}
-                    />
+                    <div className="img-message">
+                      {/* <img src={`public/upload/dm/${data.msg}`} /> */}
+                      <img src={`upload/dm/${data.msg}`} />
+                    </div>
                   </div>
                 );
               }
@@ -269,16 +271,16 @@ const ChatRoom = (props) => {
                 return (
                   <div className="friend-message" key={idx}>
                     <img src={storyProfileImg1} alt="" />
-                    <p>{data.directMessage}</p>
+                    <p>{data.msg}</p>
                   </div>
                 );
               } else if (data.type === "file") {
                 return (
                   <div className="friend-message" key={idx}>
-                    <img
-                      src={`public/upload/dm/${data.directMessage}`}
-                      style={{ width: "60px", height: "60px" }}
-                    />
+                    <div className="img-message">
+                      {/* <img src={`public/upload/dm/${data.directMessage}`} /> */}
+                      <img src={`upload/dm/${data.msg}`} />
+                    </div>
                   </div>
                 );
               }

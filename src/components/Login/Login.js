@@ -1,12 +1,12 @@
 import React, { useRef, useState } from "react";
-import kakaoLogo from "../../public/images/kakaoLogo.svg.png";
-import googleLogo from "../../public/images/Google__G__Logo.svg.png";
+import kakaoLogo from "../../../public/images/kakaoLogo.svg.png";
+import googleLogo from "../../../public/images/Google__G__Logo.svg.png";
 import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
-import Footer from "./Footer";
+import Footer from "../Footer";
 import KakaoLogin from "react-kakao-login";
-import * as fnc from "../commonFunc/CommonFunctions";
-import * as fncObj from "../commonFunc/CommonObjFunctions";
+import * as fnc from "../../commonFunc/CommonFunctions";
+import * as fncObj from "../../commonFunc/CommonObjFunctions";
 const Login = () => {
   const history = useHistory();
   const [userid, setUserid] = useState(""); // 성명

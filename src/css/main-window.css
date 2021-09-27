@@ -183,7 +183,6 @@
 .write-map {
   display: flex;
   justify-content: space-between;
-  position: relative;
 }
 
 .write-map input {
@@ -368,16 +367,19 @@
 /********************Qmenu*************************/
 
 .map-dropdown {
-  position: absolute;
+  position: relative;
   z-index: 4;
-  top: 25px;
 }
 
 .map-dropdown-window {
   width: 200px;
   height: 100px;
   background-color: #f5f5f5;
+  margin-top: 14px;
+  margin-left: 6px;
   overflow: auto;
+  position: fixed;
+  top: 383px;
 }
 
 .map-dropdown-place h1 {
@@ -388,11 +390,14 @@
   cursor: pointer;
 }
 
-.map-dropdown img {
+.map-dropdown-tail img {
   width: 22px;
   height: 10px;
-  z-index: 4;
-  filter: drop-shadow(5px 0px 1px rgb(180, 179, 179));
+  z-index: 0;
+  margin-left: 14px;
+  position: fixed;
+  top: 388px;
+  filter: drop-shadow(0px 0px 1px rgb(180, 179, 179));
 }
 
 /****************post-window********************/

@@ -1,6 +1,7 @@
 import React from "react";
-import Header from "./Header";
-import myProfileImg from "../../public/images/묭수.jpg";
+import Header from "../Header";
+import myProfileImg from "../../../public/images/묭수.jpg";
+import { FaTh, FaBookmark } from "react-icons/fa";
 
 const Profile = () => {
   return (
@@ -35,16 +36,19 @@ const Profile = () => {
             </div>
           </div>
         </div>
+
         <div className="profile-area-border">
           <div className="profile-area-border-li">
+            <span class="profile-bar-post"></span>
             <p>
-              <i className="fas fa-th"></i>
+              <FaTh />
             </p>
             <p>게시물</p>
           </div>
           <div className="profile-area-border-li">
+            <span class="profile-bar-bookmark"></span>
             <p>
-              <i className="far fa-bookmark"></i>
+              <FaBookmark />
             </p>
             <p>저장됨</p>
           </div>

@@ -1,7 +1,9 @@
 import axios from "axios";
 
 export const executeQuery = ({ url, data, success, error, fail }) => {
-  axios.defaults.baseURL = "http://www.whereyedo.com:8080";
+  //   axios.defaults.baseURL = "http://www.whereyedo.com:8080/eatstagram/";
+  axios.defaults.baseURL = "http://localhost:8080/eatstagram/";
+
   const params = new FormData();
   Object.keys(data).map((element) => {
     params.append(element, data[element]);

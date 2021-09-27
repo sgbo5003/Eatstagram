@@ -13,9 +13,10 @@ import { AiFillHome, AiOutlineHome } from "react-icons/ai";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 import myProfileImg from "../../public/images/묭수.jpg";
-import tailImg from "../../public/images/tail.png";
+
 import Modal from "../Modal";
-import WriteModal from "./WriteModal";
+import WriteModal from "./Write/WriteModal";
+import ProfileDropDown from "./Profile/ProfileDropDown";
 const Header = () => {
   //   const headerItems = [
   //     {
@@ -59,8 +60,12 @@ const Header = () => {
     location.reload();
   };
 
-  const onProfileClick = () => {
+  const onDropDownHandler = () => {
     setDropDown(!dropDown);
+  };
+
+  const onProfileClick = () => {
+    history.push("/Profile");
   };
 
   //   const onCheckHeaderHandler = () => {
@@ -148,46 +153,17 @@ const Header = () => {
                 className="user-img__header_profile_img"
                 src={myProfileImg}
                 alt=""
-                onClick={onProfileClick}
+                onClick={onDropDownHandler}
               />
-              {dropDown ? (
-                <div className="user-dropdown">
-                  <div className="user-dropdown-tail">
-                    <img src={tailImg} alt="" />
-                  </div>
-                  <div className="user-dropdown-window">
-                    <div className="user-dropdown-li">
-                      <p>
-                        <i className="far fa-user-circle"></i>
-                      </p>
-                      <p>프로필</p>
-                    </div>
-                    <div className="user-dropdown-li">
-                      <p>
-                        <i className="far fa-bookmark"></i>
-                      </p>
-                      <p>저장됨</p>
-                    </div>
-                    <div className="user-dropdown-li">
-                      <p>
-                        <i className="fas fa-cog"></i>
-                      </p>
-                      <p>설정</p>
-                    </div>
-                    <div className="user-dropdown-logout">
-                      <p>로그아웃</p>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                ""
-              )}
             </div>
+            {dropDown ? (
+              <ProfileDropDown onProfileClick={onProfileClick} />
+            ) : (
+              ""
+            )}
           </div>
         </div>
       </div>
-      {/*프로필 클릭 시 드롭다운*/}
-
       <Modal isOpen={writeModalOn} setIsOpen={setWriteModalOn}>
         <WriteModal />
       </Modal>

@@ -6,11 +6,11 @@ import {
   FaHashtag,
 } from "react-icons/fa";
 import { BsPlus } from "react-icons/bs";
-import myProfileImg from "../../public/images/묭수.jpg";
-import WriteDefaultImg from "../../public/images/write_default_image.png";
+import myProfileImg from "../../../public/images/묭수.jpg";
+import WriteDefaultImg from "../../../public/images/write_default_image.png";
 import axios from "axios";
 import Qmenu from "./Qmenu";
-import Modal from "../Modal";
+import Modal from "../../Modal";
 import WriteExitConfirmModal from "./WriteExitConfirmModal";
 import { useHistory } from "react-router";
 
@@ -172,7 +172,8 @@ const WriteModal = () => {
 
     axios({
       method: "post",
-      url: "http://www.whereyedo.com:8080/content/add",
+      //   url: "http://www.whereyedo.com:8080/eatstagram/content/add",
+      url: "http://localhost:8080/eatstagram/content/add",
       data: paramsData,
     })
       .then((response) => {
@@ -315,18 +316,19 @@ const WriteModal = () => {
                     value={userLocation}
                     onChange={onUserLocationHandler}
                   />
-                  {isDropClick && (
-                    <Qmenu
-                      locationList={locationList}
-                      setLocationList={setLocationList}
-                      setUserLocation={setUserLocation}
-                      setIsDropClick={setIsDropClick}
-                    />
-                  )}
+
                   <button onClick={onLocationClick}>
                     <FaMapMarkerAlt />
                   </button>
                 </div>
+                {isDropClick && (
+                  <Qmenu
+                    locationList={locationList}
+                    setLocationList={setLocationList}
+                    setUserLocation={setUserLocation}
+                    setIsDropClick={setIsDropClick}
+                  />
+                )}
                 <div className="write-hashtag">
                   <h1>해시태그</h1>
                   <div className="write-hashtag__input">

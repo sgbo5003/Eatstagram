@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import tailImg from "../../public/images/tail.png";
+import tailImg from "../../../public/images/tail.png";
 
 const Qmenu = (props) => {
   const { locationList, setUserLocation, setIsDropClick } = props;
@@ -11,7 +11,9 @@ const Qmenu = (props) => {
   };
   return (
     <div className="map-dropdown">
-      <img src={tailImg} alt="" />
+      <div class="map-dropdown-tail">
+        <img src={tailImg} alt="" />
+      </div>
       <div className="map-dropdown-window">
         {locationList.map((data, idx) => {
           return (

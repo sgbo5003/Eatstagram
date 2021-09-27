@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-import foodImg from "../../public/images/food.jpg";
-import userImg from "../../public/images/묭수.jpg";
-import userImg2 from "../../public/images/명수스토리.jpg";
+import foodImg from "../../../public/images/food.jpg";
+import userImg from "../../../public/images/묭수.jpg";
+import userImg2 from "../../../public/images/명수스토리.jpg";
 import { FaEllipsisH, FaTimes, FaPlusCircle } from "react-icons/fa";
-import * as fncObj from "../commonFunc/CommonObjFunctions";
+import * as fncObj from "../../commonFunc/CommonObjFunctions";
 
 const CommentModal = (props) => {
   const [comment, setComment] = useState(""); // 댓글
@@ -11,10 +11,12 @@ const CommentModal = (props) => {
   const [count, setCount] = useState(1);
   const { commentData, setCommentModalOn, items, setItems, getRegdate } = props;
 
-  const webSocketUrl = `ws://www.whereyedo.com:8080/ws/contentReply/${commentData.contentId}`;
+  //   const webSocketUrl = `ws://www.whereyedo.com:8080/eatstagram/ws/contentReply/${commentData.contentId}`;
+  const webSocketUrl = `ws://localhost:8080/eatstagram/ws/contentReply/${commentData.contentId}`;
   let ws = useRef(null);
 
   useEffect(() => {
+    console.log(commentData);
     ws.current = new WebSocket(webSocketUrl);
     ws.current.onopen = () => {
       console.log("connected to " + webSocketUrl);
@@ -39,13 +41,13 @@ const CommentModal = (props) => {
     return () => {
       console.log("clean up");
       ws.current.close();
+      setItems([]);
     };
   }, []);
 
   // 댓글 입력
   const onCommentInputHandler = (e) => {
     setComment(e.target.value);
-    console.log(comment);
   };
 
   // 댓글 전송
@@ -144,7 +146,7 @@ const CommentModal = (props) => {
         <div className="post-window-area">
           <div className="post-window-left">
             <div className="post-window-contents">
-              <img src={foodImg} alt="" />
+              <Slider {...settings}></Slider>
             </div>
           </div>
           <div className="post-window-right">

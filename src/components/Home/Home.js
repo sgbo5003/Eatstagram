@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
-import myProfileImg from "../../public/images/묭수.jpg";
-import storyProfileImg1 from "../../public/images/명수스토리.jpg";
-import storyProfileImg2 from "../../public/images/명수스토리2.jpg";
-import storyProfileImg3 from "../../public/images/명수스토리3.jpg";
-import storyProfileImg4 from "../../public/images/명수스토리4.jpg";
-import storyProfileImg5 from "../../public/images/명수스토리5.jpg";
-import storyProfileImg6 from "../../public/images/명수스토리6.jpg";
-import storyProfileImg7 from "../../public/images/명수스토리7.jpg";
-import rankImg from "../../public/images/1위.jpg";
+import myProfileImg from "../../../public/images/묭수.jpg";
+import storyProfileImg1 from "../../../public/images/명수스토리.jpg";
+import storyProfileImg2 from "../../../public/images/명수스토리2.jpg";
+import storyProfileImg3 from "../../../public/images/명수스토리3.jpg";
+import storyProfileImg4 from "../../../public/images/명수스토리4.jpg";
+import storyProfileImg5 from "../../../public/images/명수스토리5.jpg";
+import storyProfileImg6 from "../../../public/images/명수스토리6.jpg";
+import storyProfileImg7 from "../../../public/images/명수스토리7.jpg";
+import rankImg from "../../../public/images/1위.jpg";
 import {
   FaPlusCircle,
   FaChevronRight,
@@ -21,16 +21,16 @@ import {
   FaBookmark,
   FaRegBookmark,
 } from "react-icons/fa";
-import Header from "./Header";
+import Header from "../Header";
 import { useHistory } from "react-router";
 import Slider from "react-slick";
-import "../css/slick.css";
-import "../css/slick-theme.css";
+import "../../css/slick.css";
+import "../../css/slick-theme.css";
 import { AiFillRightCircle, AiFillLeftCircle } from "react-icons/ai";
 import axios from "axios";
-import * as fnc from "../commonFunc/CommonFunctions";
-import * as fncObj from "../commonFunc/CommonObjFunctions";
-import Modal from "../Modal";
+import * as fnc from "../../commonFunc/CommonFunctions";
+import * as fncObj from "../../commonFunc/CommonObjFunctions";
+import Modal from "../../Modal";
 import CommentModal from "./CommentModal";
 
 let page = 0;
@@ -170,7 +170,8 @@ const Home = () => {
     }
   }, []);
 
-  const webSocketUrl = `ws://www.whereyedo.com:8080/ws/contentReply/${userPosts.contentId}`;
+  //   const webSocketUrl = `ws://www.whereyedo.com:8080/eatstagram/ws/contentReply/${userPosts.contentId}`;
+  const webSocketUrl = `ws://localhost:8080/eatstagram/ws/contentReply/${userPosts.contentId}`;
 
   // 댓글 달기 감지
   const onCommentHandler = (e) => {
@@ -371,6 +372,7 @@ const Home = () => {
                               return (
                                 <img
                                   src={`public/upload/content/${data.name}`}
+                                  //   src={`upload/content/${data.name}`}
                                   alt=""
                                   key={idx}
                                 />
@@ -379,9 +381,8 @@ const Home = () => {
                               return (
                                 <video controls height="600" key={idx}>
                                   <source
-                                    // src="http://localhost:8080/content/stream/왜그래.mp4"
-
                                     src={`public/upload/content/${data.name}`}
+                                    // src={`upload/content/${data.name}`}
                                     type="video/mp4"
                                   />
                                 </video>

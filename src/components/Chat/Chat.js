@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { FaEdit, FaRegEdit } from "react-icons/fa";
 import { useHistory } from "react-router";
-import storyProfileImg1 from "../../public/images/명수스토리.jpg";
-import Modal from "../Modal";
+import storyProfileImg1 from "../../../public/images/명수스토리.jpg";
+import Modal from "../../Modal";
 import ChatCreateModal from "./ChatCreateModal";
 import ChatInitialRightComponent from "./ChatInitialRightComponent";
 import ChatRoom from "./ChatRoom";
-import Header from "./Header";
-import * as fncObj from "../commonFunc/CommonObjFunctions";
+import Header from "../Header";
+import * as fncObj from "../../commonFunc/CommonObjFunctions";
 
 const Chat = (props) => {
   const localUserName = localStorage.getItem("username");
@@ -16,6 +16,8 @@ const Chat = (props) => {
   const [chatStart, setChatStart] = useState(false); // 채팅 시작 여부
   const [roomList, setRoomList] = useState([]); // 채팅방 목록 array
   const history = useHistory();
+  const webSocketUrl = `ws://localhost:8080/eatstagram/ws/directMessageRoomList/${localUserName}`;
+  let ws = useRef(null);
 
   // 새로운 메세지 모달 띄우기
   const onCreateWriteModalHandler = () => {
@@ -45,6 +47,29 @@ const Chat = (props) => {
   useEffect(() => {
     history.push("/Chat");
     getChatList();
+  }, []);
+
+  useEffect(() => {
+    ws.current = new WebSocket(webSocketUrl);
+    ws.current.onopen = () => {
+      console.log("connected to " + webSocketUrl);
+    };
+    ws.current.onclose = (error) => {
+      console.log("disconnect from " + webSocketUrl);
+      console.log(error);
+    };
+    ws.current.onerror = (error) => {
+      console.log("connection error " + webSocketUrl);
+      console.log(error);
+    };
+    ws.current.onmessage = (evt) => {
+      const data = JSON.parse(evt.data);
+      console.log(data);
+    };
+    return () => {
+      console.log("clean up");
+      ws.current.close();
+    };
   }, []);
 
   return (
@@ -92,7 +117,7 @@ const Chat = (props) => {
         </div>
       </div>
       <Modal isOpen={chatCreateModalOn} setIsOpen={setChatCreateModalOn}>
-        <ChatCreateModal setChatCreateModalOn={setChatCreateModalOn} />
+        <ChatCreateModal setChatCreateModalOn={setChatCreateModalOn} ws={ws} />
       </Modal>
     </>
   );

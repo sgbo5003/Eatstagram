@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import storyProfileImg1 from "../../public/images/명수스토리.jpg";
-import * as fncObj from "../commonFunc/CommonObjFunctions";
+import storyProfileImg1 from "../../../public/images/명수스토리.jpg";
+import * as fncObj from "../../commonFunc/CommonObjFunctions";
 import { VscLoading } from "react-icons/vsc";
-import * as fnc from "../commonFunc/CommonFunctions";
+import * as fnc from "../../commonFunc/CommonFunctions";
 import { useHistory } from "react-router";
 
 const ChatCreateModal = (props) => {
-  const { setChatCreateModalOn } = props;
+  const { setChatCreateModalOn, ws } = props;
   const history = useHistory();
   const [inputText, setInputText] = useState("");
   const [userList, setUserList] = useState([]);
@@ -46,17 +46,12 @@ const ChatCreateModal = (props) => {
   };
 
   const onSubmit = () => {
-    fnc.executeQuery({
-      url: "directMessageRoom/add",
-      data: {
-        "directMessageRoomMemberDTOList[0].username": localUser,
-        "directMessageRoomMemberDTOList[1].username": userChecked,
-      },
-      success: (res) => {
-        setChatCreateModalOn(false);
-        location.reload();
-      },
-    });
+    ws.current.send(
+      JSON.stringify({
+        roomType: "directMessageRoomList",
+        userList: [localUser, userChecked],
+      })
+    );
   };
 
   return (
