@@ -420,6 +420,11 @@
   display: flex;
 }
 
+.post-window-contents > div {
+  width: 500px;
+  height: 500px;
+}
+
 .post-window-contents img {
   width: 500px;
   height: 500px;

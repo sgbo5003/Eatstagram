@@ -371,8 +371,8 @@ const Home = () => {
                             ) {
                               return (
                                 <img
-                                  src={`public/upload/content/${data.name}`}
-                                  //   src={`upload/content/${data.name}`}
+                                  //   src={`public/upload/content/${data.name}`}
+                                  src={`upload/content/${data.name}`}
                                   alt=""
                                   key={idx}
                                 />
@@ -381,8 +381,8 @@ const Home = () => {
                               return (
                                 <video controls height="600" key={idx}>
                                   <source
-                                    src={`public/upload/content/${data.name}`}
-                                    // src={`upload/content/${data.name}`}
+                                    // src={`public/upload/content/${data.name}`}
+                                    src={`upload/content/${data.name}`}
                                     type="video/mp4"
                                   />
                                 </video>
@@ -516,6 +516,7 @@ const Home = () => {
           items={items}
           setItems={setItems}
           getRegdate={getRegdate}
+          settings={settings}
         />
       </Modal>
     </>

@@ -4,12 +4,20 @@ import userImg from "../../../public/images/묭수.jpg";
 import userImg2 from "../../../public/images/명수스토리.jpg";
 import { FaEllipsisH, FaTimes, FaPlusCircle } from "react-icons/fa";
 import * as fncObj from "../../commonFunc/CommonObjFunctions";
+import Slider from "react-slick";
 
 const CommentModal = (props) => {
   const [comment, setComment] = useState(""); // 댓글
   const [commentBox, setCommentBox] = useState([]); // 댓글 보여지는 부분
   const [count, setCount] = useState(1);
-  const { commentData, setCommentModalOn, items, setItems, getRegdate } = props;
+  const {
+    commentData,
+    setCommentModalOn,
+    items,
+    setItems,
+    getRegdate,
+    settings,
+  } = props;
 
   //   const webSocketUrl = `ws://www.whereyedo.com:8080/eatstagram/ws/contentReply/${commentData.contentId}`;
   const webSocketUrl = `ws://localhost:8080/eatstagram/ws/contentReply/${commentData.contentId}`;
@@ -146,7 +154,30 @@ const CommentModal = (props) => {
         <div className="post-window-area">
           <div className="post-window-left">
             <div className="post-window-contents">
-              <Slider {...settings}></Slider>
+              <Slider {...settings}>
+                {commentData.contentFileDTOList.map((data, idx) => {
+                  if (data.type === "image/png" || data.type === "image/jpeg") {
+                    return (
+                      <img
+                        //   src={`public/upload/content/${data.name}`}
+                        src={`upload/content/${data.name}`}
+                        alt=""
+                        key={idx}
+                      />
+                    );
+                  } else if (data.type === "video/mp4") {
+                    return (
+                      <video controls height="600" key={idx}>
+                        <source
+                          // src={`public/upload/content/${data.name}`}
+                          src={`upload/content/${data.name}`}
+                          type="video/mp4"
+                        />
+                      </video>
+                    );
+                  }
+                })}
+              </Slider>
             </div>
           </div>
           <div className="post-window-right">
