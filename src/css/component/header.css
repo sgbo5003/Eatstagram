@@ -37,6 +37,15 @@
   padding-top: 3px;
 }
 
+.header-area__icons_items-message {
+  position: relative;
+  font-size: 20px;
+  margin-right: 16px;
+  color: #0e0e0e;
+  cursor: pointer;
+  padding-top: 3px;
+}
+
 .user-img__header {
   position: relative;
 }

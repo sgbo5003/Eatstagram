@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   FaPaperPlane,
   FaRegPaperPlane,
@@ -18,37 +18,14 @@ import Modal from "../Modal";
 import WriteModal from "./Write/WriteModal";
 import ProfileDropDown from "./Profile/ProfileDropDown";
 const Header = () => {
-  //   const headerItems = [
-  //     {
-  //       url: "/",
-  //       iconIsClick: <AiFillHome />,
-  //       iconNoClick: <AiOutlineHome />,
-  //     },
-  //     {
-  //       url: "/Chat",
-  //       iconIsClick: <FaPaperPlane />,
-  //       iconNoClick: <FaRegPaperPlane />,
-  //     },
-  //     {
-  //       url: "/WriteModal",
-  //       iconIsClick: <FaPlusSquare />,
-  //       iconNoClick: <FaRegPlusSquare />,
-  //     },
-  //     {
-  //       url: "/Recommend",
-  //       iconIsClick: <FaCompass />,
-  //       iconNoClick: <FaRegCompass />,
-  //     },
-  //     {
-  //       url: "/Notification",
-  //       iconIsClick: <FaHeart />,
-  //       iconNoClick: <FaRegHeart />,
-  //     },
-  //   ];
+  const localUserName = localStorage.getItem("username");
+  const webSocketUrl = `ws://localhost:8080/eatstagram/ws/header/${localUserName}`;
+  let ws = useRef(null);
   const history = useHistory();
   const [writeModalOn, setWriteModalOn] = useState(false);
   const [checkedHeader, setCheckedHeader] = useState(new Set()); // 헤더 -> 클릭 된 것들 담는 state
   const [dropDown, setDropDown] = useState(false);
+  const [messageCount, setMessageCount] = useState(0);
 
   // 글쓰기 모달창 제어
   const onWriteClick = () => {
@@ -66,42 +43,33 @@ const Header = () => {
 
   const onProfileClick = () => {
     history.push("/Profile");
+    setDropDown(false);
   };
 
-  //   const onCheckHeaderHandler = () => {
-  //     let itemSet = new Set(checkedHeader);
-  //     if (location.pathname === "/") {
-  //       itemSet.clear();
-  //       itemSet.add("/");
-  //       setCheckedHeader(itemSet);
-  //     } else if (
-  //       location.pathname === "/Chat" ||
-  //       location.pathname === "/ChatRoom"
-  //     ) {
-  //       itemSet.clear();
-  //       itemSet.add("/Chat");
-  //       setCheckedHeader(itemSet);
-  //     } else if (location.pathname === "/WriteModal") {
-  //       itemSet.clear();
-  //       itemSet.add("/WriteModal");
-  //       setCheckedHeader(itemSet);
-  //     } else if (location.pathname === "/Recommend") {
-  //       itemSet.clear();
-  //       itemSet.add("/Recommend");
-  //       setCheckedHeader(itemSet);
-  //     } else if (location.pathname === "/Notification") {
-  //       itemSet.clear();
-  //       itemSet.add("/Notification");
-  //       setCheckedHeader(itemSet);
-  //     } else {
-  //       itemSet.clear();
-  //       setCheckedHeader(itemSet);
-  //     }
-  //   };
-
-  //   useEffect(() => {
-  //     onCheckHeaderHandler();
-  //   }, [location.pathname]);
+  useEffect(() => {
+    ws.current = new WebSocket(webSocketUrl);
+    ws.current.onopen = () => {
+      console.log("connected to " + webSocketUrl);
+      // 안읽은 채팅이 있는지 조회 -> readYn : Y or N
+    };
+    ws.current.onclose = (error) => {
+      console.log("disconnect from " + webSocketUrl);
+      console.log(error);
+      // 안읽은 채팅이 있는지 조회 -> readYn : Y or N
+    };
+    ws.current.onerror = (error) => {
+      console.log("connection error " + webSocketUrl);
+      console.log(error);
+    };
+    ws.current.onmessage = (evt) => {
+      const data = JSON.parse(evt.data);
+      console.log(data);
+    };
+    return () => {
+      console.log("clean up");
+      ws.current.close();
+    };
+  }, []);
 
   return (
     <>
@@ -112,32 +80,24 @@ const Header = () => {
           </div>
 
           <div className="header-area__icons">
-            {/* {headerItems.map((data, idx) => {
-              return (
-                <Link to={data.url} key={idx}>
-                  <p onClick={onCheckHeaderHandler}>
-                    {checkedHeader.has(data.url)
-                      ? data.iconIsClick
-                      : data.iconNoClick}
-                  </p>
-                </Link>
-              );
-            })} */}
             <Link to="/">
               <p className="header-area__icons_items">
                 <AiFillHome />
               </p>
             </Link>
             <Link to="/Chat">
-              <p className="header-area__icons_items">
+              <p className="header-area__icons_items-message">
+                {messageCount > 0 ? (
+                  <span className="badge">{messageCount}</span>
+                ) : (
+                  ""
+                )}
                 <FaRegPaperPlane />
               </p>
             </Link>
-
             <p className="header-area__icons_items" onClick={onWriteClick}>
               <FaRegPlusSquare />
             </p>
-
             <Link to="/Recommend">
               <p className="header-area__icons_items">
                 <FaRegCompass />

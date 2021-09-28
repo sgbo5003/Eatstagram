@@ -17,6 +17,7 @@ const Router = () => {
     <Switch>
       {isLogin !== "undefined" && isLogin ? (
         <>
+          <Header />
           <Route exact path="/" component={Home} />
           <Route path="/Chat" component={Chat} />
           <Route path="/Recommend" component={Recommend} />

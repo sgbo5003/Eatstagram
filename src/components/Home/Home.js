@@ -308,7 +308,6 @@ const Home = () => {
 
   return (
     <>
-      <Header />
       <div className="service-screen">
         {/*스토리*/}
         <div className="main-area">
