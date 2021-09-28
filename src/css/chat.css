@@ -81,6 +81,7 @@
 }
 
 .chatting-list {
+  position: relative;
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -94,6 +95,13 @@
 
 .chatting-list:hover {
   background-color: #f7f7f7;
+}
+
+.state {
+  position: absolute;
+  right: 10px;
+  color: #0095f6;
+  font-size: 70px;
 }
 
 .chatting-friend img {
@@ -389,4 +397,20 @@ h6 {
 
 .chatting-area .fixed {
   flex: 1 1 auto;
+}
+
+.badge {
+  position: absolute;
+  left: 10px;
+  top: 6px;
+  background-color: #ff0000;
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  color: white;
+  align-items: center;
+  font-weight: 400;
+  font-size: 10px;
 }

@@ -88,10 +88,12 @@ const ChatRoom = (props) => {
     ws.current.onopen = () => {
       console.log("connected to " + webSocketUrl);
       getChatData();
+      // db에 connectionStatusYn: Y 전달 -> 채팅방에 접속중인지 조회
     };
     ws.current.onclose = (error) => {
       console.log("disconnect from " + webSocketUrl);
       console.log(error);
+      // db에 connectionStatusYn: N 전달 -> 채팅방에 접속중인지 조회
     };
     ws.current.onerror = (error) => {
       console.log("connection error " + webSocketUrl);

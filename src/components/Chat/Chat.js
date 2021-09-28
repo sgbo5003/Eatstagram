@@ -17,6 +17,7 @@ const Chat = (props) => {
   const [roomList, setRoomList] = useState([]); // 채팅방 목록 array
   const [newRoomList, setNewRoomList] = useState([]); // 새로 초대한 채팅방 목록 array
   const [newRoomUserInfo, setNewRoomUserInfo] = useState([]);
+  const [readState, setReadState] = useState(false);
   const history = useHistory();
   const webSocketUrl = `ws://localhost:8080/eatstagram/ws/directMessageRoomList/${localUserName}`;
   let ws = useRef(null);
@@ -55,10 +56,12 @@ const Chat = (props) => {
     ws.current = new WebSocket(webSocketUrl);
     ws.current.onopen = () => {
       console.log("connected to " + webSocketUrl);
+      // 안읽은 채팅이 있는지 조회 -> readYn : Y or N
     };
     ws.current.onclose = (error) => {
       console.log("disconnect from " + webSocketUrl);
       console.log(error);
+      // 안읽은 채팅이 있는지 조회 -> readYn : Y or N
     };
     ws.current.onerror = (error) => {
       console.log("connection error " + webSocketUrl);
@@ -83,7 +86,6 @@ const Chat = (props) => {
 
   return (
     <>
-      <Header />
       <div className="main-area">
         <div className="chat-area">
           <div className="chat-left">
@@ -106,11 +108,14 @@ const Chat = (props) => {
                     </div>
                     {data.directMessageRoomMemberDTOList.map((data, idx) => {
                       return (
-                        <div className="chatting-text" key={idx}>
-                          <h1>
-                            {data.nickname === null ? "유저1" : data.nickname}
-                          </h1>
-                        </div>
+                        <>
+                          <div className="chatting-text" key={idx}>
+                            <h1>
+                              {data.nickname === null ? "유저1" : data.nickname}
+                            </h1>
+                          </div>
+                          {readState ? <span className="state">·</span> : ""}
+                        </>
                       );
                     })}
                   </div>
