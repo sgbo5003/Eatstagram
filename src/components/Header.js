@@ -48,10 +48,12 @@ const Header = () => {
 
   useEffect(() => {
     ws.current = new WebSocket(webSocketUrl);
-    ws.current.onopen = () => {
-      console.log("connected to " + webSocketUrl);
-      // 안읽은 채팅이 있는지 조회 -> readYn : Y or N
-    };
+    if (location.pathname !== "/Chat") {
+      ws.current.onopen = () => {
+        console.log("connected to " + webSocketUrl);
+        // 안읽은 채팅이 있는지 조회 -> readYn : Y or N
+      };
+    }
     ws.current.onclose = (error) => {
       console.log("disconnect from " + webSocketUrl);
       console.log(error);
