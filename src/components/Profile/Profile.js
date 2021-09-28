@@ -1,12 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "../Header";
 import myProfileImg from "../../../public/images/묭수.jpg";
-import { FaTh, FaBookmark } from "react-icons/fa";
+import { FaTh, FaBookmark, FaCog } from "react-icons/fa";
+import ProfileSave from "./ProfileSave";
+import ProfilePost from "./ProfilePost";
 
 const Profile = () => {
+  const [activeBar, setActiveBar] = useState(false);
+
+  const onPostMenuClick = () => {
+    setActiveBar(false);
+  };
+
+  const onSaveMenuClick = () => {
+    setActiveBar(true);
+  };
   return (
     <>
-      <Header />
       <div className="profile-area">
         <div className="profile-area-top">
           <div className="profile-img">
@@ -17,7 +27,7 @@ const Profile = () => {
               <h1>gyuxxr</h1>
               <button>프로필편집</button>
               <p>
-                <i className="fas fa-cog"></i>
+                <FaCog />
               </p>
             </div>
             <div className="profile-info__mid">
@@ -39,26 +49,22 @@ const Profile = () => {
 
         <div className="profile-area-border">
           <div className="profile-area-border-li">
-            <span className="profile-bar-post"></span>
+            {activeBar ? "" : <span className="profile-bar-post"></span>}
             <p>
               <FaTh />
             </p>
-            <p>게시물</p>
+            <p onClick={onPostMenuClick}>게시물</p>
           </div>
           <div className="profile-area-border-li">
-            <span className="profile-bar-bookmark"></span>
+            {activeBar ? <span className="profile-bar-post"></span> : ""}
             <p>
               <FaBookmark />
             </p>
-            <p>저장됨</p>
+            <p onClick={onSaveMenuClick}>저장됨</p>
           </div>
         </div>
         <div className="profile-area-bottom">
-          <div className="profile-area__post">
-            <img src="./images/food.jpg" alt="" />
-            <img src="./images/food.jpg" alt="" />
-            <img src="./images/food.jpg" alt="" />
-          </div>
+          {activeBar ? <ProfileSave /> : <ProfilePost />}
         </div>
       </div>
     </>
