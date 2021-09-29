@@ -61,7 +61,7 @@ const CommentModal = (props) => {
 
   // 댓글 전송
   const onSendMessageHandler = () => {
-    if (comment === "") {
+    if (comment === "" || comment.trim() === "") {
       return;
     } else {
       ws.current.send(

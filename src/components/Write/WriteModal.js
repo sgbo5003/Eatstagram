@@ -54,7 +54,7 @@ const WriteModal = () => {
   };
   // 해시태그 추가 기능
   const onHashAddHandler = () => {
-    if (inputHash == "") {
+    if (inputHash === "" || inputHash.trim() === "") {
       return;
     } else if (hashList.includes(inputHash)) {
       return;
@@ -66,7 +66,7 @@ const WriteModal = () => {
   // 해시태그 엔터해서 추가
   const onHashKeyPress = (e) => {
     if (e.key == "Enter") {
-      if (inputHash == "") {
+      if (inputHash === "" || inputHash.trim() === "") {
         return;
       } else if (hashList.includes(inputHash)) {
         return;

@@ -179,7 +179,7 @@ const Home = () => {
   const onClickCommentSubmit = (data) => {
     //   const webSocketUrl = `ws://www.whereyedo.com:55808/eatstagram/ws/contentReply/${data.contentId}`;
     const webSocketUrl = `ws://localhost:8080/eatstagram/ws/contentReply/${data.contentId}`;
-    if (inputComment === "") {
+    if (inputComment === "" || inputComment.trim() === "") {
       return;
     } else {
       ws.current = new WebSocket(webSocketUrl);

@@ -63,7 +63,7 @@ const ChatRoom = (props) => {
   // 채팅 입력 (Enter키)
   const onKeyPress = (e) => {
     if (e.key == "Enter") {
-      if (inputText === "") {
+      if (inputText === "" || inputText.trim() === "") {
         return;
       } else {
         // 값이 있으면 chatBox 배열에 inputText 추가

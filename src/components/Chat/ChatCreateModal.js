@@ -15,7 +15,7 @@ const ChatCreateModal = (props) => {
   // input 입력값
   const onInputTextHandler = (e) => {
     setInputText(e.target.value);
-    if (inputText === "") {
+    if (inputText === "" || inputText.trim() === "") {
       return;
     } else {
       getUserSearchData();
