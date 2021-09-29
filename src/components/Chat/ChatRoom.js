@@ -13,7 +13,7 @@ const ChatRoom = (props) => {
   const { paramsId } = props;
   const history = useHistory();
   const localUserName = localStorage.getItem("username");
-  // const webSocketUrl = `ws://www.whereyedo.com:8080/eatstagram/ws/directMessage/${paramsId}`;
+  // const webSocketUrl = `ws://www.whereyedo.com:55808/eatstagram/ws/directMessage/${paramsId}`;
   const webSocketUrl = `ws://localhost:8080/eatstagram/ws/directMessage/${paramsId}`;
   let ws = useRef(null);
   const scrollRef = useRef(null);

@@ -172,7 +172,7 @@ const WriteModal = () => {
 
     axios({
       method: "post",
-      //   url: "http://www.whereyedo.com:8080/eatstagram/content/add",
+      //   url: "http://www.whereyedo.com:55808/eatstagram/content/add",
       url: "http://localhost:8080/eatstagram/content/add",
       data: paramsData,
     })
