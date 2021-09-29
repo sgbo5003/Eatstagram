@@ -1,5 +1,5 @@
-import React from "react";
-import { Route, Switch } from "react-router";
+import React, { useEffect } from "react";
+import { Route, Switch, useHistory } from "react-router";
 import Chat from "./components/Chat/Chat";
 import FindPassword from "./components/Login/FindPassword";
 import Header from "./components/Header";
@@ -13,6 +13,15 @@ import Recommend from "./components/Recommend";
 
 const Router = () => {
   const isLogin = localStorage.getItem("username");
+  const history = useHistory();
+
+  useEffect(() => {
+    if (isLogin !== "undefined" && isLogin) {
+      return;
+    } else {
+      history.push("/");
+    }
+  }, []);
   return (
     <Switch>
       {isLogin !== "undefined" && isLogin ? (
