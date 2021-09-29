@@ -46,9 +46,24 @@ const Chat = (props) => {
       },
     });
   };
+  // 채팅 연결 되었는지 체크
+  const chatConnectCheck = (data) => {
+    if (paramsId !== undefined) {
+      fncObj.executeQuery({
+        url: "directMessageRoomMemberStatus/updateConnectionYn",
+        data: {
+          directMessageRoomId: paramsId,
+          username: localUserName,
+          connectionYn: data,
+        },
+        success: (res) => {},
+      });
+    }
+  };
 
   useEffect(() => {
     history.push("/Chat");
+    chatConnectCheck("N");
     getChatList();
   }, []);
 
