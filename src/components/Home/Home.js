@@ -170,7 +170,7 @@ const Home = () => {
     }
   }, []);
 
-  //   const webSocketUrl = `ws://www.whereyedo.com:8080/eatstagram/ws/contentReply/${userPosts.contentId}`;
+  //   const webSocketUrl = `ws://www.whereyedo.com:55808/eatstagram/ws/contentReply/${userPosts.contentId}`;
   const webSocketUrl = `ws://localhost:8080/eatstagram/ws/contentReply/${userPosts.contentId}`;
 
   // 댓글 달기 감지
@@ -192,9 +192,9 @@ const Home = () => {
             username: localStorage.getItem("username"),
             msg: inputComment,
             roomType: "contentReply",
+            type: "text",
           })
         );
-        ws.current.close();
       };
       ws.current.onclose = (error) => {
         console.log("disconnect from " + webSocketUrl);
@@ -207,6 +207,7 @@ const Home = () => {
       ws.current.onmessage = (evt) => {
         const data = JSON.parse(evt.data);
         console.log(data);
+        ws.current.close();
       };
     }
     setInputComment("");

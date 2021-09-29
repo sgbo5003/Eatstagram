@@ -10,6 +10,7 @@ const CommentModal = (props) => {
   const [comment, setComment] = useState(""); // 댓글
   const [commentBox, setCommentBox] = useState([]); // 댓글 보여지는 부분
   const [count, setCount] = useState(1);
+  const [button, setButton] = useState(false);
   const {
     commentData,
     setCommentModalOn,
@@ -19,7 +20,7 @@ const CommentModal = (props) => {
     settings,
   } = props;
 
-  //   const webSocketUrl = `ws://www.whereyedo.com:8080/eatstagram/ws/contentReply/${commentData.contentId}`;
+  //   const webSocketUrl = `ws://www.whereyedo.com:55808/eatstagram/ws/contentReply/${commentData.contentId}`;
   const webSocketUrl = `ws://localhost:8080/eatstagram/ws/contentReply/${commentData.contentId}`;
   let ws = useRef(null);
 
@@ -118,6 +119,11 @@ const CommentModal = (props) => {
         contentId: commentData.contentId,
       },
       success: (res) => {
+        if (res.content.length >= 6) {
+          setButton(true);
+        } else {
+          setButton(false);
+        }
         res.content.map((item, idx) => {
           getRegdate(item);
         });
@@ -137,6 +143,11 @@ const CommentModal = (props) => {
         contentId: commentData.contentId,
       },
       success: (res) => {
+        if (res.content.length >= 6) {
+          setButton(true);
+        } else {
+          setButton(false);
+        }
         res.content.map((item, idx) => {
           getRegdate(item);
         });
@@ -253,7 +264,7 @@ const CommentModal = (props) => {
                   </div>
                 );
               })}
-              {commentBox.length >= 6 ? (
+              {button ? (
                 <div className="comment-over-btn">
                   <button onClick={getAddData}>
                     <FaPlusCircle />
