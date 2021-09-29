@@ -83,16 +83,31 @@ const ChatRoom = (props) => {
     }
   };
 
+  // 채팅 연결 되었는지 체크
+  const chatConnectCheck = (data) => {
+    fncObj.executeQuery({
+      url: "directMessageRoomConnectionStatus/updateConnectionYn",
+      data: {
+        directMessageRoomId: paramsId,
+        username: localUserName,
+        connectionYn: data,
+      },
+      success: (res) => {},
+    });
+  };
+
   useEffect(() => {
     ws.current = new WebSocket(webSocketUrl);
     ws.current.onopen = () => {
       console.log("connected to " + webSocketUrl);
       getChatData();
       // db에 connectionStatusYn: Y 전달 -> 채팅방에 접속중인지 조회
+      chatConnectCheck("Y");
     };
     ws.current.onclose = (error) => {
       console.log("disconnect from " + webSocketUrl);
       console.log(error);
+      chatConnectCheck("N");
       // db에 connectionStatusYn: N 전달 -> 채팅방에 접속중인지 조회
     };
     ws.current.onerror = (error) => {
