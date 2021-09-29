@@ -66,6 +66,7 @@ const Header = () => {
     ws.current.onmessage = (evt) => {
       const data = JSON.parse(evt.data);
       console.log(data);
+      setMessageCount((count) => count + 1); // 메세지가 왔을 때 카운트 증가
     };
     return () => {
       console.log("clean up");

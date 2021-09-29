@@ -69,7 +69,6 @@ const Chat = (props) => {
     };
     ws.current.onmessage = (evt) => {
       const data = JSON.parse(evt.data);
-      console.log(data);
       if (data.newYn === "Y") {
         newRoomList.push(data);
         setNewRoomList([...newRoomList]);

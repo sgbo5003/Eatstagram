@@ -86,7 +86,7 @@ const ChatRoom = (props) => {
   // 채팅 연결 되었는지 체크
   const chatConnectCheck = (data) => {
     fncObj.executeQuery({
-      url: "directMessageRoomConnectionStatus/updateConnectionYn",
+      url: "directMessageRoomMemberStatus/updateConnectionYn",
       data: {
         directMessageRoomId: paramsId,
         username: localUserName,
