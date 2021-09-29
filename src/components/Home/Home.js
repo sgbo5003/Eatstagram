@@ -170,9 +170,6 @@ const Home = () => {
     }
   }, []);
 
-  //   const webSocketUrl = `ws://www.whereyedo.com:55808/eatstagram/ws/contentReply/${userPosts.contentId}`;
-  const webSocketUrl = `ws://localhost:8080/eatstagram/ws/contentReply/${userPosts.contentId}`;
-
   // 댓글 달기 감지
   const onCommentHandler = (e) => {
     setInputComment(e.target.value);
@@ -180,6 +177,8 @@ const Home = () => {
 
   // 댓글 게시 클릭 시
   const onClickCommentSubmit = (data) => {
+    //   const webSocketUrl = `ws://www.whereyedo.com:55808/eatstagram/ws/contentReply/${data.contentId}`;
+    const webSocketUrl = `ws://localhost:8080/eatstagram/ws/contentReply/${data.contentId}`;
     if (inputComment === "") {
       return;
     } else {
