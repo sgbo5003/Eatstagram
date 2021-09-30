@@ -14,7 +14,7 @@ import Recommend from "./components/Recommend";
 const Router = () => {
   const isLogin = localStorage.getItem("username");
   const history = useHistory();
-  const [messageCount, setMessageCount] = useState(0);
+  const [messageCount, setMessageCount] = useState(0); // 채팅 알림
 
   useEffect(() => {
     if (isLogin !== "undefined" && isLogin) {
@@ -32,7 +32,15 @@ const Router = () => {
             setMessageCount={setMessageCount}
           />
           <Route exact path="/" component={Home} />
-          <Route path="/Chat" component={Chat} messageCount={messageCount} />
+          <Route
+            path="/Chat"
+            render={() => (
+              <Chat
+                messageCount={messageCount}
+                setMessageCount={setMessageCount}
+              />
+            )}
+          />
           <Route path="/Recommend" component={Recommend} />
           <Route path="/Notification" component={Notification} />
           <Route path="/Profile" component={Profile} />

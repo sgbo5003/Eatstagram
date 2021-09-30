@@ -15,7 +15,7 @@ let newRoomListObj;
 const Chat = (props) => {
   const { messageCount, setMessageCount } = props;
   const localUserName = localStorage.getItem("username");
-  const paramsId = props.location.search.split("=")[1];
+  const paramsId = location.search.split("=")[1];
   const [chatCreateModalOn, setChatCreateModalOn] = useState(false); // 채팅 생성 모달 제어
   const [chatStart, setChatStart] = useState(false); // 채팅 시작 여부
   const [roomList, setRoomList] = useState([]); // 채팅방 목록 array
@@ -37,13 +37,13 @@ const Chat = (props) => {
 
   // 채팅 시작(채팅 목록 클릭 시)
   const onChatStartHandler = (data, idx) => {
-    console.log(data);
     const alertYn = data.alertYn;
     setChatStart(true);
     history.push(`/Chat?idx=${data.directMessageRoomId}`);
     if (alertYn === "N") {
       return;
     } else if (alertYn === "Y") {
+      setMessageCount((count) => count - 1);
       if (roomList.length > 0) {
         roomList[idx].alertYn = "N";
         setRoomList([...roomList]);
@@ -203,21 +203,19 @@ const Chat = (props) => {
                 return (
                   <div
                     className="chatting-list"
-                    key={idx}
                     onClick={() => onChatStartHandler(data, idx)}
+                    key={idx}
                   >
                     <div className="chatting-friend">
                       <img src={storyProfileImg1} alt="" />
                     </div>
                     {data.directMessageRoomMemberDTOList.map((data, idx) => {
                       return (
-                        <>
-                          <div className="chatting-text" key={idx}>
-                            <h1>
-                              {data.nickname === null ? "유저1" : data.nickname}
-                            </h1>
-                          </div>
-                        </>
+                        <div className="chatting-text" key={idx}>
+                          <h1>
+                            {data.nickname === null ? "유저1" : data.nickname}
+                          </h1>
+                        </div>
                       );
                     })}
                     {data.alertYn === "Y" ? (
