@@ -21,8 +21,6 @@ const Chat = (props) => {
   const [roomList, setRoomList] = useState([]); // 채팅방 목록 array
   const [newRoomList, setNewRoomList] = useState([]); // 새로 초대한 채팅방 목록 array
   const [newRoomUserInfo, setNewRoomUserInfo] = useState([]);
-  const [readState, setReadState] = useState(false);
-  const [messageAlert, setMessageAlert] = useState({});
   const history = useHistory();
   const webSocketUrl = `ws://localhost:8080/eatstagram/ws/directMessageRoomList/${localUserName}`;
   let ws = useRef(null);
@@ -133,16 +131,6 @@ const Chat = (props) => {
       ws.current.close();
     };
   }, []);
-
-  // 리스트에서 읽음 처리 관리하는 함수
-  const onReadHandler = (data) => {
-    console.log("hi");
-    const filterObj = messageAlert.filter(
-      (el) => el.directMessageRoomId === data.directMessageRoomId
-    );
-    setMessageAlert({ ...filterObj });
-    console.log("messageAlert", messageAlert);
-  };
 
   // 유저 리스트에서 읽었는지 안읽었는지 값을 변경해주는 함수
   const onListReadYnHandler = (listObj, listIdx, set, data) => {
