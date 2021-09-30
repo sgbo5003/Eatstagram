@@ -9,7 +9,11 @@ import ChatRoom from "./ChatRoom";
 import Header from "../Header";
 import * as fncObj from "../../commonFunc/CommonObjFunctions";
 
+let roomListObj;
+let newRoomListObj;
+
 const Chat = (props) => {
+  const { messageCount, setMessageCount } = props;
   const localUserName = localStorage.getItem("username");
   const paramsId = props.location.search.split("=")[1];
   const [chatCreateModalOn, setChatCreateModalOn] = useState(false); // 채팅 생성 모달 제어
@@ -23,15 +27,31 @@ const Chat = (props) => {
   const webSocketUrl = `ws://localhost:8080/eatstagram/ws/directMessageRoomList/${localUserName}`;
   let ws = useRef(null);
 
+  roomListObj = [...roomList];
+  newRoomListObj = [...newRoomList];
+
   // 새로운 메세지 모달 띄우기
   const onCreateWriteModalHandler = () => {
     setChatCreateModalOn(true);
   };
 
-  // 채팅 시작
-  const onChatStartHandler = (data) => {
+  // 채팅 시작(채팅 목록 클릭 시)
+  const onChatStartHandler = (data, idx) => {
+    console.log(data);
+    const alertYn = data.alertYn;
     setChatStart(true);
     history.push(`/Chat?idx=${data.directMessageRoomId}`);
+    if (alertYn === "N") {
+      return;
+    } else if (alertYn === "Y") {
+      if (roomList.length > 0) {
+        roomList[idx].alertYn = "N";
+        setRoomList([...roomList]);
+      } else if (newRoomList.length > 0) {
+        newRoomList[idx].alertYn = "N";
+        setNewRoomList([...newRoomList]);
+      }
+    }
   };
 
   // 채팅방 목록 불러오기
@@ -95,7 +115,17 @@ const Chat = (props) => {
           return;
         }
       } else if (data.type === "alert") {
-        setMessageAlert(data);
+        let roomListIdx;
+        let newRoomListIdx;
+        // db기반 채팅 목록 readYn 제어
+        onListReadYnHandler(roomListObj, roomListIdx, setRoomList, data);
+        // 새로운 채팅방 생성 시 readYn 제어
+        onListReadYnHandler(
+          newRoomListObj,
+          newRoomListIdx,
+          setNewRoomList,
+          data
+        );
       }
     };
     return () => {
@@ -103,6 +133,30 @@ const Chat = (props) => {
       ws.current.close();
     };
   }, []);
+
+  // 리스트에서 읽음 처리 관리하는 함수
+  const onReadHandler = (data) => {
+    console.log("hi");
+    const filterObj = messageAlert.filter(
+      (el) => el.directMessageRoomId === data.directMessageRoomId
+    );
+    setMessageAlert({ ...filterObj });
+    console.log("messageAlert", messageAlert);
+  };
+
+  // 유저 리스트에서 읽었는지 안읽었는지 값을 변경해주는 함수
+  const onListReadYnHandler = (listObj, listIdx, set, data) => {
+    if (listObj.length > 0) {
+      // 빈값이면 undefined 때문에 check
+      listObj.map((item, idx) => {
+        if (data.directMessageRoomId === listObj[idx].directMessageRoomId) {
+          listIdx = idx;
+        }
+      });
+      listObj[listIdx].alertYn = "Y";
+      set([...listObj]);
+    }
+  };
 
   return (
     <>
@@ -116,42 +170,12 @@ const Chat = (props) => {
               </p>
             </div>
             <div className="chat-list">
-              {roomList.map((data, idx) => {
-                return (
-                  <div
-                    className="chatting-list"
-                    key={idx}
-                    onClick={() => onChatStartHandler(data)}
-                  >
-                    <div className="chatting-friend">
-                      <img src={storyProfileImg1} alt="" />
-                    </div>
-                    {data.directMessageRoomMemberDTOList.map((data, idx) => {
-                      return (
-                        <>
-                          <div className="chatting-text" key={idx}>
-                            <h1>
-                              {data.nickname === null ? "유저1" : data.nickname}
-                            </h1>
-                          </div>
-                        </>
-                      );
-                    })}
-                    {messageAlert.directMessageRoomId ===
-                    data.directMessageRoomId ? (
-                      <span className="state">·</span>
-                    ) : (
-                      ""
-                    )}
-                  </div>
-                );
-              })}
               {newRoomList.map((data, idx) => {
                 return (
                   <div
                     className="chatting-list"
                     key={idx}
-                    onClick={() => onChatStartHandler(data)}
+                    onClick={() => onChatStartHandler(data, idx)}
                   >
                     {newRoomUserInfo.map((data, idx) => {
                       if (data.username !== localUserName) {
@@ -167,6 +191,40 @@ const Chat = (props) => {
                         );
                       }
                     })}
+                    {data.alertYn === "Y" ? (
+                      <span className="state">·</span>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                );
+              })}
+              {roomList.map((data, idx) => {
+                return (
+                  <div
+                    className="chatting-list"
+                    key={idx}
+                    onClick={() => onChatStartHandler(data, idx)}
+                  >
+                    <div className="chatting-friend">
+                      <img src={storyProfileImg1} alt="" />
+                    </div>
+                    {data.directMessageRoomMemberDTOList.map((data, idx) => {
+                      return (
+                        <>
+                          <div className="chatting-text" key={idx}>
+                            <h1>
+                              {data.nickname === null ? "유저1" : data.nickname}
+                            </h1>
+                          </div>
+                        </>
+                      );
+                    })}
+                    {data.alertYn === "Y" ? (
+                      <span className="state">·</span>
+                    ) : (
+                      ""
+                    )}
                   </div>
                 );
               })}

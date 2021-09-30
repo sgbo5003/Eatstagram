@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { FaImage, FaRegImage, FaHeart, FaRegHeart } from "react-icons/fa";
-import { BsInfoCircle } from "react-icons/bs";
+import { MdExitToApp } from "react-icons/md";
 import storyProfileImg1 from "../../../public/images/명수스토리.jpg";
 import * as fncObj from "../../commonFunc/CommonObjFunctions";
 import Header from "../Header";
@@ -216,7 +216,7 @@ const ChatRoom = (props) => {
           </div>
           <div className="chat-info-btn">
             <p>
-              <BsInfoCircle />
+              <MdExitToApp />
             </p>
           </div>
         </div>
