@@ -18,6 +18,7 @@ const Chat = (props) => {
   const [newRoomList, setNewRoomList] = useState([]); // 새로 초대한 채팅방 목록 array
   const [newRoomUserInfo, setNewRoomUserInfo] = useState([]);
   const [readState, setReadState] = useState(false);
+  const [messageAlert, setMessageAlert] = useState({});
   const history = useHistory();
   const webSocketUrl = `ws://localhost:8080/eatstagram/ws/directMessageRoomList/${localUserName}`;
   let ws = useRef(null);
@@ -84,12 +85,17 @@ const Chat = (props) => {
     };
     ws.current.onmessage = (evt) => {
       const data = JSON.parse(evt.data);
-      if (data.newYn === "Y") {
-        newRoomList.push(data);
-        setNewRoomList([...newRoomList]);
-        setNewRoomUserInfo([...data.userList]);
-      } else if (data.newYn === "N") {
-        return;
+      console.log(data);
+      if (data.type === "createDirectMessageRoom") {
+        if (data.newYn === "Y") {
+          newRoomList.push(data);
+          setNewRoomList([...newRoomList]);
+          setNewRoomUserInfo([...data.userList]);
+        } else if (data.newYn === "N") {
+          return;
+        }
+      } else if (data.type === "alert") {
+        setMessageAlert(data);
       }
     };
     return () => {
@@ -128,10 +134,15 @@ const Chat = (props) => {
                               {data.nickname === null ? "유저1" : data.nickname}
                             </h1>
                           </div>
-                          {readState ? <span className="state">·</span> : ""}
                         </>
                       );
                     })}
+                    {messageAlert.directMessageRoomId ===
+                    data.directMessageRoomId ? (
+                      <span className="state">·</span>
+                    ) : (
+                      ""
+                    )}
                   </div>
                 );
               })}

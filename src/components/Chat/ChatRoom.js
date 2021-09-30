@@ -108,6 +108,7 @@ const ChatRoom = (props) => {
       console.log("disconnect from " + webSocketUrl);
       console.log(error);
       // db에 connectionStatusYn: N 전달 -> 채팅방에 접속중인지 조회
+      chatConnectCheck("N");
     };
     ws.current.onerror = (error) => {
       console.log("connection error " + webSocketUrl);
