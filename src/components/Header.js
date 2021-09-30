@@ -13,11 +13,12 @@ import { AiFillHome, AiOutlineHome } from "react-icons/ai";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 import myProfileImg from "../../public/images/묭수.jpg";
-
 import Modal from "../Modal";
 import WriteModal from "./Write/WriteModal";
 import ProfileDropDown from "./Profile/ProfileDropDown";
-const Header = () => {
+import * as fncObj from "../commonFunc/CommonObjFunctions";
+const Header = (props) => {
+  const { messageCount, setMessageCount } = props;
   const localUserName = localStorage.getItem("username");
   const webSocketUrl = `ws://localhost:8080/eatstagram/ws/header/${localUserName}`;
   let ws = useRef(null);
@@ -25,7 +26,6 @@ const Header = () => {
   const [writeModalOn, setWriteModalOn] = useState(false);
   const [checkedHeader, setCheckedHeader] = useState(new Set()); // 헤더 -> 클릭 된 것들 담는 state
   const [dropDown, setDropDown] = useState(false);
-  const [messageCount, setMessageCount] = useState(0);
 
   // 글쓰기 모달창 제어
   const onWriteClick = () => {
@@ -35,6 +35,10 @@ const Header = () => {
   const onLogoClick = () => {
     history.push("/");
     location.reload();
+  };
+
+  const onChatClick = () => {
+    history.push("/Chat");
   };
 
   const onDropDownHandler = () => {
@@ -47,6 +51,7 @@ const Header = () => {
   };
 
   useEffect(() => {
+    getHeaderAlertData();
     ws.current = new WebSocket(webSocketUrl);
     if (location.pathname !== "/Chat") {
       ws.current.onopen = () => {
@@ -74,6 +79,18 @@ const Header = () => {
     };
   }, []);
 
+  const getHeaderAlertData = () => {
+    fncObj.executeQuery({
+      url: "directMessageRoomMemberStatus/unreadMessageTotalCountByUsername",
+      data: {
+        username: localUserName,
+      },
+      success: (res) => {
+        setMessageCount(res);
+      },
+    });
+  };
+
   return (
     <>
       <div className="header">
@@ -88,16 +105,17 @@ const Header = () => {
                 <AiFillHome />
               </p>
             </Link>
-            <Link to="/Chat">
-              <p className="header-area__icons_items-message">
-                {messageCount > 0 ? (
-                  <span className="badge">{messageCount}</span>
-                ) : (
-                  ""
-                )}
-                <FaRegPaperPlane />
-              </p>
-            </Link>
+            <p
+              className="header-area__icons_items-message"
+              onClick={onChatClick}
+            >
+              {messageCount > 0 ? (
+                <span className="badge">{messageCount}</span>
+              ) : (
+                ""
+              )}
+              <FaRegPaperPlane />
+            </p>
             <p className="header-area__icons_items" onClick={onWriteClick}>
               <FaRegPlusSquare />
             </p>

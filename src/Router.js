@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Route, Switch, useHistory } from "react-router";
 import Chat from "./components/Chat/Chat";
 import FindPassword from "./components/Login/FindPassword";
@@ -14,6 +14,7 @@ import Recommend from "./components/Recommend";
 const Router = () => {
   const isLogin = localStorage.getItem("username");
   const history = useHistory();
+  const [messageCount, setMessageCount] = useState(0);
 
   useEffect(() => {
     if (isLogin !== "undefined" && isLogin) {
@@ -26,9 +27,12 @@ const Router = () => {
     <Switch>
       {isLogin !== "undefined" && isLogin ? (
         <>
-          <Header />
+          <Header
+            messageCount={messageCount}
+            setMessageCount={setMessageCount}
+          />
           <Route exact path="/" component={Home} />
-          <Route path="/Chat" component={Chat} />
+          <Route path="/Chat" component={Chat} messageCount={messageCount} />
           <Route path="/Recommend" component={Recommend} />
           <Route path="/Notification" component={Notification} />
           <Route path="/Profile" component={Profile} />
