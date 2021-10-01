@@ -118,9 +118,8 @@ const ChatRoom = (props) => {
     ws.current.onmessage = (evt) => {
       const data = JSON.parse(evt.data);
       console.log("chatRoomData : ", data);
-      setUpdateChatList(true);
-      if (updateChatList) {
-        setUpdateChatList(false);
+      if (updateChatList === false) {
+        setUpdateChatList(true);
       }
       setMyChatBox((prevItems) => [...prevItems, data]);
       scrollToBottom();

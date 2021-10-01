@@ -163,6 +163,9 @@ const Chat = (props) => {
 
   useEffect(() => {
     onListUpdateHandler(roomListObj, setRoomList);
+    if (updateChatList) {
+      setUpdateChatList(false);
+    }
   }, [updateChatList]);
 
   // 바뀐 채팅 목록 리스트 보내주는 함수
