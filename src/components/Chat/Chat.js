@@ -11,7 +11,6 @@ import * as fncObj from "../../commonFunc/CommonObjFunctions";
 import axios from "axios";
 
 let roomListObj;
-// let newRoomListObj;
 
 const Chat = (props) => {
   const { messageCount, setMessageCount } = props;
@@ -20,18 +19,12 @@ const Chat = (props) => {
   const [chatCreateModalOn, setChatCreateModalOn] = useState(false); // 채팅 생성 모달 제어
   const [chatStart, setChatStart] = useState(false); // 채팅 시작 여부
   const [roomList, setRoomList] = useState([]); // 채팅방 목록 array
-  // const [newRoomList, setNewRoomList] = useState([]); // 새로 초대한 채팅방 목록 array
-  const [newRoomUserInfo, setNewRoomUserInfo] = useState([]);
   const [updateChatList, setUpdateChatList] = useState(false);
-  const [keyData, setKeyData] = useState([]);
-  const [roomIdData, setRoomIdData] = useState([]);
-  const [usernameData, setUserNameData] = useState([]);
   const history = useHistory();
   const webSocketUrl = `ws://localhost:8080/eatstagram/ws/directMessageRoomList/${localUserName}`;
   let ws = useRef(null);
 
   roomListObj = [...roomList];
-  // newRoomListObj = [...newRoomList];
 
   // 새로운 메세지 모달 띄우기
   const onCreateWriteModalHandler = () => {
@@ -169,9 +162,7 @@ const Chat = (props) => {
   };
 
   useEffect(() => {
-    if (updateChatList) {
-      onListUpdateHandler(roomListObj, setRoomList);
-    }
+    onListUpdateHandler(roomListObj, setRoomList);
   }, [updateChatList]);
 
   // 바뀐 채팅 목록 리스트 보내주는 함수
@@ -187,7 +178,7 @@ const Chat = (props) => {
     });
     axios({
       method: "post",
-      url: "directMessageRoom/updateRowNum",
+      url: "http://localhost:8080/eatstagram/directMessageRoom/updateRowNum",
       data: paramsData,
     })
       .then((response) => {})
@@ -202,7 +193,7 @@ const Chat = (props) => {
         <div className="chat-area">
           <div className="chat-left">
             <div className="chat-me">
-              <h1>gyuxxr{keyData}</h1>
+              <h1>gyuxxr</h1>
               <p onClick={onCreateWriteModalHandler}>
                 <FaRegEdit />
               </p>
@@ -243,6 +234,7 @@ const Chat = (props) => {
             <ChatRoom
               paramsId={paramsId}
               setUpdateChatList={setUpdateChatList}
+              updateChatList={updateChatList}
             />
           ) : (
             <ChatInitialRightComponent

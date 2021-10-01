@@ -10,7 +10,7 @@ import { useHistory } from "react-router";
 let page = 0;
 
 const ChatRoom = (props) => {
-  const { paramsId, setUpdateChatList } = props;
+  const { paramsId, setUpdateChatList, updateChatList } = props;
   const history = useHistory();
   const localUserName = localStorage.getItem("username");
   // const webSocketUrl = `ws://www.whereyedo.com:55808/eatstagram/ws/directMessage/${paramsId}`;
@@ -119,6 +119,9 @@ const ChatRoom = (props) => {
       const data = JSON.parse(evt.data);
       console.log("chatRoomData : ", data);
       setUpdateChatList(true);
+      if (updateChatList) {
+        setUpdateChatList(false);
+      }
       setMyChatBox((prevItems) => [...prevItems, data]);
       scrollToBottom();
     };
