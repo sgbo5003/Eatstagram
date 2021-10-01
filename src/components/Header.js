@@ -24,7 +24,6 @@ const Header = (props) => {
   let ws = useRef(null);
   const history = useHistory();
   const [writeModalOn, setWriteModalOn] = useState(false);
-  const [checkedHeader, setCheckedHeader] = useState(new Set()); // 헤더 -> 클릭 된 것들 담는 state
   const [dropDown, setDropDown] = useState(false);
 
   // 글쓰기 모달창 제어
