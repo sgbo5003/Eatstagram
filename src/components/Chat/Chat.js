@@ -8,6 +8,7 @@ import ChatInitialRightComponent from "./ChatInitialRightComponent";
 import ChatRoom from "./ChatRoom";
 import Header from "../Header";
 import * as fncObj from "../../commonFunc/CommonObjFunctions";
+import axios from "axios";
 
 let roomListObj;
 // let newRoomListObj;
@@ -22,6 +23,9 @@ const Chat = (props) => {
   // const [newRoomList, setNewRoomList] = useState([]); // 새로 초대한 채팅방 목록 array
   const [newRoomUserInfo, setNewRoomUserInfo] = useState([]);
   const [updateChatList, setUpdateChatList] = useState(false);
+  const [keyData, setKeyData] = useState([]);
+  const [roomIdData, setRoomIdData] = useState([]);
+  const [usernameData, setUserNameData] = useState([]);
   const history = useHistory();
   const webSocketUrl = `ws://localhost:8080/eatstagram/ws/directMessageRoomList/${localUserName}`;
   let ws = useRef(null);
@@ -91,6 +95,7 @@ const Chat = (props) => {
     ws.current.onclose = (error) => {
       console.log("disconnect from " + webSocketUrl);
       console.log(error);
+      sendChatListData();
       // 안읽은 채팅이 있는지 조회 -> readYn : Y or N
     };
     ws.current.onerror = (error) => {
@@ -143,6 +148,7 @@ const Chat = (props) => {
     }
   };
 
+  // 채팅 접속 시 채팅 리스트 업데이트 시켜주는 함수
   const onListUpdateHandler = (listObj, set) => {
     let listIdx;
     if (listObj.length > 0) {
@@ -168,13 +174,35 @@ const Chat = (props) => {
     }
   }, [updateChatList]);
 
+  // 바뀐 채팅 목록 리스트 보내주는 함수
+  const sendChatListData = () => {
+    const paramsData = new FormData();
+    paramsData.append("username", localUserName);
+    roomListObj.map((item, idx) => {
+      paramsData.append(`directMessageRoomDTOList[${idx}].rowNum`, idx);
+      paramsData.append(
+        `directMessageRoomDTOList[${idx}].directMessageRoomId`,
+        item.directMessageRoomId
+      );
+    });
+    axios({
+      method: "post",
+      url: "directMessageRoom/updateRowNum",
+      data: paramsData,
+    })
+      .then((response) => {})
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <>
       <div className="main-area">
         <div className="chat-area">
           <div className="chat-left">
             <div className="chat-me">
-              <h1>gyuxxr</h1>
+              <h1>gyuxxr{keyData}</h1>
               <p onClick={onCreateWriteModalHandler}>
                 <FaRegEdit />
               </p>

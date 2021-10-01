@@ -70,8 +70,12 @@ const Header = (props) => {
     };
     ws.current.onmessage = (evt) => {
       const data = JSON.parse(evt.data);
-      console.log(data);
-      setMessageCount((count) => count + 1); // 메세지가 왔을 때 카운트 증가
+      console.log("headerData : ", data);
+      if (data.alertYn === "N") {
+        setMessageCount((count) => count + 1); // 메세지가 왔을 때 카운트 증가
+      } else if (data.alertYn === "Y") {
+        return;
+      }
     };
     return () => {
       console.log("clean up");

@@ -14,7 +14,7 @@ const ChatRoom = (props) => {
   const history = useHistory();
   const localUserName = localStorage.getItem("username");
   // const webSocketUrl = `ws://www.whereyedo.com:55808/eatstagram/ws/directMessage/${paramsId}`;
-  const webSocketUrl = `ws://localhost:8080/eatstagram/ws/directMessage/${paramsId}`;
+  const webSocketUrl = `ws://localhost:8080/eatstagram/ws/directMessage/${paramsId}?username=${localUserName}`;
   let ws = useRef(null);
   const scrollRef = useRef(null);
   const [inputText, setInputText] = useState(""); // input 부분
