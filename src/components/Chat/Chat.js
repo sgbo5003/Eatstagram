@@ -10,7 +10,7 @@ import Header from "../Header";
 import * as fncObj from "../../commonFunc/CommonObjFunctions";
 
 let roomListObj;
-let newRoomListObj;
+// let newRoomListObj;
 
 const Chat = (props) => {
   const { messageCount, setMessageCount } = props;
@@ -19,14 +19,15 @@ const Chat = (props) => {
   const [chatCreateModalOn, setChatCreateModalOn] = useState(false); // 채팅 생성 모달 제어
   const [chatStart, setChatStart] = useState(false); // 채팅 시작 여부
   const [roomList, setRoomList] = useState([]); // 채팅방 목록 array
-  const [newRoomList, setNewRoomList] = useState([]); // 새로 초대한 채팅방 목록 array
+  // const [newRoomList, setNewRoomList] = useState([]); // 새로 초대한 채팅방 목록 array
   const [newRoomUserInfo, setNewRoomUserInfo] = useState([]);
+  const [updateChatList, setUpdateChatList] = useState(false);
   const history = useHistory();
   const webSocketUrl = `ws://localhost:8080/eatstagram/ws/directMessageRoomList/${localUserName}`;
   let ws = useRef(null);
 
   roomListObj = [...roomList];
-  newRoomListObj = [...newRoomList];
+  // newRoomListObj = [...newRoomList];
 
   // 새로운 메세지 모달 띄우기
   const onCreateWriteModalHandler = () => {
@@ -45,9 +46,6 @@ const Chat = (props) => {
       if (roomList.length > 0) {
         roomList[idx].alertYn = "N";
         setRoomList([...roomList]);
-      } else if (newRoomList.length > 0) {
-        newRoomList[idx].alertYn = "N";
-        setNewRoomList([...newRoomList]);
       }
     }
   };
@@ -101,20 +99,21 @@ const Chat = (props) => {
     };
     ws.current.onmessage = (evt) => {
       const data = JSON.parse(evt.data);
-      console.log(data);
+      console.log("chatData : ", data);
       if (data.type === "createDirectMessageRoom") {
         if (data.newYn === "Y") {
-          newRoomList.push(data);
-          setNewRoomList([...newRoomList]);
-          setNewRoomUserInfo([...data.userList]);
+          let obj = {};
+          obj.directMessageRoomId = data.directMessageRoomId;
+          obj.directMessageRoomType = data.directMessageRoomType;
+          obj.directMessageRoomMemberDTOList = data.userList;
+          roomListObj.unshift(obj);
+          setRoomList([...roomListObj]);
         } else if (data.newYn === "N") {
           return;
         }
       } else if (data.type === "alert") {
         // db기반 채팅 목록 readYn 제어
         onListReadYnHandler(roomListObj, setRoomList, data);
-        // 새로운 채팅방 생성 시 readYn 제어
-        onListReadYnHandler(newRoomListObj, setNewRoomList, data);
       }
     };
     return () => {
@@ -144,6 +143,31 @@ const Chat = (props) => {
     }
   };
 
+  const onListUpdateHandler = (listObj, set) => {
+    let listIdx;
+    if (listObj.length > 0) {
+      // 빈값이면 undefined 때문에 check
+      listObj.map((item, idx) => {
+        if (paramsId === listObj[idx].directMessageRoomId) {
+          listIdx = idx;
+          return;
+        }
+      });
+      let unReadList = listObj[listIdx];
+      if (listIdx !== undefined) {
+        listObj.splice(listIdx, 1);
+        listObj.unshift(unReadList);
+        set([...listObj]);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (updateChatList) {
+      onListUpdateHandler(roomListObj, setRoomList);
+    }
+  }, [updateChatList]);
+
   return (
     <>
       <div className="main-area">
@@ -156,23 +180,23 @@ const Chat = (props) => {
               </p>
             </div>
             <div className="chat-list">
-              {newRoomList.map((data, idx) => {
+              {roomList.map((data, idx) => {
                 return (
                   <div
                     className="chatting-list"
-                    key={idx}
                     onClick={() => onChatStartHandler(data, idx)}
+                    key={idx}
                   >
-                    {newRoomUserInfo.map((data, idx) => {
+                    <div className="chatting-friend">
+                      <img src={storyProfileImg1} alt="" />
+                    </div>
+                    {data.directMessageRoomMemberDTOList.map((data, idx) => {
                       if (data.username !== localUserName) {
                         return (
-                          <div className="chatting-list-items" key={idx}>
-                            <div className="chatting-friend">
-                              <img src={storyProfileImg1} alt="" />
-                            </div>
-                            <div className="chatting-text">
-                              <h1>{data.nickname}</h1>
-                            </div>
+                          <div className="chatting-text" key={idx}>
+                            <h1>
+                              {data.nickname === null ? "유저1" : data.nickname}
+                            </h1>
                           </div>
                         );
                       }
@@ -185,37 +209,13 @@ const Chat = (props) => {
                   </div>
                 );
               })}
-              {roomList.map((data, idx) => {
-                return (
-                  <div
-                    className="chatting-list"
-                    onClick={() => onChatStartHandler(data, idx)}
-                    key={idx}
-                  >
-                    <div className="chatting-friend">
-                      <img src={storyProfileImg1} alt="" />
-                    </div>
-                    {data.directMessageRoomMemberDTOList.map((data, idx) => {
-                      return (
-                        <div className="chatting-text" key={idx}>
-                          <h1>
-                            {data.nickname === null ? "유저1" : data.nickname}
-                          </h1>
-                        </div>
-                      );
-                    })}
-                    {data.alertYn === "Y" ? (
-                      <span className="state">·</span>
-                    ) : (
-                      ""
-                    )}
-                  </div>
-                );
-              })}
             </div>
           </div>
           {chatStart ? (
-            <ChatRoom paramsId={paramsId} />
+            <ChatRoom
+              paramsId={paramsId}
+              setUpdateChatList={setUpdateChatList}
+            />
           ) : (
             <ChatInitialRightComponent
               onCreateWriteModalHandler={onCreateWriteModalHandler}

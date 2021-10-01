@@ -10,7 +10,7 @@ import { useHistory } from "react-router";
 let page = 0;
 
 const ChatRoom = (props) => {
-  const { paramsId } = props;
+  const { paramsId, setUpdateChatList } = props;
   const history = useHistory();
   const localUserName = localStorage.getItem("username");
   // const webSocketUrl = `ws://www.whereyedo.com:55808/eatstagram/ws/directMessage/${paramsId}`;
@@ -108,6 +108,7 @@ const ChatRoom = (props) => {
       console.log("disconnect from " + webSocketUrl);
       console.log(error);
       // db에 connectionStatusYn: N 전달 -> 채팅방에 접속중인지 조회
+      setUpdateChatList(false);
       chatConnectCheck("N");
     };
     ws.current.onerror = (error) => {
@@ -116,7 +117,8 @@ const ChatRoom = (props) => {
     };
     ws.current.onmessage = (evt) => {
       const data = JSON.parse(evt.data);
-      console.log(data);
+      console.log("chatRoomData : ", data);
+      setUpdateChatList(true);
       setMyChatBox((prevItems) => [...prevItems, data]);
       scrollToBottom();
     };
