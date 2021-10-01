@@ -53,7 +53,6 @@ const Chat = (props) => {
   };
 
   // 채팅방 목록 불러오기
-
   const getChatList = () => {
     fncObj.executeQuery({
       url: "directMessageRoom/getList",
@@ -82,7 +81,6 @@ const Chat = (props) => {
 
   useEffect(() => {
     history.push("/Chat");
-    chatConnectCheck("N");
     getChatList();
   }, []);
 
@@ -113,17 +111,10 @@ const Chat = (props) => {
           return;
         }
       } else if (data.type === "alert") {
-        let roomListIdx;
-        let newRoomListIdx;
         // db기반 채팅 목록 readYn 제어
-        onListReadYnHandler(roomListObj, roomListIdx, setRoomList, data);
+        onListReadYnHandler(roomListObj, setRoomList, data);
         // 새로운 채팅방 생성 시 readYn 제어
-        onListReadYnHandler(
-          newRoomListObj,
-          newRoomListIdx,
-          setNewRoomList,
-          data
-        );
+        onListReadYnHandler(newRoomListObj, setNewRoomList, data);
       }
     };
     return () => {
@@ -133,16 +124,23 @@ const Chat = (props) => {
   }, []);
 
   // 유저 리스트에서 읽었는지 안읽었는지 값을 변경해주는 함수
-  const onListReadYnHandler = (listObj, listIdx, set, data) => {
+  const onListReadYnHandler = (listObj, set, data) => {
+    let listIdx;
     if (listObj.length > 0) {
       // 빈값이면 undefined 때문에 check
       listObj.map((item, idx) => {
         if (data.directMessageRoomId === listObj[idx].directMessageRoomId) {
           listIdx = idx;
+          return;
         }
       });
-      listObj[listIdx].alertYn = "Y";
-      set([...listObj]);
+      let unReadList = listObj[listIdx];
+      if (listIdx !== undefined) {
+        unReadList.alertYn = "Y";
+        listObj.splice(listIdx, 1);
+        listObj.unshift(unReadList);
+        set([...listObj]);
+      }
     }
   };
 
