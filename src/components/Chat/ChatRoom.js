@@ -21,7 +21,6 @@ const ChatRoom = (props) => {
   const [myChatBox, setMyChatBox] = useState([]); // 나의 메세지를 담는 배열
   const [friendChatBox, setFriendChatBox] = useState([]); // 상대 메세지를 담는 배열
   const [chatList, setChatList] = useState([]); // 받아온 채팅 리스트
-  const [initialScroll, setInitialScroll] = useState(false); // 처음 스크롤 제어
   const [isDone, setIsDone] = useState(false); // 스크롤해서 데이터 가져오고 난뒤 체크
   const [image, setImage] = useState(null); // 이미지 파일
 
@@ -80,6 +79,8 @@ const ChatRoom = (props) => {
       }
       // 채팅을 보내면 input 비워주기
       setInputText("");
+    } else {
+      return;
     }
   };
 
@@ -141,6 +142,7 @@ const ChatRoom = (props) => {
       },
       success: (res) => {
         setChatList(res.content);
+        initialScrollPosition();
       },
     });
   };
@@ -171,7 +173,6 @@ const ChatRoom = (props) => {
         ++page;
         getAddChatData(page);
         scrollUpdate();
-        setInitialScroll(true);
       }
     } else {
       return;
@@ -193,22 +194,17 @@ const ChatRoom = (props) => {
 
   // 채팅을 보낸 후 스크롤 젤 하단으로 내리기
   const scrollToBottom = () => {
+    console.log("scrollToBottom1", scrollRef);
     const scrollHeight = scrollRef.current.scrollHeight;
-    scrollRef.current.scrollTo({ top: scrollHeight, behavior: "smooth" });
+    scrollRef.current.scrollTo({
+      top: scrollHeight,
+    });
   };
 
   // 처음 스크롤 젤 하단으로 내리기
   const initialScrollPosition = () => {
     scrollRef.current.scrollTop = 194;
   };
-
-  useEffect(() => {
-    if (!initialScroll) {
-      initialScrollPosition();
-    } else {
-      return;
-    }
-  });
 
   return (
     <>
@@ -337,7 +333,19 @@ const ChatRoom = (props) => {
             </label>
           </div>
           <p>
-            <FaRegHeart />
+            <FaRegHeart
+              onClick={() => {
+                ws.current.send(
+                  JSON.stringify({
+                    msg: inputText,
+                    type: "text",
+                    roomType: "directMessage",
+                    roomId: paramsId,
+                    username: localUserName,
+                  })
+                );
+              }}
+            />
           </p>
         </div>
       </div>
