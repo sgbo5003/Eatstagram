@@ -1,11 +1,30 @@
-import React from "react";
+import React, { useEffect } from "react";
+import * as fncObj from "../../commonFunc/CommonObjFunctions";
 
 const ChatExitModal = (props) => {
-  const { setChatExitModalOn } = props;
+  const localUserName = localStorage.getItem("username");
+  const { setChatExitModalOn, paramsId } = props;
+
+  const onRoomOutData = () => {
+    fncObj.executeQuery({
+      url: "directMessageRoom/out",
+      data: {
+        directMessageRoomId: paramsId,
+        username: localUserName,
+      },
+      success: (res) => {},
+    });
+  };
+
+  const onExitBtnHandler = () => {
+    onRoomOutData();
+    setChatExitModalOn(false);
+  };
 
   const onCancelBtnHandler = () => {
     setChatExitModalOn(false);
   };
+
   return (
     <div className="write-delete-window">
       <div className="write-delete-area">
@@ -15,7 +34,7 @@ const ChatExitModal = (props) => {
         </div>
         <div className="write-delete__bottom">
           <div className="chat-delete-btn">
-            <button>나가기</button>
+            <button onClick={onExitBtnHandler}>나가기</button>
           </div>
           <div className="chat-cancle-btn">
             <button onClick={onCancelBtnHandler}>취소</button>

@@ -90,7 +90,7 @@ const ChatRoom = (props) => {
   // 채팅 연결 되었는지 체크
   const chatConnectCheck = (data) => {
     fncObj.executeQuery({
-      url: "directMessageRoomMemberStatus/updateConnectionYn",
+      url: "directMessageRoomMember/updateConnectionYn",
       data: {
         directMessageRoomId: paramsId,
         username: localUserName,
@@ -358,7 +358,10 @@ const ChatRoom = (props) => {
         </div>
       </div>
       <Modal isOpen={chatExitModalOn} setIsOpen={setChatExitModalOn}>
-        <ChatExitModal setChatExitModalOn={setChatExitModalOn} />
+        <ChatExitModal
+          setChatExitModalOn={setChatExitModalOn}
+          paramsId={paramsId}
+        />
       </Modal>
     </>
   );

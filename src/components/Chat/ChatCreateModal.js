@@ -3,6 +3,7 @@ import storyProfileImg1 from "../../../public/images/명수스토리.jpg";
 import * as fncObj from "../../commonFunc/CommonObjFunctions";
 import * as fnc from "../../commonFunc/CommonFunctions";
 import { useHistory } from "react-router";
+import { FaTimes } from "react-icons/fa";
 
 const ChatCreateModal = (props) => {
   const { setChatCreateModalOn, ws } = props;
@@ -50,12 +51,16 @@ const ChatCreateModal = (props) => {
     setChatCreateModalOn(false);
   };
 
+  const onExitModalHandler = () => {
+    setChatCreateModalOn(false);
+  };
+
   return (
     <div className="chat-start-window">
       <div className="chat-start-area">
         <div className="chat-start__top">
           <p>
-            <i className="fas fa-times"></i>
+            <FaTimes onClick={onExitModalHandler} />
           </p>
           <h4>새로운 메시지</h4>
           <h2 onClick={onSubmit}>초대</h2>

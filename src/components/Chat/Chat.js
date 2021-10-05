@@ -63,7 +63,7 @@ const Chat = (props) => {
   const chatConnectCheck = (data) => {
     if (paramsId !== undefined) {
       fncObj.executeQuery({
-        url: "directMessageRoomMemberStatus/updateConnectionYn",
+        url: "directMessageRoomMember/updateConnectionYn",
         data: {
           directMessageRoomId: paramsId,
           username: localUserName,
@@ -99,7 +99,7 @@ const Chat = (props) => {
       const data = JSON.parse(evt.data);
       console.log("chatData : ", data);
       if (data.type === "createDirectMessageRoom") {
-        if (data.newYn === "Y") {
+        if (data.newYn === "Y" || data.inYn === "N") {
           let obj = {};
           obj.directMessageRoomId = data.directMessageRoomId;
           obj.directMessageRoomType = data.directMessageRoomType;
