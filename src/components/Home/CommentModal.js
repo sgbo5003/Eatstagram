@@ -2,7 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import foodImg from "../../../public/images/food.jpg";
 import userImg from "../../../public/images/묭수.jpg";
 import userImg2 from "../../../public/images/명수스토리.jpg";
-import { FaEllipsisH, FaTimes, FaPlusCircle } from "react-icons/fa";
+import { FaEllipsisH, FaTimes } from "react-icons/fa";
+import { AiOutlinePlusCircle } from "react-icons/ai";
 import * as fncObj from "../../commonFunc/CommonObjFunctions";
 import Slider from "react-slick";
 
@@ -267,7 +268,7 @@ const CommentModal = (props) => {
               {button ? (
                 <div className="comment-over-btn">
                   <button onClick={getAddData}>
-                    <FaPlusCircle />
+                    <AiOutlinePlusCircle />
                   </button>
                 </div>
               ) : (
