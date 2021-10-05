@@ -6,6 +6,8 @@ import * as fncObj from "../../commonFunc/CommonObjFunctions";
 import Header from "../Header";
 import Chat from "./Chat";
 import { useHistory } from "react-router";
+import Modal from "../../Modal";
+import ChatExitModal from "./ChatExitModal";
 
 let page = 0;
 
@@ -23,6 +25,7 @@ const ChatRoom = (props) => {
   const [chatList, setChatList] = useState([]); // 받아온 채팅 리스트
   const [isDone, setIsDone] = useState(false); // 스크롤해서 데이터 가져오고 난뒤 체크
   const [image, setImage] = useState(null); // 이미지 파일
+  const [chatExitModalOn, setChatExitModalOn] = useState(false);
 
   let uploadFileUsername;
   let uploadFileName;
@@ -206,6 +209,11 @@ const ChatRoom = (props) => {
     scrollRef.current.scrollTop = 194;
   };
 
+  // 채팅방 나가기 모달 띄우기
+  const onChatExitModalHandler = () => {
+    setChatExitModalOn(true);
+  };
+
   return (
     <>
       <div className="chat-right">
@@ -216,7 +224,7 @@ const ChatRoom = (props) => {
           </div>
           <div className="chat-info-btn">
             <p>
-              <MdExitToApp />
+              <MdExitToApp onClick={onChatExitModalHandler} />
             </p>
           </div>
         </div>
@@ -349,6 +357,9 @@ const ChatRoom = (props) => {
           </p>
         </div>
       </div>
+      <Modal isOpen={chatExitModalOn} setIsOpen={setChatExitModalOn}>
+        <ChatExitModal setChatExitModalOn={setChatExitModalOn} />
+      </Modal>
     </>
   );
 };

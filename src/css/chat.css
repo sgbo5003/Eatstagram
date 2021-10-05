@@ -414,3 +414,18 @@ h6 {
   font-weight: 400;
   font-size: 10px;
 }
+
+/*************채팅 나가기 관련 css*******************/
+.chat-delete-btn button,
+.chat-cancle-btn button {
+  width: 500px;
+  height: 60px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.chat-delete-btn button {
+  border-bottom: 1px solid #dbdbdb;
+  color: #ff0000;
+}
