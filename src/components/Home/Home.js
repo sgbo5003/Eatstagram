@@ -32,6 +32,7 @@ import * as fnc from "../../commonFunc/CommonFunctions";
 import * as fncObj from "../../commonFunc/CommonObjFunctions";
 import Modal from "../../Modal";
 import CommentModal from "./CommentModal";
+import ShareModal from "./ShareModal";
 
 let page = 0;
 
@@ -84,6 +85,7 @@ const Home = () => {
   const [like, setLike] = useState(false);
   const [commentData, setCommentData] = useState({});
   const [commentModalOn, setCommentModalOn] = useState(false);
+  const [shareModalOn, setShareModalOn] = useState(false);
   const [inputComment, setInputComment] = useState("");
   const getLocalUserName = localStorage.getItem("username");
   const [items, setItems] = useState([]);
@@ -102,6 +104,11 @@ const Home = () => {
       userPosts[idx].likeCount = likeCount;
       setUserPosts([...userPosts]);
     });
+  };
+
+  // 게시글 공유 창 관련
+  const onShareModalHandler = () => {
+    setShareModalOn(true);
   };
 
   // 초기 데이터 불러오기 (컨텐츠)
@@ -412,7 +419,7 @@ const Home = () => {
                             />
                           </p>
                           <p>
-                            <FaRegPaperPlane />
+                            <FaRegPaperPlane onClick={onShareModalHandler} />
                           </p>
                         </div>
                         <div className="post-etc__right">
@@ -517,6 +524,9 @@ const Home = () => {
           getRegdate={getRegdate}
           settings={settings}
         />
+      </Modal>
+      <Modal isOpen={shareModalOn} setIsOpen={setShareModalOn}>
+        <ShareModal setShareModalOn={setShareModalOn} />
       </Modal>
     </>
   );

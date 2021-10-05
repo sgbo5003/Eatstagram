@@ -84,7 +84,7 @@ const Header = (props) => {
 
   const getHeaderAlertData = () => {
     fncObj.executeQuery({
-      url: "directMessageRoomMemberStatus/unreadMessageTotalCountByUsername",
+      url: "directMessageRoomMember/unreadMessageTotalCountByUsername",
       data: {
         username: localUserName,
       },
