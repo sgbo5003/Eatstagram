@@ -88,7 +88,6 @@ const Chat = (props) => {
     ws.current.onclose = (error) => {
       console.log("disconnect from " + webSocketUrl);
       console.log(error);
-      sendChatListData();
       // 안읽은 채팅이 있는지 조회 -> readYn : Y or N
     };
     ws.current.onerror = (error) => {
@@ -167,28 +166,6 @@ const Chat = (props) => {
       setUpdateChatList(false);
     }
   }, [updateChatList]);
-
-  // 바뀐 채팅 목록 리스트 보내주는 함수
-  const sendChatListData = () => {
-    const paramsData = new FormData();
-    paramsData.append("username", localUserName);
-    roomListObj.map((item, idx) => {
-      paramsData.append(`directMessageRoomDTOList[${idx}].rowNum`, idx);
-      paramsData.append(
-        `directMessageRoomDTOList[${idx}].directMessageRoomId`,
-        item.directMessageRoomId
-      );
-    });
-    axios({
-      method: "post",
-      url: "http://localhost:8080/eatstagram/directMessageRoom/updateRowNum",
-      data: paramsData,
-    })
-      .then((response) => {})
-      .catch((error) => {
-        console.log(error);
-      });
-  };
 
   return (
     <>

@@ -19,6 +19,7 @@ const ChatExitModal = (props) => {
   const onExitBtnHandler = () => {
     onRoomOutData();
     setChatExitModalOn(false);
+    location.reload();
   };
 
   const onCancelBtnHandler = () => {
