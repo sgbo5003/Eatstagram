@@ -36,7 +36,7 @@ const Profile = () => {
                 <h3>3</h3>
               </div>
               <div className="profile-info-li">
-                <h2>친구</h2>
+                <h2>구독</h2>
                 <h3>90</h3>
               </div>
             </div>

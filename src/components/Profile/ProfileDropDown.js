@@ -15,12 +15,7 @@ const ProfileDropDown = (props) => {
           </p>
           <p>프로필</p>
         </div>
-        <div className="user-dropdown-li">
-          <p>
-            <FaBookmark />
-          </p>
-          <p>저장됨</p>
-        </div>
+
         <div className="user-dropdown-li">
           <p>
             <FaCog />
