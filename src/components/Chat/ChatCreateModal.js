@@ -16,7 +16,7 @@ const ChatCreateModal = (props) => {
   // input 입력값
   const onInputTextHandler = (e) => {
     setInputText(e.target.value);
-    if (e.target.value === "" || e.target.value === "") {
+    if (e.target.value === "" || e.target.value.trim() === "") {
       return;
     } else {
       getUserSearchData(e);
@@ -28,7 +28,7 @@ const ChatCreateModal = (props) => {
     fncObj.executeQuery({
       url: "getListByNameAndNickname",
       data: {
-        condition: e.target.value, // inputText 를 넣었더니 반응이 한글자씩 느립니다.. ex) 박을 검색하려면 밗 까지 쳐야 박을 인식하는 것 같습니다.
+        condition: e.target.value,
         username: localUser,
       },
       success: (res) => {
