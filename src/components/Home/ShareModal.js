@@ -69,6 +69,7 @@ const ShareModal = (props) => {
         },
       })
     );
+    setShareModalOn(false);
   };
 
   // 유저 입력값 조회

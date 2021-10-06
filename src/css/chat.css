@@ -204,7 +204,13 @@
   align-items: flex-end;
 }
 
-.my-message {
+.friend-message2 {
+  display: flex;
+  align-items: flex-end;
+}
+
+.my-message,
+.my-message2 {
   display: flex;
   justify-content: flex-end;
   margin-right: 10px;
@@ -428,4 +434,59 @@ h6 {
 .chat-delete-btn button {
   border-bottom: 1px solid #dbdbdb;
   color: #ff0000;
+}
+
+/*************채팅 공유 관련 css*********************/
+.friend-message__img {
+  width: 20px;
+  height: 20px;
+  border-radius: 50px;
+  margin-right: 6px;
+}
+
+.my-message__share,
+.friend-message__share {
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+  background-color: #f1f1f1;
+  border-radius: 20px;
+  width: 200px;
+  margin-top: 6px;
+}
+
+.share-user {
+  display: flex;
+  align-items: center;
+  padding: 6px;
+  padding-left: 8px;
+}
+
+.share-user img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50px;
+}
+
+.share-user h4 {
+  margin-left: 6px;
+}
+
+.share-contents img {
+  width: 200px;
+  height: 200px;
+}
+
+.share-post {
+  display: flex;
+  align-items: center;
+  padding: 6px;
+  padding-top: 0px;
+  padding-left: 8px;
+  position: relative;
+}
+
+.share-post p {
+  font-size: 12px;
+  margin-left: 6px;
 }
