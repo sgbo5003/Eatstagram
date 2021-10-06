@@ -82,7 +82,7 @@ const CommentModal = (props) => {
   // 엔터키 눌러 댓글 전송
   const onKeyPress = (e) => {
     if (e.key == "Enter") {
-      if (comment === "") {
+      if (comment === "" || comment.trim() === "") {
         return;
       } else {
         ws.current.send(
