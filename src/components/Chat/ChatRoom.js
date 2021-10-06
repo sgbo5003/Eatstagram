@@ -250,15 +250,9 @@ const ChatRoom = (props) => {
                   );
                 } else if (data.directMessageType === "share") {
                   const jsonData = JSON.parse(data.directMessage);
-
                   return (
-                    <div className="friend-message2" key={idx}>
-                      <img
-                        className="friend-message__img"
-                        src="./images/명수스토리.jpg"
-                        alt=""
-                      />
-                      <div className="friend-message__share">
+                    <div className="my-message2" key={idx}>
+                      <div className="my-message__share">
                         <div className="share-user">
                           <img src="./images/묭수.jpg" alt="" />
                           <h4>{jsonData.username}</h4>
@@ -347,23 +341,21 @@ const ChatRoom = (props) => {
                 );
               } else if (data.type === "share") {
                 return (
-                  <div className="friend-message2" key={idx}>
-                    <img
-                      className="friend-message__img"
-                      src="./images/명수스토리.jpg"
-                      alt=""
-                    />
-                    <div className="friend-message__share">
+                  <div className="my-message2" key={idx}>
+                    <div className="my-message__share">
                       <div className="share-user">
                         <img src="./images/묭수.jpg" alt="" />
-                        <h4>{data.username}</h4>
+                        <h4>{jsonData.username}</h4>
                       </div>
                       <div className="share-contents">
-                        <img src={`upload/content/${data.thumbnail}`} alt="" />
+                        <img
+                          src={`upload/content/${jsonData.thumbnail}`}
+                          alt=""
+                        />
                       </div>
                       <div className="share-post">
-                        <h4>{data.username}</h4>
-                        <p>{data.text}</p>
+                        <h4>{jsonData.username}</h4>
+                        <p>{jsonData.text}</p>
                       </div>
                     </div>
                   </div>
