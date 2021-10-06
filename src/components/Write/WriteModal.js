@@ -121,7 +121,6 @@ const WriteModal = () => {
       };
       reader.readAsDataURL(e.target.files[0]);
     }
-    console.log(fileImg);
   };
 
   // 하단 이미지 선택 시
@@ -138,7 +137,6 @@ const WriteModal = () => {
     })
       .then((response) => {
         console.log(response);
-        console.log(response.data.documents); // 검색결과 []
         setLocationList(response.data.documents);
       })
       .catch((error) => {

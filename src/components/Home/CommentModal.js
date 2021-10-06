@@ -26,7 +26,6 @@ const CommentModal = (props) => {
   let ws = useRef(null);
 
   useEffect(() => {
-    console.log(commentData);
     ws.current = new WebSocket(webSocketUrl);
     ws.current.onopen = () => {
       console.log("connected to " + webSocketUrl);

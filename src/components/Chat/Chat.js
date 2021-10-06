@@ -96,7 +96,6 @@ const Chat = (props) => {
     };
     ws.current.onmessage = (evt) => {
       const data = JSON.parse(evt.data);
-      console.log("chatData : ", data);
       if (data.type === "createDirectMessageRoom") {
         if (data.newYn === "Y" || data.inYn === "N") {
           let obj = {};

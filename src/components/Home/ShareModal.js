@@ -12,7 +12,6 @@ const ShareModal = (props) => {
 
   // input 입력값
   const onInputTextHandler = (e) => {
-    console.log(e.target.value);
     setInputText(e.target.value);
     if (e.target.value === "" || e.target.value.trim() === "") {
       return;
@@ -39,11 +38,9 @@ const ShareModal = (props) => {
   };
 
   const onUserCheckHandler = (data) => {
-    const obj = {};
+    const obj = { ...checked };
     obj.username = data.username;
-    console.log("obj", obj);
-    setChecked(obj);
-    console.log("checked", checked);
+    setChecked({ ...obj });
   };
 
   const onRoomCheckHandler = (data) => {
@@ -51,7 +48,6 @@ const ShareModal = (props) => {
     obj.roomId = data.directMessageRoomId;
     obj.username = data.directMessageRoomMemberDTOList[0].username;
     setChecked({ ...obj });
-    console.log("checked", checked);
   };
 
   // 보내기 버튼 제어

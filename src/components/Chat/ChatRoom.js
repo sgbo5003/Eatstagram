@@ -54,7 +54,6 @@ const ChatRoom = (props) => {
         ws.current.send(arrayBuffer);
       };
       fileReader.readAsArrayBuffer(imageFile);
-      console.log(imageFile);
     }
   };
   // 채팅 입력
@@ -121,7 +120,6 @@ const ChatRoom = (props) => {
     };
     ws.current.onmessage = (evt) => {
       const data = JSON.parse(evt.data);
-      console.log("chatRoomData : ", data);
       if (updateChatList === false) {
         setUpdateChatList(true);
       }
@@ -197,7 +195,6 @@ const ChatRoom = (props) => {
 
   // 채팅을 보낸 후 스크롤 젤 하단으로 내리기
   const scrollToBottom = () => {
-    console.log("scrollToBottom1", scrollRef);
     const scrollHeight = scrollRef.current.scrollHeight;
     scrollRef.current.scrollTo({
       top: scrollHeight,
@@ -253,7 +250,7 @@ const ChatRoom = (props) => {
                   );
                 } else if (data.directMessageType === "share") {
                   const jsonData = JSON.parse(data.directMessage);
-                  console.log(jsonData);
+
                   return (
                     <div className="friend-message2" key={idx}>
                       <img
@@ -303,7 +300,6 @@ const ChatRoom = (props) => {
                   );
                 } else if (data.directMessageType === "share") {
                   const jsonData = JSON.parse(data.directMessage);
-                  console.log(jsonData);
                   return (
                     <div className="friend-message2" key={idx}>
                       <img
