@@ -476,6 +476,10 @@ h6 {
   width: 200px;
   height: 200px;
 }
+.share-contents video {
+  width: 200px;
+  height: 200px;
+}
 
 .share-post {
   display: flex;

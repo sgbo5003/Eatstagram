@@ -33,7 +33,7 @@ const Header = (props) => {
 
   const onLogoClick = () => {
     history.push("/");
-    location.reload();
+    // location.reload();
   };
 
   const onChatClick = () => {

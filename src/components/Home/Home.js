@@ -485,7 +485,7 @@ const Home = () => {
                   <img src={myProfileImg} alt="" />
                 </div>
                 <div className="main-user__id">
-                  <h1>gyuxxr</h1>
+                  <h1>{getLocalUserName}</h1>
                 </div>
               </div>
               <div className="main-lank">

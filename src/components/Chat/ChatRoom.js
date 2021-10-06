@@ -202,7 +202,7 @@ const ChatRoom = (props) => {
       url: "directMessage/getPagingList",
       data: {
         page: 0,
-        size: 16,
+        size: 13,
         directMessageRoomId: paramsId,
       },
       success: (res) => {
@@ -248,7 +248,9 @@ const ChatRoom = (props) => {
   useEffect(() => {
     scrollRef.current.addEventListener("scroll", handleScroll);
     return () => {
-      scrollRef.current.removeEventListener("scroll", handleScroll);
+      if (scrollRef.current !== null) {
+        scrollRef.current.removeEventListener("scroll", handleScroll);
+      }
     };
   });
 
@@ -267,7 +269,7 @@ const ChatRoom = (props) => {
 
   // 처음 스크롤 젤 하단으로 내리기
   const initialScrollPosition = () => {
-    scrollRef.current.scrollTop = 400;
+    scrollRef.current.scrollTop = 10000;
   };
 
   // 채팅방 나가기 모달 띄우기
@@ -320,29 +322,61 @@ const ChatRoom = (props) => {
                   );
                 } else if (data.directMessageType === "share") {
                   const jsonData = JSON.parse(data.directMessage);
-                  return (
-                    <div className="my-message2" key={idx}>
-                      <div className="my-message__share">
-                        <div className="share-user">
-                          <img src="./images/묭수.jpg" alt="" />
-                          <h4>{jsonData.username}</h4>
-                        </div>
-                        <div
-                          className="share-contents"
-                          onClick={() => onCommentModalHandler(jsonData)}
-                        >
-                          <img
-                            src={`upload/content/${jsonData.thumbnail}`}
-                            alt=""
-                          />
-                        </div>
-                        <div className="share-post">
-                          <h4>{jsonData.username}</h4>
-                          <p>{jsonData.text}</p>
+                  console.log(jsonData);
+                  if (jsonData.contentFileDTOList[0].type === "video/mp4") {
+                    return (
+                      <div className="my-message2" key={idx}>
+                        <div className="my-message__share">
+                          <div className="share-user">
+                            <img src="./images/묭수.jpg" alt="" />
+                            <h4>{jsonData.username}</h4>
+                          </div>
+                          <div
+                            className="share-contents"
+                            onClick={() => onCommentModalHandler(jsonData)}
+                          >
+                            <video controls height="200">
+                              <source
+                                src={`upload/content/${jsonData.thumbnail}`}
+                                type="video/mp4"
+                              />
+                            </video>
+                          </div>
+                          <div className="share-post">
+                            <h4>{jsonData.username}</h4>
+                            <p>{jsonData.text}</p>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  );
+                    );
+                  } else if (
+                    jsonData.contentFileDTOList[0].type === "image/jpeg" ||
+                    jsonData.contentFileDTOList[0].type === "image/png"
+                  ) {
+                    return (
+                      <div className="my-message2" key={idx}>
+                        <div className="my-message__share">
+                          <div className="share-user">
+                            <img src="./images/묭수.jpg" alt="" />
+                            <h4>{jsonData.username}</h4>
+                          </div>
+                          <div
+                            className="share-contents"
+                            onClick={() => onCommentModalHandler(jsonData)}
+                          >
+                            <img
+                              src={`upload/content/${jsonData.thumbnail}`}
+                              alt=""
+                            />
+                          </div>
+                          <div className="share-post">
+                            <h4>{jsonData.username}</h4>
+                            <p>{jsonData.text}</p>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  }
                 }
               } else {
                 if (data.directMessageType === "text") {
@@ -367,34 +401,70 @@ const ChatRoom = (props) => {
                   );
                 } else if (data.directMessageType === "share") {
                   const jsonData = JSON.parse(data.directMessage);
-                  return (
-                    <div className="friend-message2" key={idx}>
-                      <img
-                        className="friend-message__img"
-                        src="./images/명수스토리.jpg"
-                        alt=""
-                      />
-                      <div className="friend-message__share">
-                        <div className="share-user">
-                          <img src="./images/묭수.jpg" alt="" />
-                          <h4>{jsonData.username}</h4>
-                        </div>
-                        <div
-                          className="share-contents"
-                          onClick={onCommentModalHandler}
-                        >
-                          <img
-                            src={`upload/content/${jsonData.thumbnail}`}
-                            alt=""
-                          />
-                        </div>
-                        <div className="share-post">
-                          <h4>{jsonData.username}</h4>
-                          <p>{jsonData.text}</p>
+                  if (jsonData.contentFileDTOList[0].type === "video/mp4") {
+                    return (
+                      <div className="friend-message2" key={idx}>
+                        <img
+                          className="friend-message__img"
+                          src="./images/명수스토리.jpg"
+                          alt=""
+                        />
+                        <div className="friend-message__share">
+                          <div className="share-user">
+                            <img src="./images/묭수.jpg" alt="" />
+                            <h4>{jsonData.username}</h4>
+                          </div>
+                          <div
+                            className="share-contents"
+                            onClick={onCommentModalHandler}
+                          >
+                            <video controls height="200">
+                              <source
+                                src={`upload/content/${jsonData.thumbnail}`}
+                                type="video/mp4"
+                              />
+                            </video>
+                          </div>
+                          <div className="share-post">
+                            <h4>{jsonData.username}</h4>
+                            <p>{jsonData.text}</p>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  );
+                    );
+                  } else if (
+                    jsonData.contentFileDTOList[0].type === "image/jpeg" ||
+                    jsonData.contentFileDTOList[0].type === "image/png"
+                  ) {
+                    return (
+                      <div className="friend-message2" key={idx}>
+                        <img
+                          className="friend-message__img"
+                          src="./images/명수스토리.jpg"
+                          alt=""
+                        />
+                        <div className="friend-message__share">
+                          <div className="share-user">
+                            <img src="./images/묭수.jpg" alt="" />
+                            <h4>{jsonData.username}</h4>
+                          </div>
+                          <div
+                            className="share-contents"
+                            onClick={onCommentModalHandler}
+                          >
+                            <img
+                              src={`upload/content/${jsonData.thumbnail}`}
+                              alt=""
+                            />
+                          </div>
+                          <div className="share-post">
+                            <h4>{jsonData.username}</h4>
+                            <p>{jsonData.text}</p>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  }
                 }
               }
             })}
@@ -416,26 +486,54 @@ const ChatRoom = (props) => {
                   </div>
                 );
               } else if (data.type === "share") {
-                return (
-                  <div className="my-message2" key={idx}>
-                    <div className="my-message__share">
-                      <div className="share-user">
-                        <img src="./images/묭수.jpg" alt="" />
-                        <h4>{jsonData.username}</h4>
-                      </div>
-                      <div className="share-contents">
-                        <img
-                          src={`upload/content/${jsonData.thumbnail}`}
-                          alt=""
-                        />
-                      </div>
-                      <div className="share-post">
-                        <h4>{jsonData.username}</h4>
-                        <p>{jsonData.text}</p>
+                if (data.contentFileDTOList[0].type === "video/mp4") {
+                  return (
+                    <div className="my-message2" key={idx}>
+                      <div className="my-message__share">
+                        <div className="share-user">
+                          <img src="./images/묭수.jpg" alt="" />
+                          <h4>{data.username}</h4>
+                        </div>
+                        <div className="share-contents">
+                          <video controls height="200">
+                            <source
+                              src={`upload/content/${data.thumbnail}`}
+                              type="video/mp4"
+                            />
+                          </video>
+                        </div>
+                        <div className="share-post">
+                          <h4>{data.username}</h4>
+                          <p>{data.text}</p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
+                  );
+                } else if (
+                  data.contentFileDTOList[0].type === "image/jpeg" ||
+                  data.contentFileDTOList[0].type === "image/png"
+                ) {
+                  return (
+                    <div className="my-message2" key={idx}>
+                      <div className="my-message__share">
+                        <div className="share-user">
+                          <img src="./images/묭수.jpg" alt="" />
+                          <h4>{data.username}</h4>
+                        </div>
+                        <div className="share-contents">
+                          <img
+                            src={`upload/content/${data.thumbnail}`}
+                            alt=""
+                          />
+                        </div>
+                        <div className="share-post">
+                          <h4>{data.username}</h4>
+                          <p>{data.text}</p>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                }
               }
             } else {
               if (data.type === "text") {
@@ -459,28 +557,64 @@ const ChatRoom = (props) => {
                   </div>
                 );
               } else if (data.type === "share") {
-                return (
-                  <div className="friend-message2" key={idx}>
-                    <img
-                      className="friend-message__img"
-                      src="./images/명수스토리.jpg"
-                      alt=""
-                    />
-                    <div className="friend-message__share">
-                      <div className="share-user">
-                        <img src="./images/묭수.jpg" alt="" />
-                        <h4>{data.username}</h4>
-                      </div>
-                      <div className="share-contents">
-                        <img src={`upload/content/${data.thumbnail}`} alt="" />
-                      </div>
-                      <div className="share-post">
-                        <h4>{data.username}</h4>
-                        <p>{data.text}</p>
+                if (data.contentFileDTOList[0].type === "video/mp4") {
+                  return (
+                    <div className="friend-message2" key={idx}>
+                      <img
+                        className="friend-message__img"
+                        src="./images/명수스토리.jpg"
+                        alt=""
+                      />
+                      <div className="friend-message__share">
+                        <div className="share-user">
+                          <img src="./images/묭수.jpg" alt="" />
+                          <h4>{data.username}</h4>
+                        </div>
+                        <div className="share-contents">
+                          <video controls height="200">
+                            <source
+                              src={`upload/content/${data.thumbnail}`}
+                              type="video/mp4"
+                            />
+                          </video>
+                        </div>
+                        <div className="share-post">
+                          <h4>{data.username}</h4>
+                          <p>{data.text}</p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
+                  );
+                } else if (
+                  data.contentFileDTOList[0].type === "image/jpeg" ||
+                  data.contentFileDTOList[0].type === "image/png"
+                ) {
+                  return (
+                    <div className="friend-message2" key={idx}>
+                      <img
+                        className="friend-message__img"
+                        src="./images/명수스토리.jpg"
+                        alt=""
+                      />
+                      <div className="friend-message__share">
+                        <div className="share-user">
+                          <img src="./images/묭수.jpg" alt="" />
+                          <h4>{data.username}</h4>
+                        </div>
+                        <div className="share-contents">
+                          <img
+                            src={`upload/content/${data.thumbnail}`}
+                            alt=""
+                          />
+                        </div>
+                        <div className="share-post">
+                          <h4>{data.username}</h4>
+                          <p>{data.text}</p>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                }
               }
             }
           })}
