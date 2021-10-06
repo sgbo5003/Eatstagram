@@ -148,7 +148,7 @@ const Header = (props) => {
         </div>
       </div>
       <Modal isOpen={writeModalOn} setIsOpen={setWriteModalOn}>
-        <WriteModal />
+        <WriteModal setWriteModalOn={setWriteModalOn} />
       </Modal>
     </>
   );

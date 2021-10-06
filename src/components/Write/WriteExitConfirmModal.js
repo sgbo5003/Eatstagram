@@ -2,7 +2,7 @@ import React from "react";
 import { useHistory } from "react-router";
 
 const WriteExitConfirmModal = (props) => {
-  const { setModalOn } = props;
+  const { setModalOn, setWriteModalOn } = props;
   const history = useHistory();
   // 취소 버튼
   const onCancelButtonHandler = () => {
@@ -10,8 +10,8 @@ const WriteExitConfirmModal = (props) => {
   };
   // 삭제 버튼
   const onDeleteButtonHandler = () => {
-    history.push("/");
-    location.reload();
+    setModalOn(false);
+    setWriteModalOn(false);
   };
 
   return (

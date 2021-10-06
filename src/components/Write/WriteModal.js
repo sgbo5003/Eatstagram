@@ -14,7 +14,8 @@ import Modal from "../../Modal";
 import WriteExitConfirmModal from "./WriteExitConfirmModal";
 import { useHistory } from "react-router";
 
-const WriteModal = () => {
+const WriteModal = (props) => {
+  const { setWriteModalOn } = props;
   const category = [
     "한식",
     "양식",
@@ -205,11 +206,6 @@ const WriteModal = () => {
     setModalOn(true);
   };
 
-  const onExitModalHandler = () => {
-    history.push("/");
-    location.reload();
-  };
-
   return (
     <>
       <div className="write-window">
@@ -312,6 +308,9 @@ const WriteModal = () => {
                     placeholder="위치 추가..."
                     value={userLocation}
                     onChange={onUserLocationHandler}
+                    onBlur={() => {
+                      setIsDropClick(false);
+                    }}
                   />
 
                   <button onClick={onLocationClick}>
@@ -382,7 +381,10 @@ const WriteModal = () => {
       </div>
 
       <Modal isOpen={modalOn} setIsOpen={setModalOn}>
-        <WriteExitConfirmModal setModalOn={setModalOn} />
+        <WriteExitConfirmModal
+          setModalOn={setModalOn}
+          setWriteModalOn={setWriteModalOn}
+        />
       </Modal>
     </>
   );
