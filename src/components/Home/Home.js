@@ -89,6 +89,8 @@ const Home = () => {
   const [inputComment, setInputComment] = useState("");
   const getLocalUserName = localStorage.getItem("username");
   const [items, setItems] = useState([]);
+  const [contentId, setContentId] = useState("");
+  const [contentFile, setContentFile] = useState("");
 
   // 댓글 모달 창 관련
   const onCommentModalHandler = (data) => {
@@ -107,8 +109,10 @@ const Home = () => {
   };
 
   // 게시글 공유 창 관련
-  const onShareModalHandler = () => {
+  const onShareModalHandler = (data) => {
     setShareModalOn(true);
+    setContentId(data.contentId);
+    setContentFile(data.contentFileDTOList[0].name);
   };
 
   // 초기 데이터 불러오기 (컨텐츠)
@@ -419,7 +423,9 @@ const Home = () => {
                             />
                           </p>
                           <p>
-                            <FaRegPaperPlane onClick={onShareModalHandler} />
+                            <FaRegPaperPlane
+                              onClick={() => onShareModalHandler(data)}
+                            />
                           </p>
                         </div>
                         <div className="post-etc__right">
@@ -526,7 +532,12 @@ const Home = () => {
         />
       </Modal>
       <Modal isOpen={shareModalOn} setIsOpen={setShareModalOn}>
-        <ShareModal setShareModalOn={setShareModalOn} />
+        <ShareModal
+          setShareModalOn={setShareModalOn}
+          ws={ws}
+          contentId={contentId}
+          contentFile={contentFile}
+        />
       </Modal>
     </>
   );
