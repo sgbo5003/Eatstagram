@@ -109,14 +109,19 @@
 }
 
 .profile-area__post {
-  margin-top: 20px;
+  /* margin-top: 20px; */
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  /* justify-content: space-between; */
 }
 
 .profile-area__post img {
-  width: 32%;
+  /* width: 32%;
+  cursor: pointer; */
+  width: 330px;
   cursor: pointer;
+  height: 330px;
+  margin: 0px 11px 17px 11px;
 }
 
 .profile-bar-post,
