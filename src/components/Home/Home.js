@@ -116,13 +116,13 @@ const Home = () => {
   };
 
   // 초기 데이터 불러오기 (컨텐츠)
-  const getContentData = (page) => {
+  const getContentData = () => {
     fncObj.executeQuery({
       url: "/content/getPagingList",
       data: {
         page: 0,
         size: 3,
-        username: localStorage.getItem("username"),
+        username: getLocalUserName,
       },
       success: (res) => {
         setUserPosts(res.content);
@@ -137,7 +137,7 @@ const Home = () => {
       data: {
         page: page,
         size: 3,
-        username: localStorage.getItem("username"),
+        username: getLocalUserName,
       },
       success: (res) => {
         if (res.content.length > 0) setUserPosts(userPosts.concat(res.content));
@@ -150,7 +150,7 @@ const Home = () => {
     fnc.executeQuery({
       url: "content/like/save",
       data: {
-        username: localStorage.getItem("username"),
+        username: getLocalUserName,
         contentId: data.contentId,
       },
       success: (res) => {
@@ -199,7 +199,7 @@ const Home = () => {
         ws.current.send(
           JSON.stringify({
             roomId: data.contentId,
-            username: localStorage.getItem("username"),
+            username: getLocalUserName,
             msg: inputComment,
             roomType: "contentReply",
             type: "text",
@@ -222,42 +222,6 @@ const Home = () => {
     }
     setInputComment("");
   };
-
-  // 댓글 엔터로 전송 시
-  //   const onKeyPress = (e) => {
-  //     if (e.key == "Enter") {
-  //       if (inputComment === "") {
-  //         return;
-  //       } else {
-  //         ws.current = new WebSocket(webSocketUrl);
-  //         ws.current.onopen = () => {
-  //           console.log("connected to " + webSocketUrl);
-  //           ws.current.send(
-  //             JSON.stringify({
-  //               roomId: userPosts.contentId,
-  //               username: localStorage.getItem("username"),
-  //               msg: inputComment,
-  //               roomType: "contentReply",
-  //             })
-  //           );
-  //           ws.current.close();
-  //         };
-  //         ws.current.onclose = (error) => {
-  //           console.log("disconnect from " + webSocketUrl);
-  //           console.log(error);
-  //         };
-  //         ws.current.onerror = (error) => {
-  //           console.log("connection error " + webSocketUrl);
-  //           console.log(error);
-  //         };
-  //         ws.current.onmessage = (evt) => {
-  //           const data = JSON.parse(evt.data);
-  //           console.log(data);
-  //         };
-  //       }
-  //       setInputComment("");
-  //     }
-  //   };
 
   const getRegdate = (item) => {
     const now = new Date();
