@@ -17,6 +17,7 @@ import Modal from "../Modal";
 import WriteModal from "./Write/WriteModal";
 import ProfileDropDown from "./Profile/ProfileDropDown";
 import * as fncObj from "../commonFunc/CommonObjFunctions";
+import Search from "./Search/Search";
 const Header = (props) => {
   const { messageCount, setMessageCount } = props;
   const localUserName = localStorage.getItem("username");
@@ -51,6 +52,7 @@ const Header = (props) => {
 
   useEffect(() => {
     getHeaderAlertData();
+    getProfileData();
     ws.current = new WebSocket(webSocketUrl);
     if (location.pathname !== "/Chat") {
       ws.current.onopen = () => {
@@ -93,6 +95,16 @@ const Header = (props) => {
     });
   };
 
+  const getProfileData = () => {
+    fncObj.executeQuery({
+      url: "getMemberInfo",
+      data: {
+        username: localUserName,
+      },
+      success: (res) => {},
+    });
+  };
+
   return (
     <>
       <div className="header">
@@ -100,7 +112,7 @@ const Header = (props) => {
           <div>
             <h1 onClick={onLogoClick}>Eatstagram</h1>
           </div>
-
+          <Search />
           <div className="header-area__icons">
             <Link to="/">
               <p className="header-area__icons_items">
