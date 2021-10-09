@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import defaultImg from "../../../public/images/default_user.png";
 import myProfileImg from "../../../public/images/묭수.jpg";
 import storyProfileImg1 from "../../../public/images/명수스토리.jpg";
 import storyProfileImg2 from "../../../public/images/명수스토리2.jpg";
@@ -87,10 +88,12 @@ const Home = () => {
   const [commentModalOn, setCommentModalOn] = useState(false);
   const [shareModalOn, setShareModalOn] = useState(false);
   const [inputComment, setInputComment] = useState("");
-  const getLocalUserName = localStorage.getItem("username");
+
   const [items, setItems] = useState([]);
   const [contentId, setContentId] = useState("");
   const [contentFile, setContentFile] = useState("");
+  const getLocalUserName = localStorage.getItem("username");
+  const getLocalUserNickName = localStorage.getItem("userNickname");
 
   // 댓글 모달 창 관련
   const onCommentModalHandler = (data) => {
@@ -164,10 +167,8 @@ const Home = () => {
     const scrollHeight = document.documentElement.scrollHeight;
     const scrollTop = document.documentElement.scrollTop;
     const clientHeight = document.documentElement.clientHeight;
-
     if (scrollTop + clientHeight >= scrollHeight) {
       ++page;
-
       getAddData(page);
     }
   };
@@ -200,6 +201,7 @@ const Home = () => {
           JSON.stringify({
             roomId: data.contentId,
             username: getLocalUserName,
+            nickname: getLocalUserNickName,
             msg: inputComment,
             roomType: "contentReply",
             type: "text",
@@ -326,7 +328,7 @@ const Home = () => {
                           <img src={storyProfileImg1} alt="" />
                         </div>
                         <div className="post-user__id">
-                          <h1>{data.username}</h1>
+                          <h1>{data.nickname}</h1>
                         </div>
                       </div>
                       <div className="post-setting">
@@ -408,18 +410,18 @@ const Home = () => {
                               return <p key={idx}>#{data.hashtag}</p>;
                             })}
                           </div>
-                          <div className="post-content__comment">
+                          {/* <div className="post-content__comment">
                             <div className="post-content__id">
-                              <h4>whereyedo</h4>
+                              <h4>{data.nickname}</h4>
                             </div>
                             <div className="post-content__serve">
                               <p>{data.text}</p>
                             </div>
-                          </div>
+                          </div> */}
                         </div>
-                        <div className="post-content__time">
+                        {/* <div className="post-content__time">
                           <h6>5시간 전</h6>
-                        </div>
+                        </div> */}
                       </div>
                       <div className="post-etc__comment">
                         <input
@@ -446,10 +448,10 @@ const Home = () => {
             <div className="lank-area">
               <div className="main-user">
                 <div className="main-user__img">
-                  <img src={myProfileImg} alt="" />
+                  <img src={defaultImg} alt="" />
                 </div>
                 <div className="main-user__id">
-                  <h1>{getLocalUserName}</h1>
+                  <h1>{getLocalUserNickName}</h1>
                 </div>
               </div>
               <div className="main-lank">

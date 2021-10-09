@@ -58,6 +58,7 @@ const Login = () => {
       },
       success: (res) => {
         localStorage.setItem("username", res.username);
+        localStorage.setItem("userNickname", res.nickname);
         location.reload();
       },
       fail: (res) => {

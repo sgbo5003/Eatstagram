@@ -12,6 +12,8 @@ const CommentModal = (props) => {
   const [commentBox, setCommentBox] = useState([]); // 댓글 보여지는 부분
   const [count, setCount] = useState(1);
   const [button, setButton] = useState(false);
+  const localUserName = localStorage.getItem("username");
+  const localUserNickName = localStorage.getItem("userNickname");
   const {
     commentData,
     setCommentModalOn,
@@ -26,6 +28,7 @@ const CommentModal = (props) => {
   let ws = useRef(null);
 
   useEffect(() => {
+    console.log("commentData", commentData);
     ws.current = new WebSocket(webSocketUrl);
     ws.current.onopen = () => {
       console.log("connected to " + webSocketUrl);
@@ -67,7 +70,8 @@ const CommentModal = (props) => {
       ws.current.send(
         JSON.stringify({
           roomId: commentData.contentId,
-          username: localStorage.getItem("username"),
+          username: localUserName,
+          nickname: localUserNickName,
           msg: comment,
           type: "text",
           roomType: "contentReply",
@@ -88,7 +92,8 @@ const CommentModal = (props) => {
         ws.current.send(
           JSON.stringify({
             roomId: commentData.contentId,
-            username: localStorage.getItem("username"),
+            username: localUserName,
+            nickname: localUserNickName,
             msg: comment,
             type: "text",
             roomType: "contentReply",
@@ -199,7 +204,7 @@ const CommentModal = (props) => {
                 </div>
                 <div>
                   <div className="post-window-user__id">
-                    <h1>{commentData.username}</h1>
+                    <h1>{commentData.nickname}</h1>
                   </div>
                   <div className="post-window-map">
                     <h2>{commentData.location}</h2>
@@ -219,7 +224,7 @@ const CommentModal = (props) => {
                   <img src={foodImg} alt="" />
                 </div>
                 <div className="comment-user__id">
-                  <h1>{commentData.username}</h1>
+                  <h1>{commentData.nickname}</h1>
                 </div>
                 <div className="comment-user__text">
                   <p>{commentData.text}</p>
@@ -235,7 +240,7 @@ const CommentModal = (props) => {
                         <img src={userImg2} alt="" />
                       </div>
                       <div className="comment-user__id">
-                        <h1>{data.username}</h1>
+                        <h1>{data.nickname}</h1>
                       </div>
                       <div className="comment-user__text">
                         <p>{data.msg}</p>
@@ -253,7 +258,7 @@ const CommentModal = (props) => {
                       <img src={userImg2} alt="" />
                     </div>
                     <div className="comment-user__id">
-                      <h1>{data.username}</h1>
+                      <h1>{data.nickname}</h1>
                     </div>
                     <div className="comment-user__text">
                       <p>{data.reply}</p>

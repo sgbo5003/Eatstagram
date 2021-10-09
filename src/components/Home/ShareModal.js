@@ -9,6 +9,7 @@ const ShareModal = (props) => {
   const [list, setList] = useState([]);
   const [checked, setChecked] = useState({ username: "", roomId: "" });
   const localUser = localStorage.getItem("username");
+  const localUserNickName = localStorage.getItem("userNickname");
 
   // input 입력값
   const onInputTextHandler = (e) => {
@@ -55,6 +56,7 @@ const ShareModal = (props) => {
     ws.current.send(
       JSON.stringify({
         username: localUser,
+        nickname: localUserNickName,
         msg: contentId,
         roomType: "directMessage",
         roomId: checked.roomId || null,

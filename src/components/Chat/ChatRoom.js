@@ -278,7 +278,6 @@ const ChatRoom = (props) => {
   };
 
   const onCommentModalHandler = (data) => {
-    console.log("shareData", data);
     setCommentData(data);
     setCommentModalOn(true);
   };
@@ -322,14 +321,13 @@ const ChatRoom = (props) => {
                   );
                 } else if (data.directMessageType === "share") {
                   const jsonData = JSON.parse(data.directMessage);
-                  console.log(jsonData);
                   if (jsonData.contentFileDTOList[0].type === "video/mp4") {
                     return (
                       <div className="my-message2" key={idx}>
                         <div className="my-message__share">
                           <div className="share-user">
                             <img src="./images/묭수.jpg" alt="" />
-                            <h4>{jsonData.username}</h4>
+                            <h4>{jsonData.nickname}</h4>
                           </div>
                           <div
                             className="share-contents"
@@ -343,7 +341,7 @@ const ChatRoom = (props) => {
                             </video>
                           </div>
                           <div className="share-post">
-                            <h4>{jsonData.username}</h4>
+                            <h4>{jsonData.nickname}</h4>
                             <p>{jsonData.text}</p>
                           </div>
                         </div>
@@ -358,7 +356,7 @@ const ChatRoom = (props) => {
                         <div className="my-message__share">
                           <div className="share-user">
                             <img src="./images/묭수.jpg" alt="" />
-                            <h4>{jsonData.username}</h4>
+                            <h4>{jsonData.nickname}</h4>
                           </div>
                           <div
                             className="share-contents"
@@ -370,7 +368,7 @@ const ChatRoom = (props) => {
                             />
                           </div>
                           <div className="share-post">
-                            <h4>{jsonData.username}</h4>
+                            <h4>{jsonData.nickname}</h4>
                             <p>{jsonData.text}</p>
                           </div>
                         </div>
@@ -412,11 +410,11 @@ const ChatRoom = (props) => {
                         <div className="friend-message__share">
                           <div className="share-user">
                             <img src="./images/묭수.jpg" alt="" />
-                            <h4>{jsonData.username}</h4>
+                            <h4>{jsonData.nickname}</h4>
                           </div>
                           <div
                             className="share-contents"
-                            onClick={onCommentModalHandler}
+                            onClick={() => onCommentModalHandler(jsonData)}
                           >
                             <video controls height="200">
                               <source
@@ -426,7 +424,7 @@ const ChatRoom = (props) => {
                             </video>
                           </div>
                           <div className="share-post">
-                            <h4>{jsonData.username}</h4>
+                            <h4>{jsonData.nickname}</h4>
                             <p>{jsonData.text}</p>
                           </div>
                         </div>
@@ -446,11 +444,11 @@ const ChatRoom = (props) => {
                         <div className="friend-message__share">
                           <div className="share-user">
                             <img src="./images/묭수.jpg" alt="" />
-                            <h4>{jsonData.username}</h4>
+                            <h4>{jsonData.nickname}</h4>
                           </div>
                           <div
                             className="share-contents"
-                            onClick={onCommentModalHandler}
+                            onClick={() => onCommentModalHandler(jsonData)}
                           >
                             <img
                               src={`upload/content/${jsonData.thumbnail}`}
@@ -458,7 +456,7 @@ const ChatRoom = (props) => {
                             />
                           </div>
                           <div className="share-post">
-                            <h4>{jsonData.username}</h4>
+                            <h4>{jsonData.nickname}</h4>
                             <p>{jsonData.text}</p>
                           </div>
                         </div>
@@ -492,9 +490,12 @@ const ChatRoom = (props) => {
                       <div className="my-message__share">
                         <div className="share-user">
                           <img src="./images/묭수.jpg" alt="" />
-                          <h4>{data.username}</h4>
+                          <h4>{data.nickname}</h4>
                         </div>
-                        <div className="share-contents">
+                        <div
+                          className="share-contents"
+                          onClick={() => onCommentModalHandler(data)}
+                        >
                           <video controls height="200">
                             <source
                               src={`upload/content/${data.thumbnail}`}
@@ -503,7 +504,7 @@ const ChatRoom = (props) => {
                           </video>
                         </div>
                         <div className="share-post">
-                          <h4>{data.username}</h4>
+                          <h4>{data.nickname}</h4>
                           <p>{data.text}</p>
                         </div>
                       </div>
@@ -518,16 +519,19 @@ const ChatRoom = (props) => {
                       <div className="my-message__share">
                         <div className="share-user">
                           <img src="./images/묭수.jpg" alt="" />
-                          <h4>{data.username}</h4>
+                          <h4>{data.nickname}</h4>
                         </div>
-                        <div className="share-contents">
+                        <div
+                          className="share-contents"
+                          onClick={() => onCommentModalHandler(data)}
+                        >
                           <img
                             src={`upload/content/${data.thumbnail}`}
                             alt=""
                           />
                         </div>
                         <div className="share-post">
-                          <h4>{data.username}</h4>
+                          <h4>{data.nickname}</h4>
                           <p>{data.text}</p>
                         </div>
                       </div>
@@ -568,9 +572,12 @@ const ChatRoom = (props) => {
                       <div className="friend-message__share">
                         <div className="share-user">
                           <img src="./images/묭수.jpg" alt="" />
-                          <h4>{data.username}</h4>
+                          <h4>{data.nickname}</h4>
                         </div>
-                        <div className="share-contents">
+                        <div
+                          className="share-contents"
+                          onClick={() => onCommentModalHandler(data)}
+                        >
                           <video controls height="200">
                             <source
                               src={`upload/content/${data.thumbnail}`}
@@ -579,7 +586,7 @@ const ChatRoom = (props) => {
                           </video>
                         </div>
                         <div className="share-post">
-                          <h4>{data.username}</h4>
+                          <h4>{data.nickname}</h4>
                           <p>{data.text}</p>
                         </div>
                       </div>
@@ -599,16 +606,19 @@ const ChatRoom = (props) => {
                       <div className="friend-message__share">
                         <div className="share-user">
                           <img src="./images/묭수.jpg" alt="" />
-                          <h4>{data.username}</h4>
+                          <h4>{data.nickname}</h4>
                         </div>
-                        <div className="share-contents">
+                        <div
+                          className="share-contents"
+                          onClick={() => onCommentModalHandler(data)}
+                        >
                           <img
                             src={`upload/content/${data.thumbnail}`}
                             alt=""
                           />
                         </div>
                         <div className="share-post">
-                          <h4>{data.username}</h4>
+                          <h4>{data.nickname}</h4>
                           <p>{data.text}</p>
                         </div>
                       </div>
@@ -666,6 +676,7 @@ const ChatRoom = (props) => {
       <Modal isOpen={commentModalOn} setIsOpen={setCommentModalOn}>
         <CommentModal
           commentData={commentData}
+          setCommentModalOn={setCommentModalOn}
           items={items}
           setItems={setItems}
           getRegdate={getRegdate}

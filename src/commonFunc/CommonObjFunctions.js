@@ -16,8 +16,8 @@ export const executeQuery = ({ url, data, success, error, fail }) => {
     withCredentials: true,
   })
     .then((res) => {
-      console.log(res);
       success(res.data);
+      console.log(res);
     })
     .catch((err) => {
       if (fail) {
