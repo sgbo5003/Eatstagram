@@ -115,8 +115,8 @@ const WriteModal = (props) => {
           setUserImgList(
             userImgList.concat({ type: "video", result: e.target.result })
           );
-          setVideoImg(
-            videoImg.concat({ type: "video", result: e.target.result })
+          setUserImg(
+            userImg.concat({ type: "video", result: e.target.result })
           );
         }
       };
@@ -127,6 +127,7 @@ const WriteModal = (props) => {
   // 하단 이미지 선택 시
   const onImgClickHandler = (data) => {
     setUserImgList([data]);
+    console.log(data);
   };
   // 카카오맵 검색어 찾기
   const kakaoMap = () => {
@@ -243,30 +244,29 @@ const WriteModal = (props) => {
                 {userImg.length === 0
                   ? ""
                   : userImg.map((data, idx) => {
-                      return (
-                        <div
-                          className="write-upload__plus"
-                          onClick={() => onImgClickHandler(data)}
-                          key={idx}
-                        >
-                          <img src={data.result} alt="이미지" />
-                        </div>
-                      );
-                    })}
-                {videoImg.length === 0
-                  ? ""
-                  : videoImg.map((data, idx) => {
-                      return (
-                        <div
-                          className="write-upload__plus"
-                          onClick={() => onImgClickHandler(data)}
-                          key={idx}
-                        >
-                          <video controls>
-                            <source src={data.result} type="video/mp4" />
-                          </video>
-                        </div>
-                      );
+                      if (data.type === "image") {
+                        return (
+                          <div
+                            className="write-upload__plus"
+                            onClick={() => onImgClickHandler(data)}
+                            key={idx}
+                          >
+                            <img src={data.result} alt="이미지" />
+                          </div>
+                        );
+                      } else if (data.type === "video") {
+                        return (
+                          <div
+                            className="write-upload__plus"
+                            onClick={() => onImgClickHandler(data)}
+                            key={idx}
+                          >
+                            <video controls>
+                              <source src={data.result} type="video/mp4" />
+                            </video>
+                          </div>
+                        );
+                      }
                     })}
                 <div className="write-upload__plus">
                   <input
