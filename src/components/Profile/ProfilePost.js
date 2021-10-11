@@ -21,7 +21,6 @@ const ProfilePost = (props) => {
   const localUserName = localStorage.getItem("username");
   const [commentModalOn, setCommentModalOn] = useState(false);
   const [commentData, setCommentData] = useState({});
-  const [commentCount, setCommentCount] = useState({});
   const [items, setItems] = useState([]);
 
   const getAddData = (page) => {

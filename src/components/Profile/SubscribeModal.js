@@ -1,7 +1,52 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaEllipsisH, FaTimes } from "react-icons/fa";
+import * as fncObj from "../../commonFunc/CommonObjFunctions";
+import * as fnc from "../../commonFunc/CommonFunctions";
 
-const SubscribeModal = () => {
+const SubscribeModal = (props) => {
+  const { localUser, paramsId } = props;
+  const [list, setList] = useState([]);
+  const [subscribeBtn, setSubscribeBtn] = useState(false);
+
+  // 구독자 리스트 data 불러오기
+  const getSubscribeData = (user, other) => {
+    fncObj.executeQuery({
+      url: "subscription/getList",
+      data: {
+        username: user,
+        condition: other,
+      },
+      success: (res) => {
+        setList(res);
+      },
+    });
+  };
+
+  // 구독 추가 및 삭제
+  const sendSubscriptionYnData = (data) => {
+    fnc.executeQuery({
+      url: "subscription/save",
+      data: {
+        username: localUser,
+        subscriber: data,
+      },
+      success: (res) => {},
+    });
+  };
+
+  // 구독 취소 버튼 클릭 시
+  const onSubscribeBtnClick = (data) => {
+    sendSubscriptionYnData(data.subscriber);
+    setSubscribeBtn(!subscribeBtn);
+  };
+
+  useEffect(() => {
+    if (localUser === paramsId) {
+      getSubscribeData(localUser, localUser);
+    } else {
+      getSubscribeData(localUser, paramsId);
+    }
+  }, []);
   return (
     <div className="subs-window">
       <div className="subs-area">
@@ -14,39 +59,30 @@ const SubscribeModal = () => {
         </div>
         <div className="subs__bottom">
           <div className="subs-list-area">
-            <div className="subs-list">
-              <div className="subs-user">
-                <img src="./images/명수스토리.jpg" alt="" />
-                <h4>whereyedo</h4>
-                <h5>진예도</h5>
-              </div>
-              <div className="subs-cancle">
-                <button>구독취소</button>
-              </div>
-            </div>
-            <div className="subs-list">
-              <div className="subs-user">
-                <img src="./images/명수스토리7.jpg" alt="" />
-                <h4>ParkSangJun</h4>
-                <h5>박상준</h5>
-              </div>
-              <div className="subs-cancle">
-                <button>구독취소</button>
-              </div>
-            </div>
-            <div className="subs-list">
-              <div className="subs-user">
-                <img src="./images/명수스토리6.jpg" alt="" />
-                <h4>haha</h4>
-                <h5>하하</h5>
-              </div>
-              <div className="subs-cancle">
-                <button>구독취소</button>
-              </div>
-            </div>
+            {list.map((data, idx) => {
+              return (
+                <div className="subs-list" key={idx}>
+                  <div className="subs-user">
+                    <img src="./images/명수스토리.jpg" alt="" />
+                    <h4>{data.nickname}</h4>
+                    <h5>{data.name}</h5>
+                  </div>
+                  <div className="subs-cancle">
+                    {subscribeBtn ? (
+                      <button onClick={() => onSubscribeBtnClick(data)}>
+                        구독신청
+                      </button>
+                    ) : (
+                      <button onClick={() => onSubscribeBtnClick(data)}>
+                        구독취소
+                      </button>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
-        <div></div>
       </div>
     </div>
   );

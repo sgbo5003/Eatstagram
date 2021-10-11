@@ -88,7 +88,7 @@ const Home = () => {
   const [commentModalOn, setCommentModalOn] = useState(false);
   const [shareModalOn, setShareModalOn] = useState(false);
   const [inputComment, setInputComment] = useState("");
-
+  const [profileData, setProfileData] = useState({}); // 프로필 data
   const [items, setItems] = useState([]);
   const [contentId, setContentId] = useState("");
   const [contentFile, setContentFile] = useState("");
@@ -107,6 +107,14 @@ const Home = () => {
       const likeCount = result.likeCount;
       userPosts[idx].likeCheck = likeCheck === "true" ? true : false;
       userPosts[idx].likeCount = likeCount;
+      setUserPosts([...userPosts]);
+    });
+  };
+  // 저장 제어
+  const onSaveHandler = (data, idx) => {
+    getSaveData(data, idx, (result) => {
+      const savedYn = result.savedYn;
+      userPosts[idx].savedYn = savedYn;
       setUserPosts([...userPosts]);
     });
   };
@@ -162,6 +170,20 @@ const Home = () => {
     });
   };
 
+  // 저장 데이터 가져오기
+  const getSaveData = (data, idx, callback) => {
+    fnc.executeQuery({
+      url: "content/save",
+      data: {
+        username: getLocalUserName,
+        contentId: data.contentId,
+      },
+      success: (res) => {
+        callback(res);
+      },
+    });
+  };
+
   // 스크롤 감지
   const handleScroll = () => {
     const scrollHeight = document.documentElement.scrollHeight;
@@ -179,6 +201,7 @@ const Home = () => {
       history.push("/");
     } else {
       getContentData();
+      getProfileData();
     }
   }, []);
 
@@ -275,6 +298,18 @@ const Home = () => {
     }
   };
 
+  const getProfileData = () => {
+    fncObj.executeQuery({
+      url: "getMemberInfo",
+      data: {
+        username: getLocalUserName,
+      },
+      success: (res) => {
+        setProfileData(res);
+      },
+    });
+  };
+
   // 스크롤 이벤트
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -327,7 +362,12 @@ const Home = () => {
                         <div className="post-user__img">
                           <img src={storyProfileImg1} alt="" />
                         </div>
-                        <div className="post-user__id">
+                        <div
+                          className="post-user__id"
+                          onClick={() => {
+                            history.push(`/Profile?username=${data.username}`);
+                          }}
+                        >
                           <h1>{data.nickname}</h1>
                         </div>
                       </div>
@@ -396,7 +436,15 @@ const Home = () => {
                         </div>
                         <div className="post-etc__right">
                           <p>
-                            <FaRegBookmark />
+                            {data.savedYn === "Y" ? (
+                              <FaBookmark
+                                onClick={() => onSaveHandler(data, idx)}
+                              />
+                            ) : (
+                              <FaRegBookmark
+                                onClick={() => onSaveHandler(data, idx)}
+                              />
+                            )}
                           </p>
                         </div>
                       </div>
@@ -448,7 +496,10 @@ const Home = () => {
             <div className="lank-area">
               <div className="main-user">
                 <div className="main-user__img">
-                  <img src={defaultImg} alt="" />
+                  <img
+                    src={`upload/profile/${profileData.profileImgName}`}
+                    alt=""
+                  />
                 </div>
                 <div className="main-user__id">
                   <h1>{getLocalUserNickName}</h1>

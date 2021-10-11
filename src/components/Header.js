@@ -19,13 +19,14 @@ import ProfileDropDown from "./Profile/ProfileDropDown";
 import * as fncObj from "../commonFunc/CommonObjFunctions";
 import Search from "./Search/Search";
 const Header = (props) => {
-  const { messageCount, setMessageCount } = props;
+  const { messageCount, setMessageCount, profileFilePath } = props;
   const localUserName = localStorage.getItem("username");
   const webSocketUrl = `ws://localhost:8080/eatstagram/ws/header/${localUserName}`;
   let ws = useRef(null);
   const history = useHistory();
   const [writeModalOn, setWriteModalOn] = useState(false);
   const [dropDown, setDropDown] = useState(false);
+  const [profileData, setProfileData] = useState({}); // 프로필 data
 
   // 글쓰기 모달창 제어
   const onWriteClick = () => {
@@ -46,7 +47,7 @@ const Header = (props) => {
   };
 
   const onProfileClick = () => {
-    history.push("/Profile");
+    history.push(`/Profile?username=${localUserName}`);
     setDropDown(false);
   };
 
@@ -101,7 +102,9 @@ const Header = (props) => {
       data: {
         username: localUserName,
       },
-      success: (res) => {},
+      success: (res) => {
+        setProfileData(res);
+      },
     });
   };
 
@@ -146,7 +149,7 @@ const Header = (props) => {
             <div className="user-img__header">
               <img
                 className="user-img__header_profile_img"
-                src={myProfileImg}
+                src={`upload/profile/${profileData.profileImgName}`}
                 alt=""
                 onClick={onDropDownHandler}
               />
