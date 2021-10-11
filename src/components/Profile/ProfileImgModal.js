@@ -5,6 +5,10 @@ const ProfileImgModal = (props) => {
   const { userImg, setUserImg, setProfileImgModalOn } = props;
   const [fileImg, setFileImg] = useState(null); // 파일 업로드 할 이미지
 
+  const onClickCancelBtn = () => {
+    setProfileImgModalOn(false);
+  };
+
   // 이미지 변경 제어
   const onChangeImg = (e) => {
     if (e.target.files[0]) {
@@ -12,7 +16,6 @@ const ProfileImgModal = (props) => {
       const reader = new FileReader();
       reader.readAsDataURL(e.target.files[0]);
     }
-    console.log(fileImg);
     sendProfileImgData(e);
     setProfileImgModalOn(false);
     location.reload();
@@ -29,26 +32,28 @@ const ProfileImgModal = (props) => {
     });
   };
   return (
-    <div className="profile-delete-window">
-      <div className="profile-delete-area">
-        <div className="profile-delte__top">
+    <div className="edit-img-window">
+      <div className="edit-img-area">
+        <div className="edit-img__top">
           <h1>프로필 사진 변경</h1>
         </div>
-        <div className="profile-delete__bottom">
-          <input
-            type="file"
-            id="getProfileImgfile"
-            accept="image/*, video/*"
-            onChange={onChangeImg}
-          />
-          <div className="profile-delete-btn">
-            <label htmlFor="getProfileImgfile">사진 업로드</label>
+        <div className="edit-img__bottom">
+          <div className="edit-img-btn upload">
+            <input
+              type="file"
+              id="getProfileImgfile"
+              accept="image/*, video/*"
+              onChange={onChangeImg}
+            />
+            <button>
+              <label htmlFor="getProfileImgfile">사진업로드</label>
+            </button>
           </div>
-          <div className="profile-delete-btn">
+          <div className="edit-img-btn">
             <button>현재 사진 삭제</button>
           </div>
-          <div className="profile-cancle-btn">
-            <button>취소</button>
+          <div className="edit-img-btn cancle">
+            <button onClick={onClickCancelBtn}>취소</button>
           </div>
         </div>
         <div></div>

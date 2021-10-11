@@ -1,0 +1,222 @@
+.edit-area {
+  border: 1px solid #dbdbdb;
+  background-color: #fff;
+  width: 960px;
+  height: 582px;
+  margin: 20px 0;
+  display: flex;
+}
+
+.edit-left {
+  width: 240px;
+  border-right: 1px solid #dbdbdb;
+}
+
+.edit-list {
+  height: 36px;
+  cursor: pointer;
+}
+
+.edit-list:hover {
+  background-color: #f5f5f5;
+}
+
+.checked {
+  border-left: 2px solid #0e0e0e;
+}
+
+.edit-list p {
+  padding: 6px;
+}
+
+/*************************/
+.edit-right {
+  width: 720px;
+  padding-top: 10px;
+}
+
+.edit-right-li {
+  display: flex;
+  align-items: flex-start;
+  margin: 20px 0;
+}
+
+.edit-right-li aside {
+  margin-left: 60px;
+  width: 120px;
+  text-align: right;
+}
+
+.edit-right-li aside label {
+  font-weight: 500;
+}
+
+.edit-right-li__input {
+  margin-left: 40px;
+}
+
+.edit-right-li__input input {
+  width: 350px;
+  height: 28px;
+  border: 1px solid #dbdbdb;
+  border-radius: 3px;
+  padding-left: 5px;
+}
+
+.edit-right-li__input p {
+  font-weight: 300;
+  color: #9a9a9a;
+  font-size: 12px;
+  margin-top: 10px;
+}
+
+.edit-right-li__input textarea {
+  width: 350px;
+  border: 1px solid #dbdbdb;
+  border-radius: 3px;
+  padding: 5px;
+}
+
+.edit-right-li img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+  margin-top: 6px;
+}
+
+.edit-right-li h1 {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.edit-right-li button {
+  border: none;
+  background-color: transparent;
+  color: #0095f6;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 0;
+  cursor: pointer;
+}
+
+/*************************************/
+.edit-right-li__btn {
+  margin-left: 40px;
+}
+
+.edit-right-li__btn button {
+  background-color: #0095f6;
+  color: #fff;
+  border-radius: 3px;
+  margin-top: 8px;
+  padding: 4px 8px;
+}
+
+.edit-right-li__btn h4 {
+  margin-top: 20px;
+  font-size: 12px;
+  color: #0095f6;
+}
+
+/*************************************/
+.edit-right-delete {
+  margin-top: 150px;
+  text-align: center;
+}
+
+.edit-right-delete h4 {
+  font-size: 20px;
+  font-weight: 300;
+}
+
+.delte-btn {
+  margin-top: 70px;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.delte-btn button {
+  margin-top: 8px;
+  padding: 4px 8px;
+  background-color: #0095f6;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  width: 60px;
+  cursor: pointer;
+}
+
+/*************************************/
+.edit-img-background {
+  z-index: 10;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.edit-img-window {
+  z-index: 11;
+  background-color: #fff;
+  width: 500px;
+  height: 265px;
+  position: fixed;
+  top: 230px;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  margin: 0 auto;
+  border: 1px solid #dbdbdb;
+  border-radius: 10px;
+}
+
+.edit-img__top {
+  padding: 30px;
+  border-bottom: 1px solid #dbdbdb;
+  text-align: center;
+}
+
+.edit-img__top h1 {
+  font-size: 18px;
+}
+
+.edit-img__top h4 {
+  font-size: 14px;
+  color: #6e6e6e;
+}
+
+.edit-img-btn button,
+.edit-img-btn button {
+  /* .chat-delete-btn button,
+.chat-cancle-btn button  */
+  width: 500px;
+  height: 60px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.edit-img-btn button {
+  border-bottom: 1px solid #dbdbdb;
+  color: #ff0000;
+}
+
+.upload input {
+  display: none;
+}
+
+.upload label {
+  cursor: pointer;
+}
+
+.upload button {
+  color: #0095f6;
+}
+
+.cancle button {
+  border: none;
+  color: #000;
+}
