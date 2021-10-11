@@ -63,12 +63,14 @@ const SubscribeModal = (props) => {
               return (
                 <div className="subs-list" key={idx}>
                   <div className="subs-user">
-                    <img src="./images/명수스토리.jpg" alt="" />
+                    <img src={`upload/profile/${data.profileImgName}`} alt="" />
                     <h4>{data.nickname}</h4>
                     <h5>{data.name}</h5>
                   </div>
                   <div className="subs-cancle">
-                    {subscribeBtn ? (
+                    {localUser === data.subscriber ? (
+                      ""
+                    ) : subscribeBtn ? (
                       <button onClick={() => onSubscribeBtnClick(data)}>
                         구독신청
                       </button>
