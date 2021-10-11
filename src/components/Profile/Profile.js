@@ -16,7 +16,8 @@ const Profile = () => {
   const localUser = localStorage.getItem("username");
   const [activeBar, setActiveBar] = useState(false);
   const [subscribeModalOn, setSubscribeModalOn] = useState(false);
-  const [subscribe, setSubscribe] = useState("");
+  const [subscribe, setSubscribe] = useState(""); // 구독했는지 여부
+  const [subscribeCount, setSubscribeCount] = useState(""); // 총 구독자 수
   const [profileImgModalOn, setProfileImgModalOn] = useState(false);
   const [profileData, setProfileData] = useState({}); // 프로필 data
   const [posts, setPosts] = useState([]); //게시글
@@ -88,6 +89,7 @@ const Profile = () => {
     });
   };
 
+  // 다른사람 프로필에서 구독중/구독하기 버튼 클릭 시
   const onSubscribeClick = () => {
     sendSubscriptionYnData();
     subscribe === "Y" ? setSubscribe("N") : setSubscribe("Y");
@@ -103,9 +105,22 @@ const Profile = () => {
       success: (res) => {},
     });
   };
+  // 구독자 수 data불러오기
+  const getSubscriberTotalCount = (user) => {
+    fnc.executeQuery({
+      url: "subscription/getSubscriberTotalCount",
+      data: {
+        username: user,
+      },
+      success: (res) => {
+        setSubscribeCount(res.subscriberTotalCount);
+      },
+    });
+  };
 
   useEffect(() => {
     getProfileData(paramsId);
+    getSubscriberTotalCount(paramsId);
     if (localUser !== paramsId) {
       getSubscriptionYnData();
     }
@@ -154,7 +169,7 @@ const Profile = () => {
                     onClick={onSubscribeModalHandler}
                   >
                     <h2>구독</h2>
-                    <h3>90</h3>
+                    <h3>{subscribeCount}</h3>
                   </div>
                 </div>
                 <div className="profile-info__bottom">
