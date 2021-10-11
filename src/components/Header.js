@@ -13,6 +13,7 @@ import { AiFillHome, AiOutlineHome } from "react-icons/ai";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 import myProfileImg from "../../public/images/묭수.jpg";
+import profileDefaultImg from "../../public/images/default_user.png";
 import Modal from "../Modal";
 import WriteModal from "./Write/WriteModal";
 import ProfileDropDown from "./Profile/ProfileDropDown";
@@ -149,7 +150,11 @@ const Header = (props) => {
             <div className="user-img__header">
               <img
                 className="user-img__header_profile_img"
-                src={`upload/profile/${profileData.profileImgName}`}
+                src={
+                  profileData.profileImgName === null
+                    ? profileDefaultImg
+                    : `upload/profile/${profileData.profileImgName}`
+                }
                 alt=""
                 onClick={onDropDownHandler}
               />

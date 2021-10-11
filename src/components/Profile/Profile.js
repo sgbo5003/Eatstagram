@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Header from "../Header";
 import myProfileImg from "../../../public/images/묭수.jpg";
+import profileDefaultImg from "../../../public/images/default_user.png";
 import { FaTh, FaBookmark, FaCog } from "react-icons/fa";
 import ProfileSave from "./ProfileSave";
 import ProfilePost from "./ProfilePost";
@@ -116,7 +117,14 @@ const Profile = () => {
           return (
             <div className="profile-area-top" key={idx}>
               <div className="profile-img" onClick={onProfileImgClick}>
-                <img src={`upload/profile/${data.profileImgName}`} alt="" />
+                <img
+                  src={
+                    data.profileImgName === null
+                      ? profileDefaultImg
+                      : `upload/profile/${data.profileImgName}`
+                  }
+                  alt=""
+                />
               </div>
               <div className="profile-info">
                 <div className="profile-info__top">

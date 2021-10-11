@@ -8,6 +8,7 @@ import storyProfileImg4 from "../../../public/images/명수스토리4.jpg";
 import storyProfileImg5 from "../../../public/images/명수스토리5.jpg";
 import storyProfileImg6 from "../../../public/images/명수스토리6.jpg";
 import storyProfileImg7 from "../../../public/images/명수스토리7.jpg";
+import profileDefaultImg from "../../../public/images/default_user.png";
 import rankImg from "../../../public/images/1위.jpg";
 import {
   FaPlusCircle,
@@ -497,7 +498,11 @@ const Home = () => {
               <div className="main-user">
                 <div className="main-user__img">
                   <img
-                    src={`upload/profile/${profileData.profileImgName}`}
+                    src={
+                      profileData.profileImgName === null
+                        ? profileDefaultImg
+                        : `upload/profile/${profileData.profileImgName}`
+                    }
                     alt=""
                   />
                 </div>
