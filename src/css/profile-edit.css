@@ -80,6 +80,7 @@
   border: 1px solid #dbdbdb;
   border-radius: 3px;
   padding: 5px;
+  resize: none; /* textarea 줄이고 늘리는 기능 없애기*/
 }
 
 .edit-right-li img {
