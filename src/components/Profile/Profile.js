@@ -10,8 +10,10 @@ import * as fnc from "../../commonFunc/CommonFunctions";
 import Modal from "../../Modal";
 import SubscribeModal from "./SubscribeModal";
 import ProfileImgModal from "./ProfileImgModal";
+import { useHistory } from "react-router";
 
 const Profile = () => {
+  const history = useHistory();
   const paramsId = location.search.split("=")[1];
   const localUser = localStorage.getItem("username");
   const [activeBar, setActiveBar] = useState(false);
@@ -24,6 +26,9 @@ const Profile = () => {
   const [hover, setHover] = useState({}); // 마우스 hover
   const [userImg, setUserImg] = useState(null); // 유저의 이미지
 
+  const onProfileEditBtnClick = () => {
+    history.push("/ProfileEdit");
+  };
   const onPostMenuClick = () => {
     setActiveBar(false);
   };
@@ -145,7 +150,7 @@ const Profile = () => {
                 <div className="profile-info__top">
                   <h1>{data.nickname}</h1>
                   {paramsId === localUser ? (
-                    <button>프로필편집</button>
+                    <button onClick={onProfileEditBtnClick}>프로필편집</button>
                   ) : subscribe === "Y" ? (
                     <button onClick={onSubscribeClick}>구독중</button>
                   ) : (

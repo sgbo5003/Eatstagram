@@ -21,8 +21,13 @@
   background-color: #f5f5f5;
 }
 
+.edit-list a {
+  color: #000000;
+}
+
 .checked {
   border-left: 2px solid #0e0e0e;
+  font-weight: bold;
 }
 
 .edit-list p {

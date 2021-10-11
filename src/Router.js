@@ -10,11 +10,18 @@ import Login from "./components/Login/Login";
 import Notification from "./components/Notification";
 import Profile from "./components/Profile/Profile";
 import Recommend from "./components/Recommend";
+import ProfileEdit from "./components/Profile/ProfileEdit";
+import ProfileChangePassword from "./components/Profile/ProfileChangePassword";
+import ProfileSecession from "./components/Profile/ProfileSecession";
 
 const Router = () => {
   const isLogin = localStorage.getItem("username");
   const history = useHistory();
   const [messageCount, setMessageCount] = useState(0); // 채팅 알림
+  const uploadPath = "upload/";
+  const profileFilePath = uploadPath + "profile/";
+  const contentFilePath = uploadPath + "content/";
+  const dmFilePath = uploadPath + "dm/";
 
   useEffect(() => {
     if (isLogin !== "undefined" && isLogin) {
@@ -44,6 +51,12 @@ const Router = () => {
           <Route path="/Recommend" component={Recommend} />
           <Route path="/Notification" component={Notification} />
           <Route path="/Profile" component={Profile} />
+          <Route path="/ProfileEdit" component={ProfileEdit} />
+          <Route
+            path="/ProfileChangePassword"
+            component={ProfileChangePassword}
+          />
+          <Route path="/ProfileSecession" component={ProfileSecession} />
         </>
       ) : (
         <>
