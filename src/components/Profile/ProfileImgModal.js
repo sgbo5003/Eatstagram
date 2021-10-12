@@ -31,6 +31,19 @@ const ProfileImgModal = (props) => {
       success: (res) => {},
     });
   };
+
+  const deleteProfileImgData = () => {
+    fncObj.executeQuery({
+      url: "saveProfileImg",
+      data: {
+        username: localUser,
+        file: null,
+      },
+      success: (res) => {
+        location.reload();
+      },
+    });
+  };
   return (
     <div className="edit-img-window">
       <div className="edit-img-area">
@@ -50,7 +63,7 @@ const ProfileImgModal = (props) => {
             </button>
           </div>
           <div className="edit-img-btn">
-            <button>현재 사진 삭제</button>
+            <button onClick={deleteProfileImgData}>현재 사진 삭제</button>
           </div>
           <div className="edit-img-btn cancle">
             <button onClick={onClickCancelBtn}>취소</button>
