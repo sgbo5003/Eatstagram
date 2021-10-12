@@ -88,6 +88,12 @@ const ProfileEdit = (props) => {
               <textarea name="" id="" cols="30" rows="10"></textarea>
             </div>
           </div>
+          <div className="edit-right-li edit-btn">
+            <aside></aside>
+            <div className="edit-right-li__btn">
+              <button>변경하기</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
