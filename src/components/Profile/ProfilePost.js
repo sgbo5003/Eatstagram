@@ -155,7 +155,7 @@ const ProfilePost = (props) => {
                     </h4>
                     <h4>
                       <FaComment className="post-hover-icon" />
-                      10
+                      {data.replyCount}
                     </h4>
                   </div>
                 ) : (
@@ -186,7 +186,7 @@ const ProfilePost = (props) => {
                     </h4>
                     <h4>
                       <FaComment className="post-hover-icon" />
-                      10
+                      {data.replyCount}
                     </h4>
                   </div>
                 ) : (
