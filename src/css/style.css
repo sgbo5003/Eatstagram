@@ -12,6 +12,7 @@
 @import "chat.css";
 @import "profile.css";
 @import "profile-edit.css";
+@import "recommend.css";
 
 /***component***/
 @import "./component/footer.css";

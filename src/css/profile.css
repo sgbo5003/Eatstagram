@@ -116,13 +116,14 @@
 .profile-area__post {
   margin-top: 20px;
   display: flex;
-  /* flex-wrap: wrap; */
+  flex-wrap: wrap;
   /* justify-content: space-between; */
   justify-content: flex-start;
   position: relative;
 }
 
 .profile-area__post-li {
+  position: relative;
   width: 330px;
   height: 330px;
   margin: 10px;
@@ -137,10 +138,9 @@
 
 .post-hover {
   position: absolute;
-  top: 12px;
+  top: 0px;
   width: 330px;
-
-  height: calc(100% - 25px);
+  height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
