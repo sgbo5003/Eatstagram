@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { FaEllipsisH, FaTimes } from "react-icons/fa";
+import profileDefaultImg from "../../../public/images/default_user.png";
 import * as fncObj from "../../commonFunc/CommonObjFunctions";
 import * as fnc from "../../commonFunc/CommonFunctions";
+
+let page = 0;
 
 const SubscribeModal = (props) => {
   const { localUser, paramsId } = props;
@@ -11,13 +14,31 @@ const SubscribeModal = (props) => {
   // 구독자 리스트 data 불러오기
   const getSubscribeData = (user, other) => {
     fncObj.executeQuery({
-      url: "subscription/getList",
+      url: "subscription/getPagingList",
       data: {
+        username: user,
+        condition: other,
+        page: 0,
+        size: 6,
+      },
+      success: (res) => {
+        setList(res.content);
+      },
+    });
+  };
+
+  // 스크롤 했을 때 데이터 더 가져오기
+  const getAddSubscribeData = (user, other, page) => {
+    fncObj.executeQuery({
+      url: "/content/getPagingList",
+      data: {
+        page: page,
+        size: 6,
         username: user,
         condition: other,
       },
       success: (res) => {
-        setList(res);
+        if (res.content.length > 0) setList(list.concat(res.content));
       },
     });
   };
@@ -63,7 +84,14 @@ const SubscribeModal = (props) => {
               return (
                 <div className="subs-list" key={idx}>
                   <div className="subs-user">
-                    <img src={`upload/profile/${data.profileImgName}`} alt="" />
+                    <img
+                      src={
+                        data.profileImgName === null
+                          ? profileDefaultImg
+                          : `upload/profile/${data.profileImgName}`
+                      }
+                      alt=""
+                    />
                     <h4>{data.nickname}</h4>
                     <h5>{data.name}</h5>
                   </div>
