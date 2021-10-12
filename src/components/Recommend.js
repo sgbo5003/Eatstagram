@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FaHeart, FaComment } from "react-icons/fa";
 import * as fncObj from "../commonFunc/CommonObjFunctions";
 const Recommend = () => {
@@ -41,6 +41,9 @@ const Recommend = () => {
     },
   ];
   const localUser = localStorage.getItem("username");
+  const [posts, setPosts] = useState([]);
+  const [menuClicked, setMenuClicked] = useState(new Set());
+  const [hover, setHover] = useState({}); // 마우스 hover
 
   const getCategoryData = () => {
     fncObj.executeQuery({
@@ -51,12 +54,51 @@ const Recommend = () => {
         username: localUser,
         category: "한식",
       },
-      success: (res) => {},
+      success: (res) => {
+        setPosts(res.content);
+      },
     });
+  };
+
+  const onClickCategoryData = (data) => {
+    let itemSet = new Set(menuClicked);
+    itemSet.add(data);
+    setMenuClicked(itemSet);
+    if (itemSet.size > 1) {
+      itemSet.clear();
+      itemSet.add(data);
+      setMenuClicked(itemSet);
+    }
+    fncObj.executeQuery({
+      url: "content/getCategoryPagingList",
+      data: {
+        page: 0,
+        size: 6,
+        username: localUser,
+        category: data,
+      },
+      success: (res) => {
+        setPosts(res.content);
+      },
+    });
+  };
+
+  // 게시글 마우스 Over시
+  const onMouseOverHandler = (data, idx) => {
+    if (data.location === posts[idx].location) {
+      setHover({ location: data.location });
+    }
+  };
+  // 게시글 마우스 Out시
+  const onMouseOutHandler = () => {
+    setHover({});
   };
 
   useEffect(() => {
     getCategoryData();
+    let itemSet = new Set(menuClicked);
+    itemSet.add("한식");
+    setMenuClicked(itemSet);
   }, []);
   return (
     <div className="recommend-main-area">
@@ -65,7 +107,11 @@ const Recommend = () => {
         <div className="category">
           {categoryData.map((data, idx) => {
             return (
-              <button key={idx}>
+              <button
+                key={idx}
+                onClick={() => onClickCategoryData(data.title)}
+                className={menuClicked.has(data.title) ? "button-hover" : ""}
+              >
                 <img src={data.src} />
                 {data.title}
               </button>
@@ -76,25 +122,36 @@ const Recommend = () => {
       {/*게시글*/}
       <div className="category-post-area">
         <div className="category-post">
-          <div className="category-post-li">
-            <img src="./images/food.jpg" alt="" className="imghover" />
-            {/* <div className="post-hover">
-              <h4>
-                <i className="fas fa-heart"></i>55
-              </h4>
-              <h4>
-                <i className="fas fa-comment"></i>10
-              </h4>
-            </div> */}
-          </div>
-
-          <div className="category-post-li">
-            <img src="./images/food.jpg" alt="" />
-          </div>
-
-          <div className="category-post-li">
-            <img src="./images/food.jpg" alt="" />
-          </div>
+          {posts.map((data, idx) => {
+            return (
+              <div
+                className="category-post-li"
+                key={idx}
+                onMouseEnter={() => onMouseOverHandler(data, idx)}
+                onMouseLeave={onMouseOutHandler}
+              >
+                <img
+                  src={`upload/content/${data.contentFileDTOList[0].name}`}
+                  alt="추천 게시글"
+                  className="imghover"
+                />
+                {hover.location === data.location ? (
+                  <div className="post-hover">
+                    <h4>
+                      <FaHeart className="post-hover-icon" />
+                      {data.likeCount}
+                    </h4>
+                    <h4>
+                      <FaComment className="post-hover-icon" />
+                      {data.replyCount}
+                    </h4>
+                  </div>
+                ) : (
+                  ""
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

@@ -40,9 +40,14 @@
   background-color: #f5f5f5;
 }
 
-.category button:focus {
+/* .category button:focus {
   font-weight: 600;
   background-color: #f5f5f5;
+} */
+
+.button-hover {
+  font-weight: 600;
+  background-color: #f5f5f5 !important;
 }
 
 /************************************************/
