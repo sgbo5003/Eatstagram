@@ -14,6 +14,7 @@ import ProfileEdit from "./components/Profile/ProfileEdit";
 import ProfileChangePassword from "./components/Profile/ProfileChangePassword";
 import ProfileSecession from "./components/Profile/ProfileSecession";
 import Ranking from "./components/Home/Ranking";
+import SearchResult from "./components/Search/SearchResult";
 
 const Router = () => {
   const isLogin = localStorage.getItem("username");
@@ -59,6 +60,7 @@ const Router = () => {
           />
           <Route path="/ProfileSecession" component={ProfileSecession} />
           <Route path="/Ranking" component={Ranking} />
+          <Route path="/SearchResult" component={SearchResult} />
         </>
       ) : (
         <>
