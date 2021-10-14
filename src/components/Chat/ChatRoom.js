@@ -164,6 +164,8 @@ const ChatRoom = (props) => {
   };
 
   useEffect(() => {
+    page = 0;
+    setIsDone(false);
     ws.current = new WebSocket(webSocketUrl);
     ws.current.onopen = () => {
       console.log("connected to " + webSocketUrl);

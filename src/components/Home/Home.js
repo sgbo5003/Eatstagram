@@ -208,6 +208,7 @@ const Home = () => {
       alert("올바르지 않은 접근");
       history.push("/");
     } else {
+      page = 0;
       getContentData();
       getProfileData();
     }
