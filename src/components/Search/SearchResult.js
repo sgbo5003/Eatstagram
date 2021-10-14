@@ -2,13 +2,11 @@ import React, { useEffect, useState } from "react";
 import { FaTh, FaUser, FaSearch } from "react-icons/fa";
 import SearchPostResult from "./SearchPostResult";
 import SearchUserResult from "./SearchUserResult";
-import * as fncObj from "../../commonFunc/CommonObjFunctions";
 
 const SearchResult = () => {
   const [menuClicked, setMenuClicked] = useState(false);
   const paramsId = location.search.split("=")[1];
   const localUser = localStorage.getItem("username");
-  const [resultList, setResultList] = useState([]);
 
   const onPostMenuClick = () => {
     setMenuClicked(true);
@@ -16,21 +14,6 @@ const SearchResult = () => {
 
   const onSaveMenuClick = () => {
     setMenuClicked(false);
-  };
-
-  const getUserSearchResultData = () => {
-    fncObj.executeQuery({
-      url: "getSearchPagingList",
-      data: {
-        page: 0,
-        size: 3,
-        username: localUser,
-        condition: paramsId,
-      },
-      success: (res) => {
-        setResultList(res);
-      },
-    });
   };
 
   return (
@@ -60,13 +43,9 @@ const SearchResult = () => {
           </div>
         </div>
         {menuClicked ? (
-          <SearchPostResult />
+          <SearchPostResult localUser={localUser} paramsId={paramsId} />
         ) : (
-          <SearchUserResult
-            getUserSearchResultData={getUserSearchResultData}
-            resultList={resultList}
-            setResultList={setResultList}
-          />
+          <SearchUserResult localUser={localUser} paramsId={paramsId} />
         )}
       </div>
     </div>
