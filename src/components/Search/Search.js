@@ -2,8 +2,10 @@ import React, { useEffect, useRef, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import SearchDropDown from "./SeachDropDown";
 import * as fncObj from "../../commonFunc/CommonObjFunctions";
+import { useHistory } from "react-router";
 
 const Search = () => {
+  const history = useHistory();
   const [modalOn, setModalOn] = useState(false);
   const localUser = localStorage.getItem("username");
   const wrapperRef = useRef(null);
@@ -20,6 +22,18 @@ const Search = () => {
       return;
     } else {
       getUserSearchData(e);
+    }
+  };
+
+  // enter 입력 (Enter키)
+  const onKeyPress = (e) => {
+    if (e.key == "Enter") {
+      if (e.target.value === "" || e.target.value.trim() === "") {
+        return;
+      } else {
+        history.push(`/SearchResult?result=${e.target.value}`);
+        setModalOn(false);
+      }
     }
   };
 
@@ -45,6 +59,7 @@ const Search = () => {
         onClick={onDropDownHandler}
         value={inputText}
         onChange={onInputTextHandler}
+        onKeyPress={onKeyPress}
       />
       <p>
         <FaSearch />
