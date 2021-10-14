@@ -1,6 +1,29 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
+import { useHistory } from "react-router";
+import profileDefaultImg from "../../../public/images/default_user.png";
+const SearchDropDown = (props) => {
+  const { wrapperRef, setModalOn, userList, setUserList } = props;
+  const history = useHistory();
 
-const SearchDropDown = () => {
+  const handleClickOutSide = (e) => {
+    if (wrapperRef && !wrapperRef.current.contains(e.target)) {
+      setModalOn(false);
+      setUserList([]);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutSide);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutSide);
+    };
+  });
+
+  const userListClickHandler = () => {
+    history.push("/SearchResult");
+    setModalOn(false);
+  };
+
   return (
     <>
       <div className="search-dropdown-tail">
@@ -8,21 +31,32 @@ const SearchDropDown = () => {
       </div>
       <div className="search-dropdown-window">
         <div className="search-dropdown-history">
-          <h2>최근 검색항목</h2>
-          <button>모두 지우기</button>
+          <h2>검색항목</h2>
         </div>
-        <div className="search-dropdown-li">
-          <img src="./images/food.jpg" alt="" />
-          <div className="search-dropdown-li__content">
-            <div className="search-dropdown-li__user">
-              <h2>yeonhadong</h2>
-              <h4>• 연하동 / 연남동 맛집</h4>
+        {userList.map((data, idx) => {
+          return (
+            <div
+              className="search-dropdown-li"
+              key={idx}
+              onClick={userListClickHandler}
+            >
+              <img
+                src={
+                  data.profileImgName === null
+                    ? profileDefaultImg
+                    : `upload/profile/${data.profileImgName}`
+                }
+                alt=""
+              />
+              <div className="search-dropdown-li__content">
+                <div className="search-dropdown-li__user">
+                  <h2>{data.nickname}</h2>
+                  <h4>{data.name}</h4>
+                </div>
+              </div>
             </div>
-            <button>
-              <i className="fas fa-times"></i>
-            </button>
-          </div>
-        </div>
+          );
+        })}
       </div>
     </>
   );

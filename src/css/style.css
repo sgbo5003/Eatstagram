@@ -14,6 +14,7 @@
 @import "profile-edit.css";
 @import "recommend.css";
 @import "ranking.css";
+@import "search.css";
 
 /***component***/
 @import "./component/footer.css";
