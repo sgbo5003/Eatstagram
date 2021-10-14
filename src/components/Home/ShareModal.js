@@ -73,7 +73,7 @@ const ShareModal = (props) => {
   // 유저 입력값 조회
   const getUserSearchData = (e) => {
     fncObj.executeQuery({
-      url: "getListByNameAndNickname",
+      url: "getSearchList",
       data: {
         condition: e.target.value,
         username: localUser,

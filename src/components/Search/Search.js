@@ -26,7 +26,7 @@ const Search = () => {
   // 검색 입력값 조회 (유저기반)
   const getUserSearchData = (e) => {
     fncObj.executeQuery({
-      url: "getListByNameAndNickname",
+      url: "getSearchList",
       data: {
         condition: e.target.value,
         username: localUser,
@@ -56,6 +56,7 @@ const Search = () => {
             setModalOn={setModalOn}
             userList={userList}
             setUserList={setUserList}
+            inputText={inputText}
           />
         ) : (
           ""
