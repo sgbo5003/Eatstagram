@@ -19,8 +19,8 @@ const SearchDropDown = (props) => {
     };
   });
 
-  const userListClickHandler = () => {
-    history.push("/SearchResult");
+  const userListClickHandler = (data) => {
+    history.push(`/SearchResult?result=${data}`);
     setModalOn(false);
   };
 
@@ -38,7 +38,7 @@ const SearchDropDown = (props) => {
             <div
               className="search-dropdown-li"
               key={idx}
-              onClick={userListClickHandler}
+              onClick={() => userListClickHandler(data.nickname)}
             >
               <img
                 src={
