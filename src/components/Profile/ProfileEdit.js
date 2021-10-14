@@ -9,9 +9,16 @@ const ProfileEdit = (props) => {
   const [profileData, setProfileData] = useState({}); // 프로필 data
   const [inputData, setInputData] = useState({
     name: "",
-    username: "",
+    nickname: "",
     introduce: "",
   });
+
+  //input 값 감지 함수
+  const onChangeInputHandler = (e) => {
+    const { name, value } = e.target;
+    setInputData({ ...inputData, [name]: value });
+    console.log(inputData);
+  };
   // 프로필 data 불러오기
   const getProfileData = () => {
     fncObj.executeQuery({
@@ -28,11 +35,30 @@ const ProfileEdit = (props) => {
     getProfileData();
   }, []);
 
-  //input 값 감지 함수
-  const onChangeInputHandler = (e) => {
-    const { name, value } = e.target;
-    setInputData({ ...inputData, [name]: value });
+  const sendProfileEditData = () => {
+    fncObj.executeQuery({
+      url: "setMemberInfo",
+      data: {
+        username: localUser,
+        name: inputData.name,
+        nickname: inputData.nickname,
+        introduce: inputData.introduce,
+      },
+      success: (res) => {
+        const obj = { ...profileData };
+        obj.name = res.name;
+        obj.nickname = res.nickname;
+        obj.introduce = res.introduce;
+        setProfileData(obj);
+        alert("프로필 수정 완료");
+      },
+    });
   };
+
+  const onSubmit = () => {
+    sendProfileEditData();
+  };
+
   return (
     <div className="main-area">
       <div className="edit-area">
@@ -73,7 +99,7 @@ const ProfileEdit = (props) => {
             <div className="edit-right-li__input">
               <input
                 type="text"
-                name="username"
+                name="nickname"
                 placeholder="닉네임을 입력해주세요"
                 defaultValue={profileData.nickname}
                 onChange={onChangeInputHandler}
@@ -85,13 +111,21 @@ const ProfileEdit = (props) => {
               <label htmlFor="usertext">소개</label>
             </aside>
             <div className="edit-right-li__input introduce">
-              <textarea name="" id="" cols="30" rows="10"></textarea>
+              <textarea
+                name=""
+                id=""
+                cols="30"
+                rows="10"
+                name="introduce"
+                defaultValue={profileData.introduce}
+                onChange={onChangeInputHandler}
+              ></textarea>
             </div>
           </div>
           <div className="edit-right-li edit-btn">
             <aside></aside>
             <div className="edit-right-li__btn">
-              <button>변경하기</button>
+              <button onClick={onSubmit}>변경하기</button>
             </div>
           </div>
         </div>
