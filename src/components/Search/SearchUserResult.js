@@ -21,7 +21,7 @@ const SearchUserResult = (props) => {
 
   useEffect(() => {
     getUserSearchResultData();
-  }, []);
+  }, [paramsId]);
   return (
     <div className="search-result">
       {userList.map((data, idx) => {
