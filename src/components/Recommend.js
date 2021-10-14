@@ -21,7 +21,7 @@ const Recommend = () => {
     },
     {
       src: "./images/치피햄.png",
-      title: "치피햄",
+      title: "치킨·피자·햄버거",
     },
     {
       src: "./images/분식.png",
