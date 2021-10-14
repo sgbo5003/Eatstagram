@@ -13,6 +13,7 @@ import Recommend from "./components/Recommend";
 import ProfileEdit from "./components/Profile/ProfileEdit";
 import ProfileChangePassword from "./components/Profile/ProfileChangePassword";
 import ProfileSecession from "./components/Profile/ProfileSecession";
+import Ranking from "./components/Home/Ranking";
 
 const Router = () => {
   const isLogin = localStorage.getItem("username");
@@ -57,6 +58,7 @@ const Router = () => {
             component={ProfileChangePassword}
           />
           <Route path="/ProfileSecession" component={ProfileSecession} />
+          <Route path="/Ranking" component={Ranking} />
         </>
       ) : (
         <>

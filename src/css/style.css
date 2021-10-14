@@ -13,6 +13,7 @@
 @import "profile.css";
 @import "profile-edit.css";
 @import "recommend.css";
+@import "ranking.css";
 
 /***component***/
 @import "./component/footer.css";

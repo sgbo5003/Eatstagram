@@ -63,7 +63,9 @@ const storys = [
     src: storyProfileImg6,
     alt: "명수스토리6.jpg",
   },
-]; // 스토리 배열
+];
+
+// 스토리 배열
 const ranks = ["1위", "2위", "3위", "4위", "5위", "6위", "7위", "8위", "9위"];
 
 const Home = () => {
@@ -95,6 +97,11 @@ const Home = () => {
   const [contentFile, setContentFile] = useState("");
   const getLocalUserName = localStorage.getItem("username");
   const getLocalUserNickName = localStorage.getItem("userNickname");
+
+  // 랭킹페이지 이동
+  const onRankingHandler = () => {
+    history.push("/Ranking");
+  };
 
   // 댓글 모달 창 관련
   const onCommentModalHandler = (data) => {
@@ -514,7 +521,7 @@ const Home = () => {
                 <div className="main-lank__top">
                   <h1>현재 맛집 랭킹</h1>
                   <a>
-                    <h3>모두 보기</h3>
+                    <h3 onClick={onRankingHandler}>모두 보기</h3>
                   </a>
                 </div>
                 <div className="main-lank__area">
