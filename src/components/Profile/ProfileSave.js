@@ -6,6 +6,8 @@ import { AiFillRightCircle, AiFillLeftCircle } from "react-icons/ai";
 import Modal from "../../Modal";
 import CommentModal from "../Home/CommentModal";
 
+let page = 0;
+
 const ProfileSave = (props) => {
   const {
     posts,
@@ -31,6 +33,21 @@ const ProfileSave = (props) => {
       },
       success: (res) => {
         setPosts(res.content);
+      },
+    });
+  };
+
+  // 게시물 저장 data 추가로 불러오기
+  const getAddData = (page) => {
+    fncObj.executeQuery({
+      url: "content/getSavedPagingList",
+      data: {
+        page: page,
+        size: 6,
+        username: paramsId,
+      },
+      success: (res) => {
+        if (res.content.length > 0) setPosts(posts.concat(res.content));
       },
     });
   };
@@ -105,6 +122,27 @@ const ProfileSave = (props) => {
       }
     }
   };
+
+  // 스크롤 감지
+  const handleScroll = () => {
+    const scrollHeight = document.documentElement.scrollHeight;
+    const scrollTop = document.documentElement.scrollTop;
+    const clientHeight = document.documentElement.clientHeight;
+
+    if (scrollTop + clientHeight >= scrollHeight) {
+      ++page;
+      getAddData(page);
+    }
+  };
+
+  // 스크롤 이벤트
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  });
+
   return (
     <>
       <div className="profile-area__post">

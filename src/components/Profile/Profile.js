@@ -222,6 +222,7 @@ const Profile = () => {
               setHover={setHover}
               onMouseOverHandler={onMouseOverHandler}
               onMouseOutHandler={onMouseOutHandler}
+              paramsId={paramsId}
             />
           )}
         </div>

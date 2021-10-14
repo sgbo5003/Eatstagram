@@ -17,6 +17,7 @@ const ProfilePost = (props) => {
     setHover,
     onMouseOverHandler,
     onMouseOutHandler,
+    paramsId,
   } = props;
   const localUserName = localStorage.getItem("username");
   const [commentModalOn, setCommentModalOn] = useState(false);
@@ -29,7 +30,7 @@ const ProfilePost = (props) => {
       data: {
         page: page,
         size: 6,
-        username: localUserName,
+        username: paramsId,
       },
       success: (res) => {
         if (res.content.length > 0) setPosts(posts.concat(res.content));
