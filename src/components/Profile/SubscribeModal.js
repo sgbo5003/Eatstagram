@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FaEllipsisH, FaTimes } from "react-icons/fa";
 import profileDefaultImg from "../../../public/images/default_user.png";
 import * as fncObj from "../../commonFunc/CommonObjFunctions";
@@ -10,6 +10,7 @@ const SubscribeModal = (props) => {
   const { localUser, paramsId } = props;
   const [list, setList] = useState([]);
   const [subscribeBtn, setSubscribeBtn] = useState(false);
+  const scrollRef = useRef(null);
 
   // 구독자 리스트 data 불러오기
   const getSubscribeData = (user, other) => {
@@ -30,7 +31,7 @@ const SubscribeModal = (props) => {
   // 스크롤 했을 때 데이터 더 가져오기
   const getAddSubscribeData = (user, other, page) => {
     fncObj.executeQuery({
-      url: "/content/getPagingList",
+      url: "subscription/getPagingList",
       data: {
         page: page,
         size: 6,
@@ -68,6 +69,29 @@ const SubscribeModal = (props) => {
       getSubscribeData(localUser, paramsId);
     }
   }, []);
+
+  // 스크롤 감지
+  const handleScroll = () => {
+    console.log("scroll");
+    const scrollHeight = scrollRef.current.scrollHeight;
+    const scrollTop = scrollRef.current.scrollTop;
+    const clientHeight = scrollRef.current.clientHeight;
+    if (scrollTop + clientHeight >= scrollHeight) {
+      ++page;
+      getAddSubscribeData(page);
+    }
+  };
+
+  // 스크롤 이벤트
+  useEffect(() => {
+    scrollRef.current.addEventListener("scroll", handleScroll);
+    return () => {
+      if (scrollRef.current !== null) {
+        scrollRef.current.removeEventListener("scroll", handleScroll);
+      }
+    };
+  });
+
   return (
     <div className="subs-window">
       <div className="subs-area">
@@ -79,7 +103,7 @@ const SubscribeModal = (props) => {
           </p>
         </div>
         <div className="subs__bottom">
-          <div className="subs-list-area">
+          <div className="subs-list-area" ref={scrollRef}>
             {list.map((data, idx) => {
               return (
                 <div className="subs-list" key={idx}>
