@@ -49,8 +49,8 @@ const SubscribeModal = (props) => {
     fnc.executeQuery({
       url: "subscription/save",
       data: {
-        username: localUser,
-        subscriber: data,
+        username: data,
+        subscriber: localUser,
       },
       success: (res) => {},
     });

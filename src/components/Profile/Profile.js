@@ -85,8 +85,8 @@ const Profile = () => {
     fnc.executeQuery({
       url: "subscription/getSubscriptionYn",
       data: {
-        username: localUser,
-        subscriber: paramsId,
+        username: paramsId,
+        subscriber: localUser,
       },
       success: (res) => {
         setSubscribe(res.subscriptionYn);
@@ -104,8 +104,8 @@ const Profile = () => {
     fnc.executeQuery({
       url: "subscription/save",
       data: {
-        username: localUser,
-        subscriber: paramsId,
+        username: paramsId,
+        subscriber: localUser,
       },
       success: (res) => {},
     });
