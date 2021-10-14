@@ -23,7 +23,6 @@ const SearchPostResult = (props) => {
 
   useEffect(() => {
     getPostSearchResultData();
-    console.log(localUser, paramsId);
   }, []);
 
   return (

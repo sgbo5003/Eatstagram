@@ -5,7 +5,8 @@ import SearchUserResult from "./SearchUserResult";
 
 const SearchResult = () => {
   const [menuClicked, setMenuClicked] = useState(false);
-  const paramsId = location.search.split("=")[1];
+  const paramsIdStr = location.search.split("=")[1];
+  const paramsId = decodeURI(paramsIdStr);
   const localUser = localStorage.getItem("username");
 
   const onPostMenuClick = () => {
