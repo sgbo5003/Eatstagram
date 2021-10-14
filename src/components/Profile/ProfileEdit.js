@@ -68,13 +68,13 @@ const ProfileEdit = (props) => {
           </div>
           <div className="edit-right-li">
             <aside>
-              <label htmlFor="userid">아이디</label>
+              <label htmlFor="userid">닉네임</label>
             </aside>
             <div className="edit-right-li__input">
               <input
                 type="text"
                 name="username"
-                placeholder="아이디를 입력해주세요"
+                placeholder="닉네임을 입력해주세요"
                 defaultValue={profileData.nickname}
                 onChange={onChangeInputHandler}
               />
