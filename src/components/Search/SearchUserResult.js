@@ -1,128 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 
-const SearchUserResult = () => {
+const SearchUserResult = (props) => {
+  const { resultList, setResultList, getUserSearchResultData } = props;
+
+  useEffect(() => {
+    getUserSearchResultData();
+  }, []);
   return (
     <div className="search-result">
-      <div className="search-result__list">
-        <div className="search-result-user">
-          <img src="./images/food.jpg" alt="" />
-          <div className="search-result__info">
-            <h1>연하동</h1>
-            <h4>일식</h4>
+      {[1, 2, 3, 4].map((data, idx) => {
+        return (
+          <div className="search-result__list" key={idx}>
+            <div className="search-result-user">
+              <img src="./images/food.jpg" alt="" />
+              <div className="search-result__info">
+                <h1>연하동</h1>
+                <h4>일식</h4>
+              </div>
+            </div>
+            <button>구독</button>
           </div>
-        </div>
-        <button>구독</button>
-      </div>
-
-      <div className="search-result__list">
-        <div className="search-result-user">
-          <img src="./images/food.jpg" alt="" />
-          <div className="search-result__info">
-            <h1>연하동</h1>
-            <h4>일식</h4>
-          </div>
-        </div>
-        <button>구독</button>
-      </div>
-
-      <div className="search-result__list">
-        <div className="search-result-user">
-          <img src="./images/food.jpg" alt="" />
-          <div className="search-result__info">
-            <h1>연하동</h1>
-            <h4>일식</h4>
-          </div>
-        </div>
-        <button>구독</button>
-      </div>
-
-      <div className="search-result__list">
-        <div className="search-result-user">
-          <img src="./images/food.jpg" alt="" />
-          <div className="search-result__info">
-            <h1>연하동</h1>
-            <h4>일식</h4>
-          </div>
-        </div>
-        <button>구독</button>
-      </div>
-
-      <div className="search-result__list">
-        <div className="search-result-user">
-          <img src="./images/food.jpg" alt="" />
-          <div className="search-result__info">
-            <h1>연하동</h1>
-            <h4>일식</h4>
-          </div>
-        </div>
-        <button>구독</button>
-      </div>
-
-      <div className="search-result__list">
-        <div className="search-result-user">
-          <img src="./images/food.jpg" alt="" />
-          <div className="search-result__info">
-            <h1>연하동</h1>
-            <h4>일식</h4>
-          </div>
-        </div>
-        <button>구독</button>
-      </div>
-
-      <div className="search-result__list">
-        <div className="search-result-user">
-          <img src="./images/food.jpg" alt="" />
-          <div className="search-result__info">
-            <h1>연하동</h1>
-            <h4>일식</h4>
-          </div>
-        </div>
-        <button>구독</button>
-      </div>
-
-      <div className="search-result__list">
-        <div className="search-result-user">
-          <img src="./images/food.jpg" alt="" />
-          <div className="search-result__info">
-            <h1>연하동</h1>
-            <h4>일식</h4>
-          </div>
-        </div>
-        <button>구독</button>
-      </div>
-
-      <div className="search-result__list">
-        <div className="search-result-user">
-          <img src="./images/food.jpg" alt="" />
-          <div className="search-result__info">
-            <h1>연하동</h1>
-            <h4>일식</h4>
-          </div>
-        </div>
-        <button>구독</button>
-      </div>
-
-      <div className="search-result__list">
-        <div className="search-result-user">
-          <img src="./images/food.jpg" alt="" />
-          <div className="search-result__info">
-            <h1>연하동</h1>
-            <h4>일식</h4>
-          </div>
-        </div>
-        <button>구독</button>
-      </div>
-
-      <div className="search-result__list">
-        <div className="search-result-user">
-          <img src="./images/food.jpg" alt="" />
-          <div className="search-result__info">
-            <h1>연하동</h1>
-            <h4>일식</h4>
-          </div>
-        </div>
-        <button>구독</button>
-      </div>
+        );
+      })}
     </div>
   );
 };
