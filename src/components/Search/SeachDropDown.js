@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { useHistory } from "react-router";
 import profileDefaultImg from "../../../public/images/default_user.png";
 const SearchDropDown = (props) => {
-  const { wrapperRef, setModalOn, userList, setUserList } = props;
+  const { wrapperRef, setModalOn, userList, setUserList, setInputText } = props;
   const history = useHistory();
 
   const handleClickOutSide = (e) => {
@@ -21,6 +21,7 @@ const SearchDropDown = (props) => {
 
   const userListClickHandler = (data) => {
     history.push(`/SearchResult?result=${data}`);
+    setInputText("");
     setModalOn(false);
   };
 

@@ -32,7 +32,7 @@ const Search = () => {
         return;
       } else {
         history.push(`/SearchResult?result=${e.target.value}`);
-        setModalOn(false);
+        setInputText("");
       }
     }
   };
@@ -72,6 +72,7 @@ const Search = () => {
             userList={userList}
             setUserList={setUserList}
             inputText={inputText}
+            setInputText={setInputText}
           />
         ) : (
           ""
