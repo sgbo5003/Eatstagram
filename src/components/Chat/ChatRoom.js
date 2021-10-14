@@ -206,6 +206,7 @@ const ChatRoom = (props) => {
         page: 0,
         size: 13,
         directMessageRoomId: paramsId,
+        username: localUserName,
       },
       success: (res) => {
         setChatList(res.content);
@@ -221,6 +222,7 @@ const ChatRoom = (props) => {
         page: page,
         size: 7,
         directMessageRoomId: paramsId,
+        username: localUserName,
       },
       success: (res) => {
         if (res.content.length > 0) {
