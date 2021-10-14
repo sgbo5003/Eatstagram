@@ -37,7 +37,7 @@ import CommentModal from "./CommentModal";
 import ShareModal from "./ShareModal";
 
 let page = 0;
-
+// 스토리 배열
 const storys = [
   {
     src: storyProfileImg1,
@@ -64,9 +64,6 @@ const storys = [
     alt: "명수스토리6.jpg",
   },
 ];
-
-// 스토리 배열
-const ranks = ["1위", "2위", "3위", "4위", "5위", "6위", "7위", "8위", "9위"];
 
 const Home = () => {
   const history = useHistory();
@@ -95,6 +92,7 @@ const Home = () => {
   const [items, setItems] = useState([]);
   const [contentId, setContentId] = useState("");
   const [contentFile, setContentFile] = useState("");
+  const [rankingList, setRankingList] = useState([]);
   const getLocalUserName = localStorage.getItem("username");
   const getLocalUserNickName = localStorage.getItem("userNickname");
 
@@ -211,6 +209,7 @@ const Home = () => {
       page = 0;
       getContentData();
       getProfileData();
+      getRankingData();
     }
   }, []);
 
@@ -319,6 +318,24 @@ const Home = () => {
     });
   };
 
+  const onProfileClick = (data) => {
+    history.push(`/Profile?username=${data.username}`);
+  };
+
+  const getRankingData = () => {
+    fncObj.executeQuery({
+      url: "getRankingList",
+      data: {
+        page: 0,
+        size: 10,
+        username: getLocalUserName,
+      },
+      success: (res) => {
+        setRankingList(res.content);
+      },
+    });
+  };
+
   // 스크롤 이벤트
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -373,9 +390,7 @@ const Home = () => {
                         </div>
                         <div
                           className="post-user__id"
-                          onClick={() => {
-                            history.push(`/Profile?username=${data.username}`);
-                          }}
+                          onClick={() => onProfileClick(data)}
                         >
                           <h1>{data.nickname}</h1>
                         </div>
@@ -467,18 +482,7 @@ const Home = () => {
                               return <p key={idx}>#{data.hashtag}</p>;
                             })}
                           </div>
-                          {/* <div className="post-content__comment">
-                            <div className="post-content__id">
-                              <h4>{data.nickname}</h4>
-                            </div>
-                            <div className="post-content__serve">
-                              <p>{data.text}</p>
-                            </div>
-                          </div> */}
                         </div>
-                        {/* <div className="post-content__time">
-                          <h6>5시간 전</h6>
-                        </div> */}
                       </div>
                       <div className="post-etc__comment">
                         <input
@@ -520,27 +524,33 @@ const Home = () => {
               </div>
               <div className="main-lank">
                 <div className="main-lank__top">
-                  <h1>현재 맛집 랭킹</h1>
+                  <h1>현재 구독자 랭킹</h1>
                   <a>
                     <h3 onClick={onRankingHandler}>모두 보기</h3>
                   </a>
                 </div>
                 <div className="main-lank__area">
-                  {ranks.map((data, idx) => {
+                  {rankingList.map((data, idx) => {
                     return (
                       <div className="main-lank__list" key={idx}>
                         <div className="main-lank__left">
-                          <h1>{data}</h1>
+                          <h1>{idx + 1}</h1>
                           <div className="main-lank__img">
                             <img src={rankImg} alt="" />
                           </div>
                           <div className="main-lank__info">
-                            <h2>선데이버거클럽</h2>
-                            <h4>패스트푸드</h4>
+                            <h2>{data.nickname}</h2>
+                            <h4>{data.name}</h4>
                           </div>
                         </div>
                         <div className="main-lank__subs">
-                          <h4>구독</h4>
+                          {getLocalUserName === data.username ? (
+                            ""
+                          ) : data.subscriptionYn === "Y" ? (
+                            <h4>구독중</h4>
+                          ) : (
+                            <h4>구독</h4>
+                          )}
                         </div>
                       </div>
                     );
