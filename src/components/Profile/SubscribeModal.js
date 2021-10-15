@@ -7,7 +7,7 @@ import * as fnc from "../../commonFunc/CommonFunctions";
 let page = 0;
 
 const SubscribeModal = (props) => {
-  const { localUser, paramsId } = props;
+  const { localUser, paramsId, setSubscribeModalOn } = props;
   const [list, setList] = useState([]);
   const [subscribeBtn, setSubscribeBtn] = useState(false);
   const scrollRef = useRef(null);
@@ -62,6 +62,10 @@ const SubscribeModal = (props) => {
     setSubscribeBtn(!subscribeBtn);
   };
 
+  const onExitBtnClick = () => {
+    setSubscribeModalOn(false);
+  };
+
   useEffect(() => {
     if (localUser === paramsId) {
       getSubscribeData(localUser, localUser);
@@ -99,7 +103,7 @@ const SubscribeModal = (props) => {
           <h6></h6>
           <h4>구독</h4>
           <p>
-            <FaTimes />
+            <FaTimes onClick={onExitBtnClick} />
           </p>
         </div>
         <div className="subs__bottom">

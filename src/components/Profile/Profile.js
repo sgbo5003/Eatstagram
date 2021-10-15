@@ -228,7 +228,11 @@ const Profile = () => {
         </div>
       </div>
       <Modal isOpen={subscribeModalOn} setIsOpen={setSubscribeModalOn}>
-        <SubscribeModal localUser={localUser} paramsId={paramsId} />
+        <SubscribeModal
+          localUser={localUser}
+          paramsId={paramsId}
+          setSubscribeModalOn={setSubscribeModalOn}
+        />
       </Modal>
       <Modal isOpen={profileImgModalOn} setIsOpen={setProfileImgModalOn}>
         <ProfileImgModal
