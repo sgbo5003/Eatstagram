@@ -33,6 +33,7 @@ const Search = () => {
       } else {
         history.push(`/SearchResult?result=${e.target.value}`);
         setInputText("");
+        setModalOn(false);
       }
     }
   };
