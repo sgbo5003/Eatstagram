@@ -22,6 +22,7 @@ const ChatRoom = (props) => {
   const webSocketUrl = `ws://localhost:8080/eatstagram/ws/directMessage/${paramsId}?username=${localUserName}`;
   let ws = useRef(null);
   const scrollRef = useRef(null);
+  const [imgUrl, setImgUrl] = useState(""); // 이미지 url 담기
   const [inputText, setInputText] = useState(""); // input 부분
   const [myChatBox, setMyChatBox] = useState([]); // 나의 메세지를 담는 배열
   const [friendChatBox, setFriendChatBox] = useState([]); // 상대 메세지를 담는 배열
@@ -187,12 +188,19 @@ const ChatRoom = (props) => {
       console.log(error);
     };
     ws.current.onmessage = (evt) => {
-      const data = JSON.parse(evt.data);
-      console.log("data: ", data);
-      if (updateChatList === false) {
-        setUpdateChatList(true);
+      if (evt.data.size) {
+        const msg = data.data;
+        const url = URL.createObjectURL(new Blob([msg]));
+        console.log("url: ", url);
+        setImgUrl(url);
+      } else {
+        const data = JSON.parse(evt.data);
+        console.log("data: ", data);
+        if (updateChatList === false) {
+          setUpdateChatList(true);
+        }
+        setMyChatBox((prevItems) => [...prevItems, data]);
       }
-      setMyChatBox((prevItems) => [...prevItems, data]);
       scrollToBottom();
     };
     return () => {
@@ -462,7 +470,14 @@ const ChatRoom = (props) => {
                         />
                         <div className="friend-message__share">
                           <div className="share-user">
-                            <img src="./images/묭수.jpg" alt="" />
+                            <img
+                              src={
+                                jsonData.profileImgName === null
+                                  ? profileDefaultImg
+                                  : `upload/profile/${jsonData.profileImgName}`
+                              }
+                              alt=""
+                            />
                             <h4>{jsonData.nickname}</h4>
                           </div>
                           <div
@@ -497,7 +512,14 @@ const ChatRoom = (props) => {
                         />
                         <div className="friend-message__share">
                           <div className="share-user">
-                            <img src="./images/묭수.jpg" alt="" />
+                            <img
+                              src={
+                                jsonData.profileImgName === null
+                                  ? profileDefaultImg
+                                  : `upload/profile/${jsonData.profileImgName}`
+                              }
+                              alt=""
+                            />
                             <h4>{jsonData.nickname}</h4>
                           </div>
                           <div
@@ -535,7 +557,7 @@ const ChatRoom = (props) => {
                   <div className="my-message" key={idx}>
                     <div className="img-message">
                       {/* <img src={`public/upload/dm/${data.msg}`} /> */}
-                      <img src={`upload/dm/${data.msg}`} />
+                      <img src={imgUrl} />
                     </div>
                   </div>
                 );
@@ -610,9 +632,15 @@ const ChatRoom = (props) => {
               } else if (data.type === "file") {
                 return (
                   <div className="friend-message" key={idx}>
+                    <img
+                      className="friend-message-profile-img"
+                      src={storyProfileImg1}
+                      alt=""
+                      onClick={() => onChatProfileClick(data)}
+                    />
                     <div className="img-message">
                       {/* <img src={`public/upload/dm/${data.directMessage}`} /> */}
-                      <img src={`upload/dm/${data.msg}`} />
+                      <img src={imgUrl} />
                     </div>
                   </div>
                 );
