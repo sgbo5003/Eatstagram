@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import foodImg from "../../../public/images/food.jpg";
 import userImg from "../../../public/images/묭수.jpg";
 import userImg2 from "../../../public/images/명수스토리.jpg";
+import profileDefaultImg from "../../../public/images/default_user.png";
 import { FaEllipsisH, FaTimes } from "react-icons/fa";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import * as fncObj from "../../commonFunc/CommonObjFunctions";
@@ -21,6 +22,7 @@ const CommentModal = (props) => {
     setItems,
     getRegdate,
     settings,
+    onProfileClick,
   } = props;
 
   //   const webSocketUrl = `ws://www.whereyedo.com:55808/eatstagram/ws/contentReply/${commentData.contentId}`;
@@ -200,11 +202,21 @@ const CommentModal = (props) => {
             <div className="post-window-top">
               <div className="post-window-user">
                 <div className="post-window-user__img">
-                  <img src={foodImg} alt="" />
+                  <img
+                    src={
+                      commentData.profileImgName === null
+                        ? profileDefaultImg
+                        : `upload/profile/${commentData.profileImgName}`
+                    }
+                    alt=""
+                    onClick={() => onProfileClick(commentData)}
+                  />
                 </div>
                 <div>
                   <div className="post-window-user__id">
-                    <h1>{commentData.nickname}</h1>
+                    <h1 onClick={() => onProfileClick(commentData)}>
+                      {commentData.nickname}
+                    </h1>
                   </div>
                   <div className="post-window-map">
                     <h2>{commentData.location}</h2>
@@ -221,10 +233,20 @@ const CommentModal = (props) => {
             <div className="post-window-comment">
               <div className="first-comment">
                 <div className="comment-user__img">
-                  <img src={foodImg} alt="" />
+                  <img
+                    src={
+                      commentData.profileImgName === null
+                        ? profileDefaultImg
+                        : `upload/profile/${commentData.profileImgName}`
+                    }
+                    alt=""
+                    onClick={() => onProfileClick(commentData)}
+                  />
                 </div>
                 <div className="comment-user__id">
-                  <h1>{commentData.nickname}</h1>
+                  <h1 onClick={() => onProfileClick(commentData)}>
+                    {commentData.nickname}
+                  </h1>
                 </div>
                 <div className="comment-user__text">
                   <p>{commentData.text}</p>
@@ -237,10 +259,20 @@ const CommentModal = (props) => {
                   return (
                     <div className="comment" key={idx}>
                       <div className="comment-user__img">
-                        <img src={userImg2} alt="" />
+                        <img
+                          src={
+                            data.profileImgName === null
+                              ? profileDefaultImg
+                              : `upload/profile/${data.profileImgName}`
+                          }
+                          alt=""
+                          onClick={() => onProfileClick(data)}
+                        />
                       </div>
                       <div className="comment-user__id">
-                        <h1>{data.nickname}</h1>
+                        <h1 onClick={() => onProfileClick(data)}>
+                          {data.nickname}
+                        </h1>
                       </div>
                       <div className="comment-user__text">
                         <p>{data.msg}</p>
@@ -255,10 +287,20 @@ const CommentModal = (props) => {
                 return (
                   <div className="comment" key={idx}>
                     <div className="comment-user__img">
-                      <img src={userImg2} alt="" />
+                      <img
+                        src={
+                          data.profileImgName === null
+                            ? profileDefaultImg
+                            : `upload/profile/${data.profileImgName}`
+                        }
+                        alt=""
+                        onClick={() => onProfileClick(data)}
+                      />
                     </div>
                     <div className="comment-user__id">
-                      <h1>{data.nickname}</h1>
+                      <h1 onClick={() => onProfileClick(data)}>
+                        {data.nickname}
+                      </h1>
                     </div>
                     <div className="comment-user__text">
                       <p>{data.reply}</p>
