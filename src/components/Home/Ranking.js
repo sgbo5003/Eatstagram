@@ -6,7 +6,7 @@ const Ranking = () => {
   const [rankingList, setRankingList] = useState([]);
   const getRankingData = () => {
     fncObj.executeQuery({
-      url: "getRankingList",
+      url: "getRankingPagingList",
       data: {
         page: 0,
         size: 10,
