@@ -195,8 +195,20 @@ const WriteModal = (props) => {
 
   const onSubmit = () => {
     // 해시태그 => 필수 x
-    if (fileImg.length == 0 || userLocation == "" || categoryList.length == 0) {
-      alert("error");
+    if (
+      fileImg.length == 0 ||
+      (userLocation == "" && userLocation.trim() == "") ||
+      categoryList.size == 0
+    ) {
+      if (fileImg.length == 0) {
+        alert("파일을 넣어주세요");
+      } else if (userLocation == "" && userLocation.trim() == "") {
+        alert("위치를 작성해주세요.");
+      } else if (categoryList.size == 0) {
+        alert("카테고리를 선택해주세요.");
+      } else {
+        alert("값을 입력해주세요.");
+      }
     } else {
       sendData();
     }
