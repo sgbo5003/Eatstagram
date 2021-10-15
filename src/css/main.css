@@ -161,9 +161,3 @@
   color: #0095f6;
   cursor: pointer;
 }
-
-@media screen and (max-width: 1200px) {
-  .main-area__right {
-    display: none;
-  }
-}
