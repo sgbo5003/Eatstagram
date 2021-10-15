@@ -23,6 +23,7 @@
   height: 34px;
   border-radius: 50px;
   margin-right: 16px;
+  cursor: pointer;
 }
 
 .post-user__id h1,

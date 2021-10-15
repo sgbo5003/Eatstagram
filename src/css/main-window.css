@@ -457,6 +457,11 @@
   width: 34px;
   height: 34px;
   border-radius: 50px;
+  cursor: pointer;
+}
+
+.post-window-user__id h1 {
+  cursor: pointer;
 }
 
 .post-window-user__id,
@@ -508,6 +513,10 @@
 .comment-user__id {
   font-size: 14px;
   margin: 0 12px;
+}
+
+.comment-user__id h1 {
+  cursor: pointer;
 }
 
 .comment-user__text {
