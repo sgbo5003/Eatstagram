@@ -8,18 +8,21 @@ import ProfilePost from "./ProfilePost";
 import * as fncObj from "../../commonFunc/CommonObjFunctions";
 import * as fnc from "../../commonFunc/CommonFunctions";
 import Modal from "../../Modal";
-import SubscribeModal from "./SubscribeModal";
+import FollowerModal from "./FollowerModal";
 import ProfileImgModal from "./ProfileImgModal";
 import { useHistory } from "react-router";
+import FollowModal from "./FollowModal";
 
 const Profile = () => {
   const history = useHistory();
   const paramsId = location.search.split("=")[1];
   const localUser = localStorage.getItem("username");
   const [activeBar, setActiveBar] = useState(false);
-  const [subscribeModalOn, setSubscribeModalOn] = useState(false);
-  const [subscribe, setSubscribe] = useState(""); // 구독했는지 여부
-  const [subscribeCount, setSubscribeCount] = useState(""); // 총 구독자 수
+  const [followerModalOn, setFollowerModalOn] = useState(false); // 팔로워 모달
+  const [followModalOn, setFollowModalOn] = useState(false); // 팔로우 모달
+  const [follow, setFollow] = useState(""); // 구독했는지 여부
+  const [followCount, setFollowCount] = useState(""); // 팔로우 수
+  const [followerCount, setFollowerCount] = useState(""); // 팔로우 수
   const [profileImgModalOn, setProfileImgModalOn] = useState(false);
   const [profileData, setProfileData] = useState({}); // 프로필 data
   const [posts, setPosts] = useState([]); //게시글
@@ -37,8 +40,14 @@ const Profile = () => {
     setActiveBar(true);
   };
 
-  const onSubscribeModalHandler = () => {
-    setSubscribeModalOn(true);
+  // 팔로워 모달 클릭 시
+  const onFollowerModalHandler = () => {
+    setFollowerModalOn(true);
+  };
+
+  // 팔로우 모달 클릭 시
+  const onFollowModalHandler = () => {
+    setFollowModalOn(true);
   };
 
   const onProfileImgClick = () => {
@@ -81,53 +90,68 @@ const Profile = () => {
     });
   };
   // 프로필 구독 했는지 여부
-  const getSubscriptionYnData = () => {
+  const getFollowYnData = () => {
     fnc.executeQuery({
-      url: "subscription/getSubscriptionYn",
+      url: "follow/getFollowYn",
       data: {
-        username: paramsId,
-        subscriber: localUser,
+        username: localUser,
+        target: paramsId,
       },
       success: (res) => {
-        setSubscribe(res.subscriptionYn);
+        setFollow(res.followYn);
       },
     });
   };
 
-  // 다른사람 프로필에서 구독중/구독하기 버튼 클릭 시
-  const onSubscribeClick = () => {
-    sendSubscriptionYnData();
-    subscribe === "Y" ? setSubscribe("N") : setSubscribe("Y");
-  };
-  // 구독 추가 및 삭제
-  const sendSubscriptionYnData = () => {
+  // 팔로우 추가 및 삭제
+  const sendFollowYnData = () => {
     fnc.executeQuery({
-      url: "subscription/save",
+      url: "follow/save",
       data: {
-        username: paramsId,
-        subscriber: localUser,
+        target: paramsId,
+        username: localUser,
       },
       success: (res) => {},
     });
   };
-  // 구독자 수 data불러오기
-  const getSubscriberTotalCount = (user) => {
+  // 팔로우 수 data불러오기
+  const getFollowTotalCount = (user) => {
     fnc.executeQuery({
-      url: "subscription/getSubscriberTotalCount",
+      url: "follow/getFollowCount",
       data: {
-        username: user,
+        target: user,
       },
       success: (res) => {
-        setSubscribeCount(res.subscriberTotalCount);
+        setFollowCount(res.followCount);
       },
     });
   };
 
+  // 팔로워 수 data불러오기
+  const getFollowerTotalCount = (user) => {
+    fnc.executeQuery({
+      url: "follower/getFollowerCount",
+      data: {
+        target: user,
+      },
+      success: (res) => {
+        setFollowerCount(res.followerCount);
+      },
+    });
+  };
+
+  // 팔로우& 팔로우 취소 버튼 클릭 시
+  const onFollowButtonClick = () => {
+    sendFollowYnData();
+    follow === "Y" ? setFollow("N") : setFollow("Y");
+  };
+
   useEffect(() => {
     getProfileData(paramsId);
-    getSubscriberTotalCount(paramsId);
+    getFollowTotalCount(paramsId);
+    getFollowerTotalCount(paramsId);
     if (localUser !== paramsId) {
-      getSubscriptionYnData();
+      getFollowYnData();
     }
   }, []);
   return (
@@ -151,10 +175,10 @@ const Profile = () => {
                   <h1>{data.nickname}</h1>
                   {paramsId === localUser ? (
                     <button onClick={onProfileEditBtnClick}>프로필편집</button>
-                  ) : subscribe === "Y" ? (
-                    <button onClick={onSubscribeClick}>구독중</button>
+                  ) : follow === "Y" ? (
+                    <button onClick={onFollowButtonClick}>팔로우 취소</button>
                   ) : (
-                    <button onClick={onSubscribeClick}>구독하기</button>
+                    <button onClick={onFollowButtonClick}>팔로우 신청</button>
                   )}
                   {paramsId === localUser ? (
                     <p>
@@ -171,10 +195,17 @@ const Profile = () => {
                   </div>
                   <div
                     className="profile-info-li"
-                    onClick={onSubscribeModalHandler}
+                    onClick={onFollowerModalHandler}
                   >
-                    <h2>구독</h2>
-                    <h3>{subscribeCount}</h3>
+                    <h2>팔로워</h2>
+                    <h3>{followerCount}</h3>
+                  </div>
+                  <div
+                    className="profile-info-li"
+                    onClick={onFollowModalHandler}
+                  >
+                    <h2>팔로우</h2>
+                    <h3>{followCount}</h3>
                   </div>
                 </div>
                 <div className="profile-info__bottom">
@@ -227,11 +258,18 @@ const Profile = () => {
           )}
         </div>
       </div>
-      <Modal isOpen={subscribeModalOn} setIsOpen={setSubscribeModalOn}>
-        <SubscribeModal
+      <Modal isOpen={followerModalOn} setIsOpen={setFollowerModalOn}>
+        <FollowerModal
           localUser={localUser}
           paramsId={paramsId}
-          setSubscribeModalOn={setSubscribeModalOn}
+          setFollowerModalOn={setFollowerModalOn}
+        />
+      </Modal>
+      <Modal isOpen={followModalOn} setIsOpen={setFollowModalOn}>
+        <FollowModal
+          localUser={localUser}
+          paramsId={paramsId}
+          setFollowModalOn={setFollowModalOn}
         />
       </Modal>
       <Modal isOpen={profileImgModalOn} setIsOpen={setProfileImgModalOn}>
