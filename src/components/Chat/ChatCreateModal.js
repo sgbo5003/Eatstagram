@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import profileDefaultImg from "../../../public/images/default_user.png";
 import storyProfileImg1 from "../../../public/images/명수스토리.jpg";
 import * as fncObj from "../../commonFunc/CommonObjFunctions";
 import * as fnc from "../../commonFunc/CommonFunctions";
@@ -83,7 +84,14 @@ const ChatCreateModal = (props) => {
               return (
                 <div className="recommend-list" key={idx}>
                   <div className="recommend-user">
-                    <img src={storyProfileImg1} alt="" />
+                    <img
+                      src={
+                        data.profileImgName === null
+                          ? profileDefaultImg
+                          : `upload/profile/${data.profileImgName}`
+                      }
+                      alt=""
+                    />
                     <div className="recommend-user-nameBox">
                       <h4>
                         {data.nickname === null ? "유저1" : data.nickname}

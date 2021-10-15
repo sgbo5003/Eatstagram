@@ -3,6 +3,7 @@ import { FaImage, FaRegImage, FaHeart, FaRegHeart } from "react-icons/fa";
 import { AiFillRightCircle, AiFillLeftCircle } from "react-icons/ai";
 import { MdExitToApp } from "react-icons/md";
 import storyProfileImg1 from "../../../public/images/명수스토리.jpg";
+import profileDefaultImg from "../../../public/images/default_user.png";
 import * as fncObj from "../../commonFunc/CommonObjFunctions";
 import Header from "../Header";
 import Chat from "./Chat";
@@ -14,7 +15,7 @@ import CommentModal from "../Home/CommentModal";
 let page = 0;
 
 const ChatRoom = (props) => {
-  const { paramsId, setUpdateChatList, updateChatList } = props;
+  const { paramsId, setUpdateChatList, updateChatList, userInfo } = props;
   const history = useHistory();
   const localUserName = localStorage.getItem("username");
   // const webSocketUrl = `ws://www.whereyedo.com:55808/eatstagram/ws/directMessage/${paramsId}`;
@@ -164,6 +165,7 @@ const ChatRoom = (props) => {
   };
 
   useEffect(() => {
+    console.log("userInfo: ", userInfo);
     page = 0;
     setIsDone(false);
     ws.current = new WebSocket(webSocketUrl);
@@ -186,6 +188,7 @@ const ChatRoom = (props) => {
     };
     ws.current.onmessage = (evt) => {
       const data = JSON.parse(evt.data);
+      console.log("data: ", data);
       if (updateChatList === false) {
         setUpdateChatList(true);
       }
@@ -286,13 +289,33 @@ const ChatRoom = (props) => {
     setCommentModalOn(true);
   };
 
+  const onProfileClick = (data) => {
+    if (data.directMessageRoomMemberDTOList.length === 2) {
+      history.push(
+        `/Profile?username=${data.directMessageRoomMemberDTOList[1].username}`
+      );
+    } else if (data.directMessageRoomMemberDTOList.length === 1) {
+      history.push(
+        `/Profile?username=${data.directMessageRoomMemberDTOList[0].username}`
+      );
+    }
+  };
+
+  const onChatProfileClick = (data) => {
+    history.push(`/Profile?username=${data.username}`);
+  };
+
   return (
     <>
       <div className="chat-right">
         <div className="chat-friend">
           <div className="chat-friend__user">
             <img src={storyProfileImg1} alt="" />
-            <h5>whereyedo</h5>
+            <h5 onClick={() => onProfileClick(userInfo)}>
+              {userInfo.directMessageRoomMemberDTOList.length === 2
+                ? userInfo.directMessageRoomMemberDTOList[1].nickname
+                : userInfo.directMessageRoomMemberDTOList[0].nickname}
+            </h5>
           </div>
           <div className="chat-info-btn">
             <p>
@@ -302,19 +325,22 @@ const ChatRoom = (props) => {
         </div>
         <div className="chatting-area" ref={scrollRef}>
           <div className="fixed"></div>
-          {/* <h4>2021년 9월 17일</h4> */}
           {chatList
             .slice(0)
             .reverse()
             .map((data, idx) => {
+              // 채팅 처음 받아온 리스트 렌더링하는 부분
               if (data.username === localUserName) {
+                // 로컬유저 채팅 부분 -> 채팅화면 기준 오른쪽
                 if (data.directMessageType === "text") {
+                  // 텍스트 처리
                   return (
                     <div className="my-message" key={idx}>
                       <p>{data.directMessage}</p>
                     </div>
                   );
                 } else if (data.directMessageType === "file") {
+                  // 사진 처리
                   return (
                     <div className="my-message" key={idx}>
                       <div className="img-message">
@@ -324,14 +350,21 @@ const ChatRoom = (props) => {
                     </div>
                   );
                 } else if (data.directMessageType === "share") {
+                  // 공유 처리
                   const jsonData = JSON.parse(data.directMessage);
                   if (jsonData.contentFileDTOList[0].type === "video/mp4") {
                     return (
                       <div className="my-message2" key={idx}>
                         <div className="my-message__share">
                           <div className="share-user">
-                            <img src="./images/묭수.jpg" alt="" />
-                            <h4>{jsonData.nickname}</h4>
+                            <img
+                              src="./images/묭수.jpg"
+                              alt=""
+                              onClick={() => onChatProfileClick(jsonData)}
+                            />
+                            <h4 onClick={() => onChatProfileClick(jsonData)}>
+                              {jsonData.nickname}
+                            </h4>
                           </div>
                           <div
                             className="share-contents"
@@ -359,7 +392,14 @@ const ChatRoom = (props) => {
                       <div className="my-message2" key={idx}>
                         <div className="my-message__share">
                           <div className="share-user">
-                            <img src="./images/묭수.jpg" alt="" />
+                            <img
+                              src={
+                                jsonData.profileImgName === null
+                                  ? profileDefaultImg
+                                  : `upload/profile/${jsonData.profileImgName}`
+                              }
+                              alt=""
+                            />
                             <h4>{jsonData.nickname}</h4>
                           </div>
                           <div
@@ -381,6 +421,7 @@ const ChatRoom = (props) => {
                   }
                 }
               } else {
+                // 채팅하고 있는 상대 부분 -> 채팅화면 기준 왼쪽
                 if (data.directMessageType === "text") {
                   return (
                     <div className="friend-message" key={idx}>
@@ -388,6 +429,7 @@ const ChatRoom = (props) => {
                         className="friend-message-profile-img"
                         src={storyProfileImg1}
                         alt=""
+                        onClick={() => onChatProfileClick(data)}
                       />
                       <p>{data.directMessage}</p>
                     </div>
@@ -395,6 +437,12 @@ const ChatRoom = (props) => {
                 } else if (data.directMessageType === "file") {
                   return (
                     <div className="friend-message" key={idx}>
+                      <img
+                        className="friend-message-profile-img"
+                        src={storyProfileImg1}
+                        alt=""
+                        onClick={() => onChatProfileClick(data)}
+                      />
                       <div className="img-message">
                         {/*<img src={`public/upload/dm/${data.directMessage}`} />*/}
                         <img src={`upload/dm/${data.directMessage}`} />
@@ -410,6 +458,7 @@ const ChatRoom = (props) => {
                           className="friend-message__img"
                           src="./images/명수스토리.jpg"
                           alt=""
+                          onClick={() => onChatProfileClick(data)}
                         />
                         <div className="friend-message__share">
                           <div className="share-user">
@@ -444,6 +493,7 @@ const ChatRoom = (props) => {
                           className="friend-message__img"
                           src="./images/명수스토리.jpg"
                           alt=""
+                          onClick={() => onChatProfileClick(data)}
                         />
                         <div className="friend-message__share">
                           <div className="share-user">
@@ -471,7 +521,9 @@ const ChatRoom = (props) => {
               }
             })}
           {myChatBox.map((data, idx) => {
+            // 채팅 보내고 실시간으로 렌더링 하는 부분
             if (data.username === localUserName) {
+              // 로컬유저 채팅 부분 -> 채팅화면 기준 오른쪽
               if (data.type === "text") {
                 return (
                   <div className="my-message" key={idx}>
@@ -572,6 +624,7 @@ const ChatRoom = (props) => {
                         className="friend-message__img"
                         src="./images/명수스토리.jpg"
                         alt=""
+                        onClick={() => onChatProfileClick(data)}
                       />
                       <div className="friend-message__share">
                         <div className="share-user">
@@ -606,6 +659,7 @@ const ChatRoom = (props) => {
                         className="friend-message__img"
                         src="./images/명수스토리.jpg"
                         alt=""
+                        onClick={() => onChatProfileClick(data)}
                       />
                       <div className="friend-message__share">
                         <div className="share-user">

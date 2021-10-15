@@ -15,11 +15,13 @@ let roomListObj;
 const Chat = (props) => {
   const { messageCount, setMessageCount } = props;
   const localUserName = localStorage.getItem("username");
+  const localUserNickName = localStorage.getItem("userNickname");
   const paramsId = location.search.split("=")[1];
   const [chatCreateModalOn, setChatCreateModalOn] = useState(false); // 채팅 생성 모달 제어
   const [chatStart, setChatStart] = useState(false); // 채팅 시작 여부
   const [roomList, setRoomList] = useState([]); // 채팅방 목록 array
   const [updateChatList, setUpdateChatList] = useState(false);
+  const [userInfo, setUserInfo] = useState({}); // 채팅할 상대 정보
   const history = useHistory();
   const webSocketUrl = `ws://localhost:8080/eatstagram/ws/directMessageRoomList/${localUserName}`;
   let ws = useRef(null);
@@ -33,6 +35,7 @@ const Chat = (props) => {
 
   // 채팅 시작(채팅 목록 클릭 시)
   const onChatStartHandler = (data, idx) => {
+    setUserInfo(data);
     const alertYn = data.alertYn;
     setChatStart(true);
     history.push(`/Chat?idx=${data.directMessageRoomId}`);
@@ -172,7 +175,7 @@ const Chat = (props) => {
         <div className="chat-area">
           <div className="chat-left">
             <div className="chat-me">
-              <h1>gyuxxr</h1>
+              <h1>{localUserNickName}</h1>
               <p onClick={onCreateWriteModalHandler}>
                 <FaRegEdit />
               </p>
@@ -214,6 +217,7 @@ const Chat = (props) => {
               paramsId={paramsId}
               setUpdateChatList={setUpdateChatList}
               updateChatList={updateChatList}
+              userInfo={userInfo}
             />
           ) : (
             <ChatInitialRightComponent
