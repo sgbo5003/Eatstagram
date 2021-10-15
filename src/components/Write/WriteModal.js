@@ -147,8 +147,12 @@ const WriteModal = (props) => {
   };
 
   const onLocationClick = () => {
-    kakaoMap();
-    setIsDropClick(true);
+    if (userLocation === "" || userLocation.trim() === "") {
+      return;
+    } else {
+      kakaoMap();
+      setIsDropClick(true);
+    }
   };
 
   const sendData = () => {
@@ -191,12 +195,7 @@ const WriteModal = (props) => {
 
   const onSubmit = () => {
     // 해시태그 => 필수 x
-    if (
-      content == "" ||
-      fileImg.length == 0 ||
-      userLocation == "" ||
-      categoryList.length == 0
-    ) {
+    if (fileImg.length == 0 || userLocation == "" || categoryList.length == 0) {
       alert("error");
     } else {
       sendData();
