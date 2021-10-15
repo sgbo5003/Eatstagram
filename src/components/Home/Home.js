@@ -386,7 +386,15 @@ const Home = () => {
                     <div className="post-top">
                       <div className="post-user">
                         <div className="post-user__img">
-                          <img src={storyProfileImg1} alt="" />
+                          <img
+                            src={
+                              data.profileImgName === null
+                                ? profileDefaultImg
+                                : `upload/profile/${data.profileImgName}`
+                            }
+                            alt=""
+                            onClick={() => onProfileClick(data)}
+                          />
                         </div>
                         <div
                           className="post-user__id"
@@ -516,10 +524,13 @@ const Home = () => {
                         : `upload/profile/${profileData.profileImgName}`
                     }
                     alt=""
+                    onClick={() => onProfileClick(profileData)}
                   />
                 </div>
                 <div className="main-user__id">
-                  <h1>{getLocalUserNickName}</h1>
+                  <h1 onClick={() => onProfileClick(profileData)}>
+                    {getLocalUserNickName}
+                  </h1>
                 </div>
               </div>
               <div className="main-lank">
@@ -533,7 +544,10 @@ const Home = () => {
                   {rankingList.map((data, idx) => {
                     return (
                       <div className="main-lank__list" key={idx}>
-                        <div className="main-lank__left">
+                        <div
+                          className="main-lank__left"
+                          onClick={() => onProfileClick(data)}
+                        >
                           <h1>{idx + 1}</h1>
                           <div className="main-lank__img">
                             <img src={rankImg} alt="" />
@@ -569,6 +583,7 @@ const Home = () => {
           setItems={setItems}
           getRegdate={getRegdate}
           settings={settings}
+          onProfileClick={onProfileClick}
         />
       </Modal>
       <Modal isOpen={shareModalOn} setIsOpen={setShareModalOn}>

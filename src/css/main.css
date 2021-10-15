@@ -81,6 +81,7 @@
   width: 60px;
   height: 60px;
   border-radius: 50px;
+  cursor: pointer;
 }
 
 .main-user__id {
@@ -90,6 +91,7 @@
 .main-user__id h1 {
   font-size: 14px;
   color: #0e0e0e;
+  cursor: pointer;
 }
 
 .main-lank {
