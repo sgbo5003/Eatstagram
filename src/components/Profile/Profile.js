@@ -206,13 +206,6 @@ const Profile = () => {
                       팔로우
                     </button>
                   )}
-                  {paramsId === localUser ? (
-                    <p>
-                      <FaCog />
-                    </p>
-                  ) : (
-                    ""
-                  )}
                 </div>
                 <div className="profile-info__mid">
                   <div className="profile-info-li">
