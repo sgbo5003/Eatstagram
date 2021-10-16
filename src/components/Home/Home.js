@@ -370,238 +370,240 @@ const Home = () => {
       <div className="service-screen">
         {/*스토리*/}
         <div className="main-area">
-          <div className="main-area__left">
-            <div className="story-area">
-              <div>
-                <ul className="friends-story">
-                  <li className="upload-story">
-                    <img src={myProfileImg} alt="묭수.jpg" />
+          <div className="main-position">
+            <div className="main-area__left">
+              <div className="story-area">
+                <div>
+                  <ul className="friends-story">
+                    <li className="upload-story">
+                      <img src={myProfileImg} alt="묭수.jpg" />
 
-                    <div className="upload-btn">
-                      <span className="plusbtn">
-                        <FaPlusCircle />
-                      </span>
-                    </div>
-                  </li>
-                  {storys.map((data, idx) => {
-                    return (
-                      <li key={idx}>
-                        <img src={data.src} alt={data.alt} />
-                      </li>
-                    );
-                  })}
+                      <div className="upload-btn">
+                        <span className="plusbtn">
+                          <FaPlusCircle />
+                        </span>
+                      </div>
+                    </li>
+                    {storys.map((data, idx) => {
+                      return (
+                        <li key={idx}>
+                          <img src={data.src} alt={data.alt} />
+                        </li>
+                      );
+                    })}
 
-                  <li>
-                    <button>
-                      <FaChevronRight />
-                    </button>
-                  </li>
-                </ul>
+                    <li>
+                      <button>
+                        <FaChevronRight />
+                      </button>
+                    </li>
+                  </ul>
+                </div>
               </div>
-            </div>
-            {/*게시글*/}
-            <div className="post-area">
-              {userPosts.map((data, idx) => {
-                return (
-                  <div className="post" key={idx}>
-                    <div className="post-top">
-                      <div className="post-user">
-                        <div className="post-user__img">
-                          <img
-                            src={
-                              data.profileImgName === null
-                                ? profileDefaultImg
-                                : `upload/profile/${data.profileImgName}`
-                            }
-                            alt=""
+              {/*게시글*/}
+              <div className="post-area">
+                {userPosts.map((data, idx) => {
+                  return (
+                    <div className="post" key={idx}>
+                      <div className="post-top">
+                        <div className="post-user">
+                          <div className="post-user__img">
+                            <img
+                              src={
+                                data.profileImgName === null
+                                  ? profileDefaultImg
+                                  : `upload/profile/${data.profileImgName}`
+                              }
+                              alt=""
+                              onClick={() => onProfileClick(data)}
+                            />
+                          </div>
+                          <div
+                            className="post-user__id"
                             onClick={() => onProfileClick(data)}
-                          />
+                          >
+                            <h1>{data.nickname}</h1>
+                          </div>
                         </div>
-                        <div
-                          className="post-user__id"
-                          onClick={() => onProfileClick(data)}
-                        >
-                          <h1>{data.nickname}</h1>
+                        <div className="post-setting">
+                          <p>
+                            <FaEllipsisH />
+                          </p>
                         </div>
                       </div>
-                      <div className="post-setting">
-                        <p>
-                          <FaEllipsisH />
-                        </p>
-                      </div>
-                    </div>
-                    <div className="post-content">
-                      <div className="post-content__main">
-                        <Slider {...settings}>
-                          {data.contentFileDTOList.map((data, idx) => {
-                            if (
-                              data.type === "image/png" ||
-                              data.type === "image/jpeg"
-                            ) {
-                              return (
-                                <img
-                                  //   src={`public/upload/content/${data.name}`}
-                                  src={`upload/content/${data.name}`}
-                                  alt=""
-                                  key={idx}
-                                />
-                              );
-                            } else if (data.type === "video/mp4") {
-                              return (
-                                <video controls height="600" key={idx}>
-                                  <source
-                                    // src={`public/upload/content/${data.name}`}
+                      <div className="post-content">
+                        <div className="post-content__main">
+                          <Slider {...settings}>
+                            {data.contentFileDTOList.map((data, idx) => {
+                              if (
+                                data.type === "image/png" ||
+                                data.type === "image/jpeg"
+                              ) {
+                                return (
+                                  <img
+                                    //   src={`public/upload/content/${data.name}`}
                                     src={`upload/content/${data.name}`}
-                                    type="video/mp4"
+                                    alt=""
+                                    key={idx}
                                   />
-                                </video>
-                              );
-                            }
-                          })}
-                        </Slider>
-                      </div>
-                    </div>
-                    <div className="post-bottom">
-                      <div className="post-etc">
-                        <div className="post-etc__left">
-                          <p>
-                            {data.likeCheck ? (
-                              <FaHeart
-                                color="red"
-                                onClick={() => onLikeHandler(data, idx)}
-                              />
-                            ) : (
-                              <FaRegHeart
-                                onClick={() => onLikeHandler(data, idx)}
-                              />
-                            )}
-                          </p>
-                          <p>
-                            <FaRegComment
-                              onClick={() => onCommentModalHandler(data, idx)}
-                            />
-                          </p>
-                          <p>
-                            <FaRegPaperPlane
-                              onClick={() => onShareModalHandler(data)}
-                            />
-                          </p>
-                        </div>
-                        <div className="post-etc__right">
-                          <p>
-                            {data.savedYn === "Y" ? (
-                              <FaBookmark
-                                onClick={() => onSaveHandler(data, idx)}
-                              />
-                            ) : (
-                              <FaRegBookmark
-                                onClick={() => onSaveHandler(data, idx)}
-                              />
-                            )}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="post-etc2">
-                        <div className="post-content__article">
-                          <div className="post-content__like">
-                            <p key={idx}>좋아요 {data.likeCount}개</p>
-                          </div>
-                          <div className="post-content__hash">
-                            {data.contentHashtagDTOList.map((data, idx) => {
-                              return <p key={idx}>#{data.hashtag}</p>;
+                                );
+                              } else if (data.type === "video/mp4") {
+                                return (
+                                  <video controls height="600" key={idx}>
+                                    <source
+                                      // src={`public/upload/content/${data.name}`}
+                                      src={`upload/content/${data.name}`}
+                                      type="video/mp4"
+                                    />
+                                  </video>
+                                );
+                              }
                             })}
-                          </div>
+                          </Slider>
                         </div>
                       </div>
-                      <div className="post-etc__comment">
-                        <input
-                          type="text"
-                          placeholder="댓글 달기..."
-                          value={inputComment}
-                          onChange={onCommentHandler}
-                        />
-                        <button
-                          type="button"
-                          onClick={() => onClickCommentSubmit(data)}
-                        >
-                          게시
-                        </button>
+                      <div className="post-bottom">
+                        <div className="post-etc">
+                          <div className="post-etc__left">
+                            <p>
+                              {data.likeCheck ? (
+                                <FaHeart
+                                  color="red"
+                                  onClick={() => onLikeHandler(data, idx)}
+                                />
+                              ) : (
+                                <FaRegHeart
+                                  onClick={() => onLikeHandler(data, idx)}
+                                />
+                              )}
+                            </p>
+                            <p>
+                              <FaRegComment
+                                onClick={() => onCommentModalHandler(data, idx)}
+                              />
+                            </p>
+                            <p>
+                              <FaRegPaperPlane
+                                onClick={() => onShareModalHandler(data)}
+                              />
+                            </p>
+                          </div>
+                          <div className="post-etc__right">
+                            <p>
+                              {data.savedYn === "Y" ? (
+                                <FaBookmark
+                                  onClick={() => onSaveHandler(data, idx)}
+                                />
+                              ) : (
+                                <FaRegBookmark
+                                  onClick={() => onSaveHandler(data, idx)}
+                                />
+                              )}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="post-etc2">
+                          <div className="post-content__article">
+                            <div className="post-content__like">
+                              <p key={idx}>좋아요 {data.likeCount}개</p>
+                            </div>
+                            <div className="post-content__hash">
+                              {data.contentHashtagDTOList.map((data, idx) => {
+                                return <p key={idx}>#{data.hashtag}</p>;
+                              })}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="post-etc__comment">
+                          <input
+                            type="text"
+                            placeholder="댓글 달기..."
+                            value={inputComment}
+                            onChange={onCommentHandler}
+                          />
+                          <button
+                            type="button"
+                            onClick={() => onClickCommentSubmit(data)}
+                          >
+                            게시
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-          {/*랭킹*/}
-          <div className="main-area__right">
-            <div className="lank-area">
-              <div className="main-user">
-                <div className="main-user__img">
-                  <img
-                    src={
-                      profileData.profileImgName === null
-                        ? profileDefaultImg
-                        : `upload/profile/${profileData.profileImgName}`
-                    }
-                    alt=""
-                    onClick={() => onProfileClick(profileData)}
-                  />
-                </div>
-                <div className="main-user__id">
-                  <h1 onClick={() => onProfileClick(profileData)}>
-                    {getLocalUserNickName}
-                  </h1>
-                </div>
+                  );
+                })}
               </div>
-              <div className="main-lank">
-                <div className="main-lank__top">
-                  <h1>현재 구독자 랭킹</h1>
-                  <a>
-                    <h3 onClick={onRankingHandler}>모두 보기</h3>
-                  </a>
+            </div>
+            {/*랭킹*/}
+            <div className="main-area__right">
+              <div className="lank-area">
+                <div className="main-user">
+                  <div className="main-user__img">
+                    <img
+                      src={
+                        profileData.profileImgName === null
+                          ? profileDefaultImg
+                          : `upload/profile/${profileData.profileImgName}`
+                      }
+                      alt=""
+                      onClick={() => onProfileClick(profileData)}
+                    />
+                  </div>
+                  <div className="main-user__id">
+                    <h1 onClick={() => onProfileClick(profileData)}>
+                      {getLocalUserNickName}
+                    </h1>
+                  </div>
                 </div>
-                <div className="main-lank__area">
-                  {rankingList.map((data, idx) => {
-                    return (
-                      <div className="main-lank__list" key={idx}>
-                        <div
-                          className="main-lank__left"
-                          onClick={() => onProfileClick(data)}
-                        >
-                          <h1>{idx + 1}</h1>
-                          <div className="main-lank__img">
-                            <img src={rankImg} alt="" />
+                <div className="main-lank">
+                  <div className="main-lank__top">
+                    <h1>현재 구독자 랭킹</h1>
+                    <a>
+                      <h3 onClick={onRankingHandler}>모두 보기</h3>
+                    </a>
+                  </div>
+                  <div className="main-lank__area">
+                    {rankingList.map((data, idx) => {
+                      return (
+                        <div className="main-lank__list" key={idx}>
+                          <div
+                            className="main-lank__left"
+                            onClick={() => onProfileClick(data)}
+                          >
+                            <h1>{idx + 1}</h1>
+                            <div className="main-lank__img">
+                              <img src={rankImg} alt="" />
+                            </div>
+                            <div className="main-lank__info">
+                              <h2>{data.nickname}</h2>
+                              <h4>{data.name}</h4>
+                            </div>
                           </div>
-                          <div className="main-lank__info">
-                            <h2>{data.nickname}</h2>
-                            <h4>{data.name}</h4>
+                          <div className="main-lank__subs">
+                            {getLocalUserName === data.username ? (
+                              ""
+                            ) : data.followYn === "N" &&
+                              data.followerYn === "Y" ? (
+                              <h4 onClick={() => FollowBtnClick(data, idx)}>
+                                맞팔로우
+                              </h4>
+                            ) : (data.followYn === "Y" &&
+                                data.followerYn === "Y") ||
+                              (data.followYn === "Y" &&
+                                data.followerYn === "N") ? (
+                              <h4 onClick={() => FollowBtnClick(data, idx)}>
+                                언팔로우
+                              </h4>
+                            ) : (
+                              <h4 onClick={() => FollowBtnClick(data, idx)}>
+                                팔로우
+                              </h4>
+                            )}
                           </div>
                         </div>
-                        <div className="main-lank__subs">
-                          {getLocalUserName === data.username ? (
-                            ""
-                          ) : data.followYn === "N" &&
-                            data.followerYn === "Y" ? (
-                            <h4 onClick={() => FollowBtnClick(data, idx)}>
-                              맞팔로우
-                            </h4>
-                          ) : (data.followYn === "Y" &&
-                              data.followerYn === "Y") ||
-                            (data.followYn === "Y" &&
-                              data.followerYn === "N") ? (
-                            <h4 onClick={() => FollowBtnClick(data, idx)}>
-                              언팔로우
-                            </h4>
-                          ) : (
-                            <h4 onClick={() => FollowBtnClick(data, idx)}>
-                              팔로우
-                            </h4>
-                          )}
-                        </div>
-                      </div>
-                    );
-                  })}
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
             </div>
