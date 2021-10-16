@@ -36,7 +36,7 @@ const CommentModal = (props) => {
     fnc.executeQuery({
       url: "content/contentCheck",
       data: {
-        contentId: "C-1634199030351-00005",
+        contentId: commentData.contentId,
       },
       success: (res) => {
         setResponse(true);
@@ -244,8 +244,13 @@ const CommentModal = (props) => {
                         {commentData.nickname}
                       </h1>
                     </div>
-                    <div className="post-window-map">
-                      <h2>{commentData.location}</h2>
+                    <div className="post-window__info">
+                      <div className="post-window-map">
+                        <h2>{commentData.location}</h2>
+                      </div>
+                      <div className="post-window-time">
+                        <h2> • {commentData.time}</h2>
+                      </div>
                     </div>
                   </div>
                 </div>

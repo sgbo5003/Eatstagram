@@ -142,6 +142,9 @@ const Home = () => {
         username: getLocalUserName,
       },
       success: (res) => {
+        res.content.map((item, idx) => {
+          getRegdate(item);
+        });
         setUserPosts(res.content);
       },
     });
@@ -423,6 +426,7 @@ const Home = () => {
                             onClick={() => onProfileClick(data)}
                           >
                             <h1>{data.nickname}</h1>
+                            <h3>{data.time}</h3>
                           </div>
                         </div>
                         <div className="post-setting">
