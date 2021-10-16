@@ -7,7 +7,7 @@ import * as fnc from "../../commonFunc/CommonFunctions";
 let page = 0;
 
 const FollowModal = (props) => {
-  const { localUser, paramsId, setSubscribeModalOn } = props;
+  const { localUser, paramsId, setFollowModalOn } = props;
   const [list, setList] = useState([]);
   const scrollRef = useRef(null);
 
@@ -65,7 +65,7 @@ const FollowModal = (props) => {
   };
   // 모달창 나가기 버튼 클릭 시
   const onExitBtnClick = () => {
-    setSubscribeModalOn(false);
+    setFollowModalOn(false);
   };
 
   useEffect(() => {
