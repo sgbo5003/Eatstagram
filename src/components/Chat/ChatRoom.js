@@ -461,7 +461,12 @@ const ChatRoom = (props) => {
                     <div className="friend-message" key={idx}>
                       <img
                         className="friend-message-profile-img"
-                        src={storyProfileImg1}
+                        src={
+                          userInfo.directMessageRoomMemberDTOList[0]
+                            .profileImgName === null
+                            ? profileDefaultImg
+                            : `upload/profile/${userInfo.directMessageRoomMemberDTOList[0].profileImgName}`
+                        }
                         alt=""
                         onClick={() => onChatProfileClick(data)}
                       />
@@ -473,7 +478,12 @@ const ChatRoom = (props) => {
                     <div className="friend-message" key={idx}>
                       <img
                         className="friend-message-profile-img"
-                        src={storyProfileImg1}
+                        src={
+                          userInfo.directMessageRoomMemberDTOList[0]
+                            .profileImgName === null
+                            ? profileDefaultImg
+                            : `upload/profile/${userInfo.directMessageRoomMemberDTOList[0].profileImgName}`
+                        }
                         alt=""
                         onClick={() => onChatProfileClick(data)}
                       />
@@ -490,7 +500,12 @@ const ChatRoom = (props) => {
                       <div className="friend-message2" key={idx}>
                         <img
                           className="friend-message__img"
-                          src="./images/명수스토리.jpg"
+                          src={
+                            userInfo.directMessageRoomMemberDTOList[0]
+                              .profileImgName === null
+                              ? profileDefaultImg
+                              : `upload/profile/${userInfo.directMessageRoomMemberDTOList[0].profileImgName}`
+                          }
                           alt=""
                           onClick={() => onChatProfileClick(data)}
                         />
@@ -535,7 +550,12 @@ const ChatRoom = (props) => {
                       <div className="friend-message2" key={idx}>
                         <img
                           className="friend-message__img"
-                          src="./images/명수스토리.jpg"
+                          src={
+                            userInfo.directMessageRoomMemberDTOList[0]
+                              .profileImgName === null
+                              ? profileDefaultImg
+                              : `upload/profile/${userInfo.directMessageRoomMemberDTOList[0].profileImgName}`
+                          }
                           alt=""
                           onClick={() => onChatProfileClick(data)}
                         />
@@ -675,7 +695,12 @@ const ChatRoom = (props) => {
                   <div className="friend-message" key={idx}>
                     <img
                       className="friend-message-profile-img"
-                      src={storyProfileImg1}
+                      src={
+                        userInfo.directMessageRoomMemberDTOList[0]
+                          .profileImgName === null
+                          ? profileDefaultImg
+                          : `upload/profile/${userInfo.directMessageRoomMemberDTOList[0].profileImgName}`
+                      }
                       alt=""
                     />
                     <p>{data.msg}</p>
@@ -686,7 +711,12 @@ const ChatRoom = (props) => {
                   <div className="friend-message" key={idx}>
                     <img
                       className="friend-message-profile-img"
-                      src={storyProfileImg1}
+                      src={
+                        userInfo.directMessageRoomMemberDTOList[0]
+                          .profileImgName === null
+                          ? profileDefaultImg
+                          : `upload/profile/${userInfo.directMessageRoomMemberDTOList[0].profileImgName}`
+                      }
                       alt=""
                       onClick={() => onChatProfileClick(data)}
                     />
@@ -702,7 +732,12 @@ const ChatRoom = (props) => {
                     <div className="friend-message2" key={idx}>
                       <img
                         className="friend-message__img"
-                        src="./images/명수스토리.jpg"
+                        src={
+                          userInfo.directMessageRoomMemberDTOList[0]
+                            .profileImgName === null
+                            ? profileDefaultImg
+                            : `upload/profile/${userInfo.directMessageRoomMemberDTOList[0].profileImgName}`
+                        }
                         alt=""
                         onClick={() => onChatProfileClick(data)}
                       />
@@ -747,7 +782,12 @@ const ChatRoom = (props) => {
                     <div className="friend-message2" key={idx}>
                       <img
                         className="friend-message__img"
-                        src="./images/명수스토리.jpg"
+                        src={
+                          userInfo.directMessageRoomMemberDTOList[0]
+                            .profileImgName === null
+                            ? profileDefaultImg
+                            : `upload/profile/${userInfo.directMessageRoomMemberDTOList[0].profileImgName}`
+                        }
                         alt=""
                         onClick={() => onChatProfileClick(data)}
                       />
