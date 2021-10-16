@@ -64,7 +64,8 @@ const Ranking = () => {
                   </div>
                   <div className="rank__user">
                     <h2>{data.nickname}</h2>
-                    <h4> {data.name}</h4>
+                    <h4> • {data.name}</h4>
+                    <h4> • {data.followerCount}명</h4>
                   </div>
                 </div>
                 <aside>
