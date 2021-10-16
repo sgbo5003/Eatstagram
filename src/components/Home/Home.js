@@ -336,6 +336,27 @@ const Home = () => {
     });
   };
 
+  // 팔로우 추가 및 삭제
+  const sendFollowYnData = (data, idx) => {
+    fnc.executeQuery({
+      url: "follow/save",
+      data: {
+        username: getLocalUserName,
+        target: data,
+      },
+      success: (res) => {
+        const newList = [...rankingList];
+        newList[idx].followYn = res.followYn;
+        setRankingList(newList);
+      },
+    });
+  };
+
+  // 맞팔 & 언팔 & 팔로우 버튼 클릭 시
+  const FollowBtnClick = (data, idx) => {
+    sendFollowYnData(data.username, idx);
+  };
+
   // 스크롤 이벤트
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -560,10 +581,22 @@ const Home = () => {
                         <div className="main-lank__subs">
                           {getLocalUserName === data.username ? (
                             ""
-                          ) : data.subscriptionYn === "Y" ? (
-                            <h4>구독중</h4>
+                          ) : data.followYn === "N" &&
+                            data.followerYn === "Y" ? (
+                            <h4 onClick={() => FollowBtnClick(data, idx)}>
+                              맞팔로우
+                            </h4>
+                          ) : (data.followYn === "Y" &&
+                              data.followerYn === "Y") ||
+                            (data.followYn === "Y" &&
+                              data.followerYn === "N") ? (
+                            <h4 onClick={() => FollowBtnClick(data, idx)}>
+                              언팔로우
+                            </h4>
                           ) : (
-                            <h4>구독</h4>
+                            <h4 onClick={() => FollowBtnClick(data, idx)}>
+                              팔로우
+                            </h4>
                           )}
                         </div>
                       </div>
