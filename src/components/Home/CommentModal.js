@@ -6,6 +6,7 @@ import profileDefaultImg from "../../../public/images/default_user.png";
 import { FaEllipsisH, FaTimes } from "react-icons/fa";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import * as fncObj from "../../commonFunc/CommonObjFunctions";
+import * as fnc from "../../commonFunc/CommonFunctions";
 import Slider from "react-slick";
 
 const CommentModal = (props) => {
@@ -13,6 +14,7 @@ const CommentModal = (props) => {
   const [commentBox, setCommentBox] = useState([]); // 댓글 보여지는 부분
   const [count, setCount] = useState(1);
   const [button, setButton] = useState(false);
+  const [response, setResponse] = useState(false);
   const localUserName = localStorage.getItem("username");
   const localUserNickName = localStorage.getItem("userNickname");
   const {
@@ -29,7 +31,25 @@ const CommentModal = (props) => {
   const webSocketUrl = `ws://localhost:8080/eatstagram/ws/contentReply/${commentData.contentId}`;
   let ws = useRef(null);
 
+  // 게시글이 존재하는지 하지 않는지 체크
+  const getCheckContent = () => {
+    fnc.executeQuery({
+      url: "content/contentCheck",
+      data: {
+        contentId: "C-1634199030351-00005",
+      },
+      success: (res) => {
+        setResponse(true);
+      },
+      fail: (res) => {
+        alert("없는 게시글 입니다.");
+        setResponse(false);
+      },
+    });
+  };
+
   useEffect(() => {
+    getCheckContent();
     console.log("commentData", commentData);
     ws.current = new WebSocket(webSocketUrl);
     ws.current.onopen = () => {
@@ -66,6 +86,7 @@ const CommentModal = (props) => {
 
   // 댓글 전송
   const onSendMessageHandler = () => {
+    getCheckContent();
     if (comment === "" || comment.trim() === "") {
       return;
     } else {
@@ -87,6 +108,7 @@ const CommentModal = (props) => {
 
   // 엔터키 눌러 댓글 전송
   const onKeyPress = (e) => {
+    getCheckContent();
     if (e.key == "Enter") {
       if (comment === "" || comment.trim() === "") {
         return;
@@ -169,93 +191,125 @@ const CommentModal = (props) => {
   return (
     <>
       <div className="post-window">
-        <div className="post-window-area">
-          <div className="post-window-left">
-            <div className="post-window-contents">
-              <Slider {...settings}>
-                {commentData.contentFileDTOList.map((data, idx) => {
-                  if (data.type === "image/png" || data.type === "image/jpeg") {
-                    return (
-                      <img
-                        //   src={`public/upload/content/${data.name}`}
-                        src={`upload/content/${data.name}`}
-                        alt=""
-                        key={idx}
-                      />
-                    );
-                  } else if (data.type === "video/mp4") {
-                    return (
-                      <video controls height="600" key={idx}>
-                        <source
-                          // src={`public/upload/content/${data.name}`}
+        {response ? (
+          <div className="post-window-area">
+            <div className="post-window-left">
+              <div className="post-window-contents">
+                <Slider {...settings}>
+                  {commentData.contentFileDTOList.map((data, idx) => {
+                    if (
+                      data.type === "image/png" ||
+                      data.type === "image/jpeg"
+                    ) {
+                      return (
+                        <img
+                          //   src={`public/upload/content/${data.name}`}
                           src={`upload/content/${data.name}`}
-                          type="video/mp4"
+                          alt=""
+                          key={idx}
                         />
-                      </video>
-                    );
-                  }
-                })}
-              </Slider>
-            </div>
-          </div>
-          <div className="post-window-right">
-            <div className="post-window-top">
-              <div className="post-window-user">
-                <div className="post-window-user__img">
-                  <img
-                    src={
-                      commentData.profileImgName === null
-                        ? profileDefaultImg
-                        : `upload/profile/${commentData.profileImgName}`
+                      );
+                    } else if (data.type === "video/mp4") {
+                      return (
+                        <video controls height="600" key={idx}>
+                          <source
+                            // src={`public/upload/content/${data.name}`}
+                            src={`upload/content/${data.name}`}
+                            type="video/mp4"
+                          />
+                        </video>
+                      );
                     }
-                    alt=""
-                    onClick={() => onProfileClick(commentData)}
-                  />
+                  })}
+                </Slider>
+              </div>
+            </div>
+            <div className="post-window-right">
+              <div className="post-window-top">
+                <div className="post-window-user">
+                  <div className="post-window-user__img">
+                    <img
+                      src={
+                        commentData.profileImgName === null
+                          ? profileDefaultImg
+                          : `upload/profile/${commentData.profileImgName}`
+                      }
+                      alt=""
+                      onClick={() => onProfileClick(commentData)}
+                    />
+                  </div>
+                  <div>
+                    <div className="post-window-user__id">
+                      <h1 onClick={() => onProfileClick(commentData)}>
+                        {commentData.nickname}
+                      </h1>
+                    </div>
+                    <div className="post-window-map">
+                      <h2>{commentData.location}</h2>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <div className="post-window-user__id">
+                <div className="post-window-setting">
+                  <p>
+                    <FaEllipsisH />
+                  </p>
+                </div>
+              </div>
+
+              <div className="post-window-comment">
+                <div className="first-comment">
+                  <div className="comment-user__img">
+                    <img
+                      src={
+                        commentData.profileImgName === null
+                          ? profileDefaultImg
+                          : `upload/profile/${commentData.profileImgName}`
+                      }
+                      alt=""
+                      onClick={() => onProfileClick(commentData)}
+                    />
+                  </div>
+                  <div className="comment-user__id">
                     <h1 onClick={() => onProfileClick(commentData)}>
                       {commentData.nickname}
                     </h1>
                   </div>
-                  <div className="post-window-map">
-                    <h2>{commentData.location}</h2>
+                  <div className="comment-user__text">
+                    <p>{commentData.text}</p>
                   </div>
                 </div>
-              </div>
-              <div className="post-window-setting">
-                <p>
-                  <FaEllipsisH />
-                </p>
-              </div>
-            </div>
-
-            <div className="post-window-comment">
-              <div className="first-comment">
-                <div className="comment-user__img">
-                  <img
-                    src={
-                      commentData.profileImgName === null
-                        ? profileDefaultImg
-                        : `upload/profile/${commentData.profileImgName}`
-                    }
-                    alt=""
-                    onClick={() => onProfileClick(commentData)}
-                  />
-                </div>
-                <div className="comment-user__id">
-                  <h1 onClick={() => onProfileClick(commentData)}>
-                    {commentData.nickname}
-                  </h1>
-                </div>
-                <div className="comment-user__text">
-                  <p>{commentData.text}</p>
-                </div>
-              </div>
-              {items
-                .slice(0)
-                .reverse()
-                .map((data, idx) => {
+                {items
+                  .slice(0)
+                  .reverse()
+                  .map((data, idx) => {
+                    return (
+                      <div className="comment" key={idx}>
+                        <div className="comment-user__img">
+                          <img
+                            src={
+                              data.profileImgName === null
+                                ? profileDefaultImg
+                                : `upload/profile/${data.profileImgName}`
+                            }
+                            alt=""
+                            onClick={() => onProfileClick(data)}
+                          />
+                        </div>
+                        <div className="comment-user__id">
+                          <h1 onClick={() => onProfileClick(data)}>
+                            {data.nickname}
+                          </h1>
+                        </div>
+                        <div className="comment-user__text">
+                          <p>{data.msg}</p>
+                        </div>
+                        <div className="comment-user__text">
+                          <p>{data.time}</p>
+                        </div>
+                      </div>
+                    );
+                  })}
+                {commentBox.map((data, idx) => {
                   return (
                     <div className="comment" key={idx}>
                       <div className="comment-user__img">
@@ -275,7 +329,7 @@ const CommentModal = (props) => {
                         </h1>
                       </div>
                       <div className="comment-user__text">
-                        <p>{data.msg}</p>
+                        <p>{data.reply}</p>
                       </div>
                       <div className="comment-user__text">
                         <p>{data.time}</p>
@@ -283,61 +337,36 @@ const CommentModal = (props) => {
                     </div>
                   );
                 })}
-              {commentBox.map((data, idx) => {
-                return (
-                  <div className="comment" key={idx}>
-                    <div className="comment-user__img">
-                      <img
-                        src={
-                          data.profileImgName === null
-                            ? profileDefaultImg
-                            : `upload/profile/${data.profileImgName}`
-                        }
-                        alt=""
-                        onClick={() => onProfileClick(data)}
-                      />
-                    </div>
-                    <div className="comment-user__id">
-                      <h1 onClick={() => onProfileClick(data)}>
-                        {data.nickname}
-                      </h1>
-                    </div>
-                    <div className="comment-user__text">
-                      <p>{data.reply}</p>
-                    </div>
-                    <div className="comment-user__text">
-                      <p>{data.time}</p>
-                    </div>
+                {button ? (
+                  <div className="comment-over-btn">
+                    <button onClick={getAddData}>
+                      <AiOutlinePlusCircle />
+                    </button>
                   </div>
-                );
-              })}
-              {button ? (
-                <div className="comment-over-btn">
-                  <button onClick={getAddData}>
-                    <AiOutlinePlusCircle />
+                ) : (
+                  ""
+                )}
+              </div>
+
+              <div className="post-window-bottom">
+                <div className="post-window-comment-input">
+                  <input
+                    type="text"
+                    value={comment}
+                    onChange={onCommentInputHandler}
+                    onKeyPress={onKeyPress}
+                    placeholder="댓글 달기..."
+                  />
+                  <button type="button" onClick={onSendMessageHandler}>
+                    게시
                   </button>
                 </div>
-              ) : (
-                ""
-              )}
-            </div>
-
-            <div className="post-window-bottom">
-              <div className="post-window-comment-input">
-                <input
-                  type="text"
-                  value={comment}
-                  onChange={onCommentInputHandler}
-                  onKeyPress={onKeyPress}
-                  placeholder="댓글 달기..."
-                />
-                <button type="button" onClick={onSendMessageHandler}>
-                  게시
-                </button>
               </div>
             </div>
           </div>
-        </div>
+        ) : (
+          <div className="post-window-area">게시물 없음</div>
+        )}
       </div>
 
       <div className="window-close">
