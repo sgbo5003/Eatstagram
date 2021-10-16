@@ -161,7 +161,10 @@ const Header = (props) => {
               />
             </div>
             {dropDown ? (
-              <ProfileDropDown onProfileClick={onProfileClick} />
+              <ProfileDropDown
+                onProfileClick={onProfileClick}
+                setDropDown={setDropDown}
+              />
             ) : (
               ""
             )}
