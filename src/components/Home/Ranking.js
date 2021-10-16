@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import * as fncObj from "../../commonFunc/CommonObjFunctions";
+import * as fnc from "../../commonFunc/CommonFunctions";
 
 const Ranking = () => {
   const getLocalUserName = localStorage.getItem("username");
@@ -16,6 +17,27 @@ const Ranking = () => {
         setRankingList(res.content);
       },
     });
+  };
+
+  // 팔로우 추가 및 삭제
+  const sendFollowYnData = (data, idx) => {
+    fnc.executeQuery({
+      url: "follow/save",
+      data: {
+        username: getLocalUserName,
+        target: data,
+      },
+      success: (res) => {
+        const newList = [...rankingList];
+        newList[idx].followYn = res.followYn;
+        setRankingList(newList);
+      },
+    });
+  };
+
+  // 맞팔 & 언팔 & 팔로우 버튼 클릭 시
+  const FollowBtnClick = (data, idx) => {
+    sendFollowYnData(data.username, idx);
   };
 
   useEffect(() => {
@@ -48,10 +70,19 @@ const Ranking = () => {
                 <aside>
                   {getLocalUserName === data.username ? (
                     ""
-                  ) : data.subscriptionYn === "Y" ? (
-                    <button>구독중</button>
+                  ) : data.followYn === "N" && data.followerYn === "Y" ? (
+                    <button onClick={() => FollowBtnClick(data, idx)}>
+                      맞팔로우
+                    </button>
+                  ) : (data.followYn === "Y" && data.followerYn === "Y") ||
+                    (data.followYn === "Y" && data.followerYn === "N") ? (
+                    <button onClick={() => FollowBtnClick(data, idx)}>
+                      언팔로우
+                    </button>
                   ) : (
-                    <button>구독</button>
+                    <button onClick={() => FollowBtnClick(data, idx)}>
+                      팔로우
+                    </button>
                   )}
                 </aside>
               </div>

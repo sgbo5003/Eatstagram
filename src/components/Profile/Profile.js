@@ -20,7 +20,8 @@ const Profile = () => {
   const [activeBar, setActiveBar] = useState(false);
   const [followerModalOn, setFollowerModalOn] = useState(false); // 팔로워 모달
   const [followModalOn, setFollowModalOn] = useState(false); // 팔로우 모달
-  const [follow, setFollow] = useState(""); // 구독했는지 여부
+  const [follow, setFollow] = useState(""); // 팔로우했는지 여부
+  const [follower, setFollower] = useState(""); // 팔로워했는지 여부
   const [followCount, setFollowCount] = useState(""); // 팔로우 수
   const [followerCount, setFollowerCount] = useState(""); // 팔로우 수
   const [profileImgModalOn, setProfileImgModalOn] = useState(false);
@@ -89,7 +90,7 @@ const Profile = () => {
       },
     });
   };
-  // 프로필 구독 했는지 여부
+  // 팔로우 했는지 여부
   const getFollowYnData = () => {
     fnc.executeQuery({
       url: "follow/getFollowYn",
@@ -103,6 +104,20 @@ const Profile = () => {
     });
   };
 
+  // 팔로워 했는지 여부
+  const getFollowerYnData = () => {
+    fnc.executeQuery({
+      url: "follower/getFollowerYn",
+      data: {
+        username: localUser,
+        target: paramsId,
+      },
+      success: (res) => {
+        setFollower(res.followerYn);
+      },
+    });
+  };
+
   // 팔로우 추가 및 삭제
   const sendFollowYnData = () => {
     fnc.executeQuery({
@@ -111,7 +126,9 @@ const Profile = () => {
         target: paramsId,
         username: localUser,
       },
-      success: (res) => {},
+      success: (res) => {
+        setFollow(res.followYn);
+      },
     });
   };
   // 팔로우 수 data불러오기
@@ -143,7 +160,6 @@ const Profile = () => {
   // 팔로우& 팔로우 취소 버튼 클릭 시
   const onFollowButtonClick = () => {
     sendFollowYnData();
-    follow === "Y" ? setFollow("N") : setFollow("Y");
   };
 
   useEffect(() => {
@@ -152,6 +168,7 @@ const Profile = () => {
     getFollowerTotalCount(paramsId);
     if (localUser !== paramsId) {
       getFollowYnData();
+      getFollowerYnData();
     }
   }, []);
   return (
@@ -175,10 +192,19 @@ const Profile = () => {
                   <h1>{data.nickname}</h1>
                   {paramsId === localUser ? (
                     <button onClick={onProfileEditBtnClick}>프로필편집</button>
-                  ) : follow === "Y" ? (
-                    <button onClick={onFollowButtonClick}>팔로우 취소</button>
+                  ) : follow === "N" && follower === "Y" ? (
+                    <button onClick={() => onFollowButtonClick(data, idx)}>
+                      맞팔로우
+                    </button>
+                  ) : (follow === "Y" && follower === "Y") ||
+                    (follow === "Y" && follower === "N") ? (
+                    <button onClick={() => onFollowButtonClick(data, idx)}>
+                      언팔로우
+                    </button>
                   ) : (
-                    <button onClick={onFollowButtonClick}>팔로우 신청</button>
+                    <button onClick={() => onFollowButtonClick(data, idx)}>
+                      팔로우
+                    </button>
                   )}
                   {paramsId === localUser ? (
                     <p>

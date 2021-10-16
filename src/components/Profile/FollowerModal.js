@@ -9,7 +9,7 @@ let page = 0;
 const FollowerModal = (props) => {
   const { localUser, paramsId, setFollowerModalOn } = props;
   const [list, setList] = useState([]);
-  const [followBtn, setFollowBtn] = useState("");
+
   const scrollRef = useRef(null);
 
   // 팔로워 리스트 data 불러오기
@@ -44,10 +44,31 @@ const FollowerModal = (props) => {
     });
   };
 
-  // 팔로워 추가 및 삭제
+  // 팔로워 삭제
+  const sendFollowDeleteData = (data, idx) => {
+    fnc.executeQuery({
+      url: "follower/delete",
+      data: {
+        username: localUser,
+        target: data,
+      },
+      success: (res) => {
+        const newList = [...list];
+        newList[idx].followerYn = "N";
+        setList(newList);
+      },
+    });
+  };
+
+  // 삭제 버튼 클릭 시
+  const onDeleteBtnClick = (data, idx) => {
+    sendFollowDeleteData(data.follower, idx);
+  };
+
+  // 팔로우 추가 및 삭제
   const sendFollowYnData = (data, idx) => {
     fnc.executeQuery({
-      url: "follower/save",
+      url: "follow/save",
       data: {
         username: localUser,
         target: data,
@@ -60,11 +81,12 @@ const FollowerModal = (props) => {
     });
   };
 
-  // 버튼 클릭 시
-  const unFollowBtnClick = (data, idx) => {
+  // 맞팔 & 언팔 & 팔로우 버튼 클릭 시
+  const followBtnClick = (data, idx) => {
     sendFollowYnData(data.follow, idx);
   };
 
+  // 모달창 나가기 버튼 클릭 시
   const onExitBtnClick = () => {
     setFollowerModalOn(false);
   };
@@ -133,92 +155,51 @@ const FollowerModal = (props) => {
                       )}
                     </div>
                     <div className="subs-cancle">
-                      <button onClick={() => unFollowBtnClick(data, idx)}>
-                        삭제
-                      </button>
+                      {data.followerYn === "Y" ? (
+                        <button onClick={() => onDeleteBtnClick(data, idx)}>
+                          삭제
+                        </button>
+                      ) : (
+                        ""
+                      )}
                     </div>
                   </div>
                 );
               } else {
-                if (data.followYn === "N" && data.followerYn === "Y") {
-                  return (
-                    <div className="subs-list" key={idx}>
-                      <div className="subs-user">
-                        <img
-                          src={
-                            data.profileImgName === null
-                              ? profileDefaultImg
-                              : `upload/profile/${data.profileImgName}`
-                          }
-                          alt=""
-                        />
-                        <h4>{data.nickname}</h4>
-                        <h5>{data.name}</h5>
-                      </div>
-                      <div className="subs-cancle">
-                        {localUser === data.follower ? (
-                          ""
-                        ) : (
-                          <button onClick={() => unFollowBtnClick(data, idx)}>
-                            맞팔로우
-                          </button>
-                        )}
-                      </div>
+                return (
+                  <div className="subs-list" key={idx}>
+                    <div className="subs-user">
+                      <img
+                        src={
+                          data.profileImgName === null
+                            ? profileDefaultImg
+                            : `upload/profile/${data.profileImgName}`
+                        }
+                        alt=""
+                      />
+                      <h4>{data.nickname}</h4>
+                      <h5>{data.name}</h5>
                     </div>
-                  );
-                } else if (data.followYn === "Y" && data.followerYn === "Y") {
-                  return (
-                    <div className="subs-list" key={idx}>
-                      <div className="subs-user">
-                        <img
-                          src={
-                            data.profileImgName === null
-                              ? profileDefaultImg
-                              : `upload/profile/${data.profileImgName}`
-                          }
-                          alt=""
-                        />
-                        <h4>{data.nickname}</h4>
-                        <h5>{data.name}</h5>
-                      </div>
-                      <div className="subs-cancle">
-                        {localUser === data.follower ? (
-                          ""
-                        ) : (
-                          <button onClick={() => unFollowBtnClick(data, idx)}>
-                            언팔로우
-                          </button>
-                        )}
-                      </div>
+                    <div className="subs-cancle">
+                      {localUser === data.follower ? (
+                        ""
+                      ) : data.followYn === "N" && data.followerYn === "Y" ? (
+                        <button onClick={() => followBtnClick(data, idx)}>
+                          맞팔로우
+                        </button>
+                      ) : (data.followYn === "Y" && data.followerYn === "Y") ||
+                        (data.followYn === "Y" && data.followerYn === "N") ? (
+                        <button onClick={() => followBtnClick(data, idx)}>
+                          언팔로우
+                        </button>
+                      ) : (
+                        <button onClick={() => followBtnClick(data, idx)}>
+                          팔로우
+                        </button>
+                      )}
                     </div>
-                  );
-                } else if (data.followYn === "N" && data.followerYn === "N") {
-                  return (
-                    <div className="subs-list" key={idx}>
-                      <div className="subs-user">
-                        <img
-                          src={
-                            data.profileImgName === null
-                              ? profileDefaultImg
-                              : `upload/profile/${data.profileImgName}`
-                          }
-                          alt=""
-                        />
-                        <h4>{data.nickname}</h4>
-                        <h5>{data.name}</h5>
-                      </div>
-                      <div className="subs-cancle">
-                        {localUser === data.follower ? (
-                          ""
-                        ) : (
-                          <button onClick={() => unFollowBtnClick(data, idx)}>
-                            팔로우
-                          </button>
-                        )}
-                      </div>
-                    </div>
-                  );
-                }
+                  </div>
+                );
               }
             })}
           </div>
