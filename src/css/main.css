@@ -1,4 +1,12 @@
 /********story********/
+
+.main-position {
+  display: flex;
+}
+
+.main-area__left {
+  margin-right: 90px;
+}
 .story-area {
   background-color: #fff;
   border: 1px solid #dbdbdb;
@@ -59,10 +67,6 @@
 }
 
 /********lank********/
-.main-area__right {
-  position: fixed;
-  left: 62%;
-}
 
 .lank-area {
   margin-left: 20px;

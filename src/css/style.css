@@ -43,6 +43,15 @@ body {
   display: flex;
 }
 
+.search-area,
+.ranking-area {
+  border: none;
+  background-color: transparent;
+  width: 960px;
+  height: 660px;
+  margin: 20px auto;
+}
+
 /* 모달 css*/
 
 .ly_popover {

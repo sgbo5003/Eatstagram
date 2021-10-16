@@ -60,6 +60,10 @@
   margin-left: 40px;
 }
 
+.edit-right-li__input button {
+  cursor: pointer;
+}
+
 .edit-right-li__input input::placeholder {
   font-size: 11px;
 }
@@ -92,6 +96,7 @@
   height: 50px;
   border-radius: 50px;
   margin-top: 6px;
+  cursor: pointer;
 }
 
 .edit-right-li h1 {

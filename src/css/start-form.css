@@ -1,12 +1,15 @@
 #form,
 .form-bottom__btn {
   margin: 0 auto;
-  margin-top: 3em;
+  margin-top: 5em;
   max-width: 360px;
   border: 1px solid #dbdbdb;
   background-color: #fff;
   align-items: center;
   text-align: center;
+}
+
+#find-password-form {
 }
 
 .form-logo h1 {

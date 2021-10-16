@@ -460,6 +460,20 @@
   cursor: pointer;
 }
 
+.post-window__info {
+  display: flex;
+}
+
+.post-window-map h2,
+.post-window-time h2 {
+  font-weight: 400;
+  font-size: 12px;
+}
+
+.post-window-time {
+  padding-left: 3px;
+}
+
 .post-window-user__id h1 {
   cursor: pointer;
 }

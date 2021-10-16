@@ -1,98 +1,91 @@
 .ranking-title {
-    margin: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  margin: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .ranking-title img {
-    width: 50px;
-    height: 50px;
-    margin-right: 14px;
+  width: 50px;
+  height: 50px;
+  margin-right: 14px;
 }
 
 .ranking-title h1 {
-    font-size: 22px;
-    color: #0095f6;
+  font-size: 22px;
+  color: #0095f6;
 }
 
 .ranking-list {
-    height: 510px;
-    overflow-y: scroll;
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
-}
-
-.ranking-list::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera*/
+  height: 510px;
 }
 
 .rank {
-    display: flex;
-    align-items: center;
-    margin: 6px 0;
+  display: flex;
+  align-items: center;
+  margin: 6px 0;
 }
 
 .rank:hover {
-    background-color: #f5f5f5;
+  background-color: #f5f5f5;
 }
 
 .rank aside {
-    text-align: right;
+  text-align: right;
 }
 
 aside h1 {
-    margin-left: 40px;
-    margin-right: 50px;
-    font-size: 22px;
-    width: 60px;
+  margin-left: 40px;
+  margin-right: 50px;
+  font-size: 22px;
+  width: 60px;
 }
 
 aside button {
-    display: block;
-    border: none;
-    border-radius: 3px;
-    background-color: #0095f6;
-    color: #fff;
-    cursor: pointer;
-    width: 60px;
-    height: 30px;
-    cursor: pointer;
-    margin-left: 40px;
+  display: block;
+  border: none;
+  border-radius: 3px;
+  background-color: #0095f6;
+  color: #fff;
+  cursor: pointer;
+  width: 66px;
+  height: 31px;
+  cursor: pointer;
+  margin-left: 40px;
 }
 
 .rank-info {
-    display: flex;
-    width: 600px;
-    align-items: center;
-    justify-content: flex-start;
-    margin-left: 30px;
-    cursor: pointer;
+  display: flex;
+  width: 600px;
+  align-items: center;
+  justify-content: flex-start;
+  margin-left: 30px;
+  cursor: pointer;
 }
 
 .rank__img {
-    margin-right: 12px;
+  margin-right: 12px;
 }
 
 .rank__img img {
-    width: 60px;
-    height: 60px;
-    border-radius: 50px;
-    margin-top: 8px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50px;
+  margin-top: 8px;
 }
 
 .rank__user {
-    display: flex;
-    align-items: flex-end;
+  display: flex;
+  align-items: flex-end;
 }
 
 .rank__user h2 {
-    font-size: 18px;
-    color: #0e0e0e;
+  font-size: 18px;
+  color: #0e0e0e;
 }
 
 .rank__user h4 {
-    font-size: 14px;
-    color: #6e6e6e;
-    margin-left: 6px;
+  font-size: 14px;
+  color: #6e6e6e;
+  margin-left: 6px;
 }

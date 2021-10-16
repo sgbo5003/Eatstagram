@@ -66,13 +66,6 @@
 .search-result {
   margin-top: 20px;
   height: 465px;
-  overflow-y: scroll;
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-}
-
-.search-result::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera*/
 }
 
 .search-result__list {
