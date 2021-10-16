@@ -50,6 +50,7 @@ const Header = (props) => {
   const onProfileClick = () => {
     history.push(`/Profile?username=${localUserName}`);
     setDropDown(false);
+    location.reload();
   };
 
   useEffect(() => {

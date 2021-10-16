@@ -51,6 +51,7 @@ const ProfileEdit = (props) => {
         obj.introduce = res.introduce;
         setProfileData(obj);
         alert("프로필 수정 완료");
+        localStorage.setItem("userNickname", res.nickname);
       },
     });
   };
