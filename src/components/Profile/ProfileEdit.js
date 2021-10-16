@@ -48,7 +48,7 @@ const ProfileEdit = (props) => {
         <div className="edit-left">
           {profileData.formSocial ? (
             <>
-              <div className="edit-list">
+              <div className="edit-list checked">
                 <p>프로필 편집</p>
               </div>
             </>

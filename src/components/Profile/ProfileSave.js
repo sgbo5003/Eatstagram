@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import foodImg from "../../../public/images/food.jpg";
 import * as fncObj from "../../commonFunc/CommonObjFunctions";
-import { FaHeart, FaComment } from "react-icons/fa";
+import { FaHeart, FaComment, FaCamera } from "react-icons/fa";
 import { AiFillRightCircle, AiFillLeftCircle } from "react-icons/ai";
 import Modal from "../../Modal";
 import CommentModal from "../Home/CommentModal";
@@ -146,72 +146,81 @@ const ProfileSave = (props) => {
   return (
     <>
       <div className="profile-area__post">
-        {posts.map((data, idx) => {
-          if (
-            data.contentFileDTOList[0].type === "image/jpeg" ||
-            data.contentFileDTOList[0].type === "image/png"
-          ) {
-            return (
-              <div
-                className="profile-area__post-li"
-                onMouseEnter={() => onMouseOverHandler(data, idx)}
-                onMouseLeave={onMouseOutHandler}
-                onClick={() => onCommentModalHandler(data)}
-                key={idx}
-              >
-                <img
-                  src={`upload/content/${data.contentFileDTOList[0].name}`}
-                  alt={`게시글${idx}`}
-                />
-                {hover.location === data.location ? (
-                  <div className="post-hover">
-                    <h4>
-                      <FaHeart className="post-hover-icon" />
-                      {data.likeCount}
-                    </h4>
-                    <h4>
-                      <FaComment className="post-hover-icon" />
-                      {data.replyCount}
-                    </h4>
-                  </div>
-                ) : (
-                  ""
-                )}
-              </div>
-            );
-          } else if (data.contentFileDTOList[0].type === "video/mp4") {
-            return (
-              <div
-                className="profile-area__post-li"
-                key={idx}
-                onMouseEnter={() => onMouseOverHandler(data, idx)}
-                onMouseLeave={onMouseOutHandler}
-                onClick={() => onCommentModalHandler(data)}
-              >
-                <video controls>
-                  <source
+        {posts.length > 0 ? (
+          posts.map((data, idx) => {
+            if (
+              data.contentFileDTOList[0].type === "image/jpeg" ||
+              data.contentFileDTOList[0].type === "image/png"
+            ) {
+              return (
+                <div
+                  className="profile-area__post-li"
+                  onMouseEnter={() => onMouseOverHandler(data, idx)}
+                  onMouseLeave={onMouseOutHandler}
+                  onClick={() => onCommentModalHandler(data)}
+                  key={idx}
+                >
+                  <img
                     src={`upload/content/${data.contentFileDTOList[0].name}`}
-                    type="video/mp4"
+                    alt={`게시글${idx}`}
                   />
-                </video>
-                {hover.location === data.location ? (
-                  <div className="post-hover">
-                    <h4>
-                      <FaHeart className="post-hover-icon" />
-                      {data.likeCount}
-                    </h4>
-                    <h4>
-                      <FaComment className="post-hover-icon" />
-                      {data.replyCount}
-                    </h4>
-                  </div>
-                ) : (
-                  ""
-                )}
-              </div>
-            );
-          }
-        })}
+                  {hover.location === data.location ? (
+                    <div className="post-hover">
+                      <h4>
+                        <FaHeart className="post-hover-icon" />
+                        {data.likeCount}
+                      </h4>
+                      <h4>
+                        <FaComment className="post-hover-icon" />
+                        {data.replyCount}
+                      </h4>
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                </div>
+              );
+            } else if (data.contentFileDTOList[0].type === "video/mp4") {
+              return (
+                <div
+                  className="profile-area__post-li"
+                  key={idx}
+                  onMouseEnter={() => onMouseOverHandler(data, idx)}
+                  onMouseLeave={onMouseOutHandler}
+                  onClick={() => onCommentModalHandler(data)}
+                >
+                  <video controls>
+                    <source
+                      src={`upload/content/${data.contentFileDTOList[0].name}`}
+                      type="video/mp4"
+                    />
+                  </video>
+                  {hover.location === data.location ? (
+                    <div className="post-hover">
+                      <h4>
+                        <FaHeart className="post-hover-icon" />
+                        {data.likeCount}
+                      </h4>
+                      <h4>
+                        <FaComment className="post-hover-icon" />
+                        {data.replyCount}
+                      </h4>
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                </div>
+              );
+            }
+          })
+        ) : (
+          <div className="profile-empty">
+            <h1>
+              <FaCamera />
+            </h1>
+            <h1>게시물 없음</h1>
+          </div>
+        )}
       </div>
       <Modal isOpen={commentModalOn} setIsOpen={setCommentModalOn}>
         <CommentModal

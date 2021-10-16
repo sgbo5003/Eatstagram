@@ -58,7 +58,7 @@ const ProfileChangePassword = (props) => {
 
   const sendPasswordChange = () => {
     fnc.executeQuery({
-      url: "setPassword",
+      url: "changePasswordAfterLoggingIn",
       data: {
         username: localUser,
         password: previewPwd,
@@ -162,10 +162,6 @@ const ProfileChangePassword = (props) => {
           ) : (
             <button disabled="disabled">비밀번호 변경</button>
           )}
-
-          <a>
-            <h4>비밀번호를 잊으셨나요?</h4>
-          </a>
         </div>
       </div>
     </>

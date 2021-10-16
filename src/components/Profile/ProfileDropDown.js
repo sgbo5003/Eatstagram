@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { FaUserCircle, FaBookmark, FaCog } from "react-icons/fa";
 import { useHistory } from "react-router";
 import tailImg from "../../../public/images/tail.png";
 const ProfileDropDown = (props) => {
   const { onProfileClick, setDropDown } = props;
   const history = useHistory();
+  const wrapperRef = useRef(null);
 
   const onSettingClick = () => {
     history.push("/ProfileEdit");
@@ -16,8 +17,21 @@ const ProfileDropDown = (props) => {
     localStorage.removeItem("userNickname");
     location.reload();
   };
+
+  const handleClickOutSide = (e) => {
+    if (wrapperRef && !wrapperRef.current.contains(e.target)) {
+      setDropDown(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutSide);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutSide);
+    };
+  });
   return (
-    <div className="user-dropdown">
+    <div className="user-dropdown" ref={wrapperRef}>
       <div className="user-dropdown-tail">
         <img src={tailImg} alt="" />
       </div>
