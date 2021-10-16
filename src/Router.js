@@ -55,7 +55,6 @@ const Router = () => {
           <Route path="/ProfileEdit" component={ProfileEdit} />
           <Route path="/Ranking" component={Ranking} />
           <Route path="/SearchResult" component={SearchResult} />
-          <Route path="/FindPassword" component={FindPassword} />
         </>
       ) : (
         <>
