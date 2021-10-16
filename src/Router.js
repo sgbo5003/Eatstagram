@@ -11,8 +11,6 @@ import Notification from "./components/Notification";
 import Profile from "./components/Profile/Profile";
 import Recommend from "./components/Recommend";
 import ProfileEdit from "./components/Profile/ProfileEdit";
-import ProfileChangePassword from "./components/Profile/ProfileChangePassword";
-import ProfileSecession from "./components/Profile/ProfileSecession";
 import Ranking from "./components/Home/Ranking";
 import SearchResult from "./components/Search/SearchResult";
 
@@ -54,11 +52,6 @@ const Router = () => {
           <Route path="/Notification" component={Notification} />
           <Route path="/Profile" component={Profile} />
           <Route path="/ProfileEdit" component={ProfileEdit} />
-          <Route
-            path="/ProfileChangePassword"
-            component={ProfileChangePassword}
-          />
-          <Route path="/ProfileSecession" component={ProfileSecession} />
           <Route path="/Ranking" component={Ranking} />
           <Route path="/SearchResult" component={SearchResult} />
         </>
