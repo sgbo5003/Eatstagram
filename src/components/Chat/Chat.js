@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { FaEdit, FaRegEdit } from "react-icons/fa";
 import { useHistory } from "react-router";
 import storyProfileImg1 from "../../../public/images/명수스토리.jpg";
+import profileDefaultImg from "../../../public/images/default_user.png";
 import Modal from "../../Modal";
 import ChatCreateModal from "./ChatCreateModal";
 import ChatInitialRightComponent from "./ChatInitialRightComponent";
@@ -188,16 +189,27 @@ const Chat = (props) => {
                     onClick={() => onChatStartHandler(data, idx)}
                     key={idx}
                   >
-                    <div className="chatting-friend">
-                      <img src={storyProfileImg1} alt="" />
-                    </div>
                     {data.directMessageRoomMemberDTOList.map((data, idx) => {
                       if (data.username !== localUserName) {
                         return (
-                          <div className="chatting-text" key={idx}>
-                            <h1>
-                              {data.nickname === null ? "유저1" : data.nickname}
-                            </h1>
+                          <div className="chatting-list-box" key={idx}>
+                            <div className="chatting-friend">
+                              <img
+                                src={
+                                  data.profileImgName === null
+                                    ? profileDefaultImg
+                                    : `upload/profile/${data.profileImgName}`
+                                }
+                                alt=""
+                              />
+                            </div>
+                            <div className="chatting-text" key={idx}>
+                              <h1>
+                                {data.nickname === null
+                                  ? "유저1"
+                                  : data.nickname}
+                              </h1>
+                            </div>
                           </div>
                         );
                       }

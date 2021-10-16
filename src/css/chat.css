@@ -82,9 +82,12 @@
 
 .chatting-list {
   position: relative;
+  cursor: pointer;
+}
+
+.chatting-list-box {
   display: flex;
   align-items: center;
-  cursor: pointer;
 }
 
 .chatting-list-items {
@@ -100,6 +103,7 @@
 .state {
   position: absolute;
   right: 10px;
+  top: -18px;
   color: #0095f6;
   font-size: 70px;
 }

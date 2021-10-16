@@ -22,7 +22,6 @@ const ChatRoom = (props) => {
   const webSocketUrl = `ws://localhost:8080/eatstagram/ws/directMessage/${paramsId}?username=${localUserName}`;
   let ws = useRef(null);
   const scrollRef = useRef(null);
-  const [imgUrl, setImgUrl] = useState(""); // 이미지 url 담기
   const [inputText, setInputText] = useState(""); // input 부분
   const [myChatBox, setMyChatBox] = useState([]); // 나의 메세지를 담는 배열
   const [friendChatBox, setFriendChatBox] = useState([]); // 상대 메세지를 담는 배열
@@ -33,6 +32,7 @@ const ChatRoom = (props) => {
   const [commentModalOn, setCommentModalOn] = useState(false);
   const [commentData, setCommentData] = useState({});
   const [items, setItems] = useState([]);
+  let uploadUserName;
 
   // Slider 세팅
   const settings = {
@@ -166,7 +166,6 @@ const ChatRoom = (props) => {
   };
 
   useEffect(() => {
-    console.log("userInfo: ", userInfo);
     page = 0;
     setIsDone(false);
     ws.current = new WebSocket(webSocketUrl);
@@ -189,17 +188,24 @@ const ChatRoom = (props) => {
     };
     ws.current.onmessage = (evt) => {
       if (evt.data.size) {
-        const msg = data.data;
+        const msg = evt.data;
         const url = URL.createObjectURL(new Blob([msg]));
-        console.log("url: ", url);
-        setImgUrl(url);
+        const obj = {};
+        obj.type = "file";
+        obj.msg = url;
+        obj.username = uploadUserName;
+        setMyChatBox((prevItems) => [...prevItems, obj]);
       } else {
         const data = JSON.parse(evt.data);
         console.log("data: ", data);
         if (updateChatList === false) {
           setUpdateChatList(true);
         }
-        setMyChatBox((prevItems) => [...prevItems, data]);
+        if (data.type === "file") {
+          uploadUserName = data.username;
+        } else {
+          setMyChatBox((prevItems) => [...prevItems, data]);
+        }
       }
       scrollToBottom();
     };
@@ -313,12 +319,25 @@ const ChatRoom = (props) => {
     history.push(`/Profile?username=${data.username}`);
   };
 
+  const onShareProfileClick = (data) => {
+    history.push(`/Profile?username=${data.contentUsername}`);
+  };
+
   return (
     <>
       <div className="chat-right">
         <div className="chat-friend">
           <div className="chat-friend__user">
-            <img src={storyProfileImg1} alt="" />
+            <img
+              src={
+                userInfo.directMessageRoomMemberDTOList[0].profileImgName ===
+                null
+                  ? profileDefaultImg
+                  : `upload/profile/${userInfo.directMessageRoomMemberDTOList[0].profileImgName}`
+              }
+              alt=""
+              onClick={() => onProfileClick(userInfo)}
+            />
             <h5 onClick={() => onProfileClick(userInfo)}>
               {userInfo.directMessageRoomMemberDTOList.length === 2
                 ? userInfo.directMessageRoomMemberDTOList[1].nickname
@@ -366,11 +385,15 @@ const ChatRoom = (props) => {
                         <div className="my-message__share">
                           <div className="share-user">
                             <img
-                              src="./images/묭수.jpg"
+                              src={
+                                jsonData.profileImgName === null
+                                  ? profileDefaultImg
+                                  : `upload/profile/${jsonData.profileImgName}`
+                              }
                               alt=""
-                              onClick={() => onChatProfileClick(jsonData)}
+                              onClick={() => onShareProfileClick(jsonData)}
                             />
-                            <h4 onClick={() => onChatProfileClick(jsonData)}>
+                            <h4 onClick={() => onShareProfileClick(jsonData)}>
                               {jsonData.nickname}
                             </h4>
                           </div>
@@ -407,8 +430,11 @@ const ChatRoom = (props) => {
                                   : `upload/profile/${jsonData.profileImgName}`
                               }
                               alt=""
+                              onClick={() => onShareProfileClick(jsonData)}
                             />
-                            <h4>{jsonData.nickname}</h4>
+                            <h4 onClick={() => onShareProfileClick(jsonData)}>
+                              {jsonData.nickname}
+                            </h4>
                           </div>
                           <div
                             className="share-contents"
@@ -477,8 +503,11 @@ const ChatRoom = (props) => {
                                   : `upload/profile/${jsonData.profileImgName}`
                               }
                               alt=""
+                              onClick={() => onShareProfileClick(jsonData)}
                             />
-                            <h4>{jsonData.nickname}</h4>
+                            <h4 onClick={() => onShareProfileClick(jsonData)}>
+                              {jsonData.nickname}
+                            </h4>
                           </div>
                           <div
                             className="share-contents"
@@ -519,8 +548,11 @@ const ChatRoom = (props) => {
                                   : `upload/profile/${jsonData.profileImgName}`
                               }
                               alt=""
+                              onClick={() => onShareProfileClick(jsonData)}
                             />
-                            <h4>{jsonData.nickname}</h4>
+                            <h4 onClick={() => onShareProfileClick(jsonData)}>
+                              {jsonData.nickname}
+                            </h4>
                           </div>
                           <div
                             className="share-contents"
@@ -557,7 +589,7 @@ const ChatRoom = (props) => {
                   <div className="my-message" key={idx}>
                     <div className="img-message">
                       {/* <img src={`public/upload/dm/${data.msg}`} /> */}
-                      <img src={imgUrl} />
+                      <img src={data.msg} />
                     </div>
                   </div>
                 );
@@ -567,8 +599,18 @@ const ChatRoom = (props) => {
                     <div className="my-message2" key={idx}>
                       <div className="my-message__share">
                         <div className="share-user">
-                          <img src="./images/묭수.jpg" alt="" />
-                          <h4>{data.nickname}</h4>
+                          <img
+                            src={
+                              data.profileImgName === null
+                                ? profileDefaultImg
+                                : `upload/profile/${data.profileImgName}`
+                            }
+                            alt=""
+                            onClick={() => onShareProfileClick(data)}
+                          />
+                          <h4 onClick={() => onShareProfileClick(data)}>
+                            {data.nickname}
+                          </h4>
                         </div>
                         <div
                           className="share-contents"
@@ -596,8 +638,18 @@ const ChatRoom = (props) => {
                     <div className="my-message2" key={idx}>
                       <div className="my-message__share">
                         <div className="share-user">
-                          <img src="./images/묭수.jpg" alt="" />
-                          <h4>{data.nickname}</h4>
+                          <img
+                            src={
+                              data.profileImgName === null
+                                ? profileDefaultImg
+                                : `upload/profile/${data.profileImgName}`
+                            }
+                            alt=""
+                            onClick={() => onShareProfileClick(data)}
+                          />
+                          <h4 onClick={() => onShareProfileClick(data)}>
+                            {data.nickname}
+                          </h4>
                         </div>
                         <div
                           className="share-contents"
@@ -640,7 +692,7 @@ const ChatRoom = (props) => {
                     />
                     <div className="img-message">
                       {/* <img src={`public/upload/dm/${data.directMessage}`} /> */}
-                      <img src={imgUrl} />
+                      <img src={data.msg} />
                     </div>
                   </div>
                 );
@@ -656,8 +708,18 @@ const ChatRoom = (props) => {
                       />
                       <div className="friend-message__share">
                         <div className="share-user">
-                          <img src="./images/묭수.jpg" alt="" />
-                          <h4>{data.nickname}</h4>
+                          <img
+                            src={
+                              data.profileImgName === null
+                                ? profileDefaultImg
+                                : `upload/profile/${data.profileImgName}`
+                            }
+                            alt=""
+                            onClick={() => onShareProfileClick(data)}
+                          />
+                          <h4 onClick={() => onShareProfileClick(data)}>
+                            {data.nickname}
+                          </h4>
                         </div>
                         <div
                           className="share-contents"
@@ -691,8 +753,18 @@ const ChatRoom = (props) => {
                       />
                       <div className="friend-message__share">
                         <div className="share-user">
-                          <img src="./images/묭수.jpg" alt="" />
-                          <h4>{data.nickname}</h4>
+                          <img
+                            src={
+                              data.profileImgName === null
+                                ? profileDefaultImg
+                                : `upload/profile/${data.profileImgName}`
+                            }
+                            alt=""
+                            onClick={() => onShareProfileClick(data)}
+                          />
+                          <h4 onClick={() => onShareProfileClick(data)}>
+                            {data.nickname}
+                          </h4>
                         </div>
                         <div
                           className="share-contents"
