@@ -3,12 +3,33 @@ import * as fncObj from "../../commonFunc/CommonObjFunctions";
 import * as fnc from "../../commonFunc/CommonFunctions";
 import profileDefaultImg from "../../../public/images/default_user.png";
 const FindPasswordLink = () => {
+  const paramsId = location.search.split("=")[1];
   const [confirmNewPwd, setConfirmNewPwd] = useState("");
   const [confirmNewPwdCheck, setConfirmNewPwdCheck] = useState(false);
   const [newPwd, setNewPwd] = useState("");
   const [newPwdCheck, setNewPwdCheck] = useState(false);
   const [button, setButton] = useState(false);
   const [passwordError, setPasswordError] = useState(false); // 비밀번호 양식 체크
+
+  const sendNewPasswordData = () => {
+    fnc.executeQuery({
+      url: "changePasswordBeforeLoggingIn ",
+      data: {
+        username: paramsId,
+        newPassword: newPwd,
+        newPasswordConfirm: newPwdCheck,
+      },
+      success: (res) => {
+        alert(res.msg);
+      },
+      fail: (res) => {
+        alert(res.data.msg);
+      },
+      error: (res) => {
+        alert(res.msg);
+      },
+    });
+  };
 
   // 비밀번호 유효성 검사
   const validatePassword = (password) => {
@@ -48,6 +69,14 @@ const FindPasswordLink = () => {
       setButton(true);
     } else {
       setButton(false);
+    }
+  };
+
+  const onSubmit = () => {
+    if (passwordError) {
+      alert("비밀번호 형식을 다시 확인해 주세요.");
+    } else {
+      sendNewPasswordData();
     }
   };
 
@@ -97,7 +126,9 @@ const FindPasswordLink = () => {
         <aside></aside>
         <div className="edit-right-li__btn">
           {button ? (
-            <button className="active">비밀번호 변경</button>
+            <button className="active" onClick={onSubmit}>
+              비밀번호 변경
+            </button>
           ) : (
             <button disabled="disabled">비밀번호 변경</button>
           )}
