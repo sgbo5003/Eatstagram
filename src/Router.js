@@ -13,6 +13,7 @@ import Recommend from "./components/Recommend";
 import ProfileEdit from "./components/Profile/ProfileEdit";
 import Ranking from "./components/Home/Ranking";
 import SearchResult from "./components/Search/SearchResult";
+import FindPasswordLink from "./components/Login/FindPasswordLink";
 
 const Router = () => {
   const isLogin = localStorage.getItem("username");
@@ -54,6 +55,7 @@ const Router = () => {
           <Route path="/ProfileEdit" component={ProfileEdit} />
           <Route path="/Ranking" component={Ranking} />
           <Route path="/SearchResult" component={SearchResult} />
+          <Route path="/FindPassword" component={FindPassword} />
         </>
       ) : (
         <>
@@ -61,6 +63,7 @@ const Router = () => {
           <Route path="/Join" component={Join} />
           <Route path="/FindPassword" component={FindPassword} />
           <Route path="/JoinEmail" component={JoinEmail} />
+          <Route path="/FindPasswordLink" component={FindPasswordLink} />
         </>
       )}
     </Switch>
