@@ -24,13 +24,13 @@ const Router = () => {
   const contentFilePath = uploadPath + "content/";
   const dmFilePath = uploadPath + "dm/";
 
-  useEffect(() => {
-    if (isLogin !== "undefined" && isLogin) {
-      return;
-    } else {
-      history.push("/");
-    }
-  }, []);
+  //   useEffect(() => {
+  //     if (isLogin !== "undefined" && isLogin) {
+  //       return;
+  //     } else {
+  //       history.push("/");
+  //     }
+  //   }, []);
   return (
     <Switch>
       {isLogin !== "undefined" && isLogin ? (
