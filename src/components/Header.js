@@ -143,11 +143,6 @@ const Header = (props) => {
                 <FaRegCompass />
               </p>
             </Link>
-            <Link to="/Notification">
-              <p className="header-area__icons_items">
-                <FaRegHeart />
-              </p>
-            </Link>
             <div className="user-img__header">
               <img
                 className="user-img__header_profile_img"

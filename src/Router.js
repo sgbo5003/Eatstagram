@@ -7,7 +7,6 @@ import Home from "./components/Home/Home";
 import Join from "./components/Join/Join";
 import JoinEmail from "./components/Join/JoinEmail";
 import Login from "./components/Login/Login";
-import Notification from "./components/Notification";
 import Profile from "./components/Profile/Profile";
 import Recommend from "./components/Recommend";
 import ProfileEdit from "./components/Profile/ProfileEdit";
@@ -50,7 +49,7 @@ const Router = () => {
             )}
           />
           <Route path="/Recommend" component={Recommend} />
-          <Route path="/Notification" component={Notification} />
+
           <Route path="/Profile" component={Profile} />
           <Route path="/ProfileEdit" component={ProfileEdit} />
           <Route path="/Ranking" component={Ranking} />
