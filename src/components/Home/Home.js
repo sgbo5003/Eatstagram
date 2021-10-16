@@ -35,6 +35,8 @@ import * as fncObj from "../../commonFunc/CommonObjFunctions";
 import Modal from "../../Modal";
 import CommentModal from "./CommentModal";
 import ShareModal from "./ShareModal";
+import MyPostModal from "./MyPostModal";
+import OtherPostModal from "./OtherPostModal";
 
 let page = 0;
 // 스토리 배열
@@ -87,6 +89,9 @@ const Home = () => {
   const [commentData, setCommentData] = useState({});
   const [commentModalOn, setCommentModalOn] = useState(false);
   const [shareModalOn, setShareModalOn] = useState(false);
+  const [myPostModalOn, setMyPostModalOn] = useState(false);
+  const [myPostData, setMyPostData] = useState({});
+  const [otherPostModalOn, setOtherPostModalOn] = useState(false);
   const [inputComment, setInputComment] = useState("");
   const [profileData, setProfileData] = useState({}); // 프로필 data
   const [items, setItems] = useState([]);
@@ -130,6 +135,16 @@ const Home = () => {
     setShareModalOn(true);
     setContentId(data.contentId);
     setContentFile(data.contentFileDTOList[0].name);
+  };
+
+  // 내 게시물 & 다른사람 게시물 더보기 클릭 시
+  const onPostClick = (data) => {
+    if (data.username === getLocalUserName) {
+      setMyPostModalOn(true);
+      setMyPostData(data);
+    } else {
+      setOtherPostModalOn(true);
+    }
   };
 
   // 초기 데이터 불러오기 (컨텐츠)
@@ -426,11 +441,11 @@ const Home = () => {
                             onClick={() => onProfileClick(data)}
                           >
                             <h1>{data.nickname}</h1>
-                            <h3>{data.time}</h3>
+                            <h4>{data.location}</h4>
                           </div>
                         </div>
                         <div className="post-setting">
-                          <p>
+                          <p onClick={() => onPostClick(data)}>
                             <FaEllipsisH />
                           </p>
                         </div>
@@ -516,6 +531,17 @@ const Home = () => {
                                 return <p key={idx}>#{data.hashtag}</p>;
                               })}
                             </div>
+                            <div className="post-content__article">
+                              <div className="post-content__id">
+                                <h4>{data.nickname}</h4>
+                              </div>
+                              <div className="post-content__serve">
+                                <p>{data.text}</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="post-content__time">
+                            <h6>{data.time}</h6>
                           </div>
                         </div>
                         <div className="post-etc__comment">
@@ -561,7 +587,7 @@ const Home = () => {
                 </div>
                 <div className="main-lank">
                   <div className="main-lank__top">
-                    <h1>현재 구독자 랭킹</h1>
+                    <h1>팔로워 랭킹</h1>
                     <a>
                       <h3 onClick={onRankingHandler}>모두 보기</h3>
                     </a>
@@ -632,6 +658,15 @@ const Home = () => {
           contentId={contentId}
           contentFile={contentFile}
         />
+      </Modal>
+      <Modal isOpen={myPostModalOn} setIsOpen={setMyPostModalOn}>
+        <MyPostModal
+          myPostData={myPostData}
+          setMyPostModalOn={setMyPostModalOn}
+        />
+      </Modal>
+      <Modal isOpen={otherPostModalOn} setIsOpen={setOtherPostModalOn}>
+        <OtherPostModal setOtherPostModalOn={setOtherPostModalOn} />
       </Modal>
     </>
   );

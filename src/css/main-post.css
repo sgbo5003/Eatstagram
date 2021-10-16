@@ -27,11 +27,16 @@
 }
 
 .post-user__id h1,
+.post-user__id h4,
 .post-setting p {
   margin-top: 2px;
   font-size: 16px;
   font-weight: 500;
   cursor: pointer;
+}
+
+.post-user__id h4 {
+  font-size: 12px;
 }
 
 /*******************************************/
