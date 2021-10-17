@@ -123,8 +123,10 @@ const FollowModal = (props) => {
                         }
                         alt=""
                       />
-                      <h4>{data.nickname}</h4>
-                      <h5>{data.name}</h5>
+                      <div>
+                        <h4>{data.nickname}</h4>
+                        <h5>{data.name}</h5>
+                      </div>
                     </div>
                     <div className="subs-cancle">
                       {data.followYn === "N" && data.followerYn === "Y" ? (
