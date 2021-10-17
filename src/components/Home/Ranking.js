@@ -99,7 +99,10 @@ const Ranking = (props) => {
                     </button>
                   ) : (data.followYn === "Y" && data.followerYn === "Y") ||
                     (data.followYn === "Y" && data.followerYn === "N") ? (
-                    <button onClick={() => FollowBtnClick(data, idx)}>
+                    <button
+                      className="unfollow"
+                      onClick={() => FollowBtnClick(data, idx)}
+                    >
                       언팔로우
                     </button>
                   ) : (

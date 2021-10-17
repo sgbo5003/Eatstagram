@@ -13,6 +13,7 @@ const ProfileDropDown = (props) => {
   };
 
   const onLogOutClick = () => {
+    history.push("/");
     localStorage.removeItem("username");
     localStorage.removeItem("userNickname");
     location.reload();

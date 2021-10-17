@@ -54,6 +54,19 @@ aside button {
   margin-left: 40px;
 }
 
+aside .unfollow {
+  display: block;
+  border: none;
+  border-radius: 3px;
+  background-color: #b5b5b6;
+  color: #fff;
+  cursor: pointer;
+  width: 66px;
+  height: 31px;
+  cursor: pointer;
+  margin-left: 40px;
+}
+
 .rank-info {
   display: flex;
   width: 600px;

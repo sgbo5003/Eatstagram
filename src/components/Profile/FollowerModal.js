@@ -19,7 +19,7 @@ const FollowerModal = (props) => {
   const scrollRef = useRef(null);
 
   // 팔로워 리스트 data 불러오기
-  const getFollowerData = (user, other) => {
+  const getFollowerData = (user, other, page) => {
     fncObj.executeQuery({
       url: "follower/getPagingList",
       data: {
