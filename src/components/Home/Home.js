@@ -91,9 +91,12 @@ const Home = () => {
   const [shareModalOn, setShareModalOn] = useState(false);
   const [myPostModalOn, setMyPostModalOn] = useState(false);
   const [myPostData, setMyPostData] = useState({});
+  const [otherPostData, setOtherPostData] = useState({});
   const [otherPostModalOn, setOtherPostModalOn] = useState(false);
   const [inputComment, setInputComment] = useState("");
   const [profileData, setProfileData] = useState({}); // 프로필 data
+  const [follow, setFollow] = useState("");
+  const [follower, setFollower] = useState("");
   const [items, setItems] = useState([]);
   const [contentId, setContentId] = useState("");
   const [contentFile, setContentFile] = useState("");
@@ -144,6 +147,9 @@ const Home = () => {
       setMyPostData(data);
     } else {
       setOtherPostModalOn(true);
+      setOtherPostData(data);
+      setFollow(data.followYn);
+      setFollower(data.followerYn);
     }
   };
 
@@ -602,7 +608,14 @@ const Home = () => {
                           >
                             <h1>{idx + 1}</h1>
                             <div className="main-lank__img">
-                              <img src={rankImg} alt="" />
+                              <img
+                                src={
+                                  data.profileImgName === null
+                                    ? profileDefaultImg
+                                    : `upload/profile/${data.profileImgName}`
+                                }
+                                alt=""
+                              />
                             </div>
                             <div className="main-lank__info">
                               <h2>{data.nickname}</h2>
@@ -666,7 +679,14 @@ const Home = () => {
         />
       </Modal>
       <Modal isOpen={otherPostModalOn} setIsOpen={setOtherPostModalOn}>
-        <OtherPostModal setOtherPostModalOn={setOtherPostModalOn} />
+        <OtherPostModal
+          setOtherPostModalOn={setOtherPostModalOn}
+          otherPostData={otherPostData}
+          getLocalUserName={getLocalUserName}
+          follow={follow}
+          follower={follower}
+          setFollow={setFollow}
+        />
       </Modal>
     </>
   );

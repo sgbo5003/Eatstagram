@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import { FaSearch } from "react-icons/fa";
 import SearchDropDown from "./SeachDropDown";
 import * as fncObj from "../../commonFunc/CommonObjFunctions";
 import { useHistory } from "react-router";
@@ -62,9 +61,6 @@ const Search = () => {
         onChange={onInputTextHandler}
         onKeyPress={onKeyPress}
       />
-      <p>
-        <FaSearch />
-      </p>
       <div className="search-dropdown" ref={wrapperRef}>
         {modalOn ? (
           <SearchDropDown

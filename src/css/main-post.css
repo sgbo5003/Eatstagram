@@ -151,3 +151,61 @@
   display: flex;
   flex-direction: row;
 }
+
+/* 삭제된 게시글 css */
+.post-delete {
+  margin: 0 auto;
+  height: 500px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.post-delete h1 {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 400;
+  color: #6e6e6e;
+}
+
+.post-delete i {
+  font-size: 30px;
+  border: 2px solid #6e6e6e;
+  border-radius: 50px;
+  padding: 20px;
+  margin-bottom: 10px;
+}
+
+/* 내 게시글 더보기 버튼 클릭 시 나오는 모달 css */
+
+.delete-window {
+  z-index: 11;
+  background-color: #fff;
+  width: 500px;
+  height: 120px;
+  position: fixed;
+  top: 300px;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  margin: 0 auto;
+  border: 1px solid #dbdbdb;
+  border-radius: 10px;
+}
+
+.delete-btn button,
+.delete-cancle-btn button {
+  /* .chat-delete-btn button,
+.chat-cancle-btn button  */
+  width: 500px;
+  height: 60px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.delete-btn button {
+  border-bottom: 1px solid #dbdbdb;
+  color: #ff0000;
+}

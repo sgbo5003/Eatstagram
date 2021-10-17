@@ -3,7 +3,7 @@ import foodImg from "../../../public/images/food.jpg";
 import userImg from "../../../public/images/묭수.jpg";
 import userImg2 from "../../../public/images/명수스토리.jpg";
 import profileDefaultImg from "../../../public/images/default_user.png";
-import { FaEllipsisH, FaTimes } from "react-icons/fa";
+import { FaEllipsisH, FaExclamationTriangle, FaTimes } from "react-icons/fa";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import * as fncObj from "../../commonFunc/CommonObjFunctions";
 import * as fnc from "../../commonFunc/CommonFunctions";
@@ -370,7 +370,15 @@ const CommentModal = (props) => {
             </div>
           </div>
         ) : (
-          <div className="post-window-area">게시물 없음</div>
+          // 게시물 없을 시 나오는 화면
+          <div className="post-window-area">
+            <div className="post-delete">
+              <h1>
+                <FaExclamationTriangle />
+              </h1>
+              <h1>게시물 없음</h1>
+            </div>
+          </div>
         )}
       </div>
 

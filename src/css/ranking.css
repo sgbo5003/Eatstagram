@@ -74,18 +74,19 @@ aside button {
   margin-top: 8px;
 }
 
-.rank__user {
-  display: flex;
-  align-items: flex-end;
-}
-
 .rank__user h2 {
   font-size: 18px;
   color: #0e0e0e;
+  margin-right: 6px;
 }
 
-.rank__user h4 {
+.rank__user h4,
+.rank-follower h4 {
   font-size: 14px;
   color: #6e6e6e;
-  margin-left: 6px;
+}
+
+.rank-follower h4 {
+  color: #0e0e0e;
+  font-weight: 400;
 }

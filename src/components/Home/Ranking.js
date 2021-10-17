@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import * as fncObj from "../../commonFunc/CommonObjFunctions";
 import * as fnc from "../../commonFunc/CommonFunctions";
+import profileDefaultImg from "../../../public/images/default_user.png";
 
 const Ranking = () => {
   const getLocalUserName = localStorage.getItem("username");
@@ -60,12 +61,23 @@ const Ranking = () => {
                 </aside>
                 <div className="rank-info">
                   <div className="rank__img">
-                    <img src="./images/1위.jpg" alt="" />
+                    <img
+                      src={
+                        data.profileImgName === null
+                          ? profileDefaultImg
+                          : `upload/profile/${data.profileImgName}`
+                      }
+                      alt=""
+                    />
                   </div>
-                  <div className="rank__user">
-                    <h2>{data.nickname}</h2>
-                    <h4> • {data.name}</h4>
-                    <h4> • {data.followerCount}명</h4>
+                  <div>
+                    <div className="rank__user">
+                      <h2>{data.nickname}</h2>
+                      <h4>{data.name}</h4>
+                    </div>
+                    <div className="rank-follower">
+                      <h4>팔로워 수 {data.followerCount}명</h4>
+                    </div>
                   </div>
                 </div>
                 <aside>
