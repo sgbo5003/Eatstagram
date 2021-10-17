@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import * as fncObj from "../../commonFunc/CommonObjFunctions";
+import profileDefaultImg from "../../../public/images/default_user.png";
 const SearchUserResult = (props) => {
   const { localUser, paramsId } = props;
   const [userList, setUserList] = useState([]);
@@ -28,7 +29,14 @@ const SearchUserResult = (props) => {
         return (
           <div className="search-result__list" key={idx}>
             <div className="search-result-user">
-              <img src="./images/food.jpg" alt="" />
+              <img
+                src={
+                  data.profileImgName === null
+                    ? profileDefaultImg
+                    : `upload/profile/${data.profileImgName}`
+                }
+                alt=""
+              />
               <div className="search-result__info">
                 <h1>{data.nickname}</h1>
                 <h4>{data.name}</h4>
