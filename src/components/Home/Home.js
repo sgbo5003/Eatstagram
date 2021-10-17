@@ -225,6 +225,9 @@ const Home = () => {
       success: (res) => {
         callback(res);
       },
+      fail: (res) => {
+        alert(res.data.msg);
+      },
     });
   };
 
