@@ -358,3 +358,84 @@
   margin-left: 9px;
   color: #0e0e0e;
 }
+
+/*비밀번호 찾기 링크 페이지 css */
+
+.change-pw {
+  width: 720px;
+  padding-top: 10px;
+}
+
+.change-pw-li {
+  display: flex;
+  align-items: flex-start;
+  margin: 20px 0;
+}
+
+.change-pw-li aside {
+  width: 110px;
+  text-align: right;
+}
+
+.change-pw-li aside label {
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.change-pw-li__input {
+  margin-left: 12px;
+}
+
+.change-pw-li__input input {
+  width: 216px;
+  height: 28px;
+  border: 1px solid #dbdbdb;
+  border-radius: 3px;
+  padding-left: 5px;
+  font-size: 10px;
+}
+
+.change-pw-li__input p {
+  font-weight: 300;
+  color: #9a9a9a;
+  font-size: 12px;
+  margin-top: 10px;
+}
+
+.change-pw-li__input textarea {
+  width: 350px;
+  border: 1px solid #dbdbdb;
+  border-radius: 3px;
+  padding: 5px;
+}
+
+.change-pw__btn {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 3em;
+}
+
+.change-pw__btn button {
+  width: 360px;
+  height: 65px;
+  border: none;
+  border: 1px solid #dbdbdb;
+  background-color: #fff;
+  color: #aed6f0;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.change-pw__btn .active {
+  width: 360px;
+  height: 65px;
+  border: none;
+  border: 1px solid #dbdbdb;
+  background-color: #fff;
+  color: #0095f6;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+}

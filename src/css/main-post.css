@@ -209,3 +209,8 @@
   border-bottom: 1px solid #dbdbdb;
   color: #ff0000;
 }
+
+.delete-btn .follow {
+  border-bottom: 1px solid #dbdbdb;
+  color: #0095f6;
+}

@@ -74,6 +74,11 @@ aside button {
   margin-top: 8px;
 }
 
+.rank__user {
+  display: flex;
+  align-items: center;
+}
+
 .rank__user h2 {
   font-size: 18px;
   color: #0e0e0e;

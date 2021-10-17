@@ -196,6 +196,21 @@
   border-radius: 10px;
 }
 
+.edit-img-none-window {
+  z-index: 11;
+  background-color: #fff;
+  width: 500px;
+  height: 206px;
+  position: fixed;
+  top: 230px;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  margin: 0 auto;
+  border: 1px solid #dbdbdb;
+  border-radius: 10px;
+}
+
 .edit-img__top {
   padding: 30px;
   border-bottom: 1px solid #dbdbdb;
