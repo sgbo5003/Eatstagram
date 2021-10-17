@@ -115,8 +115,8 @@ const SearchPostResult = (props) => {
 
   // 게시글 마우스 Over시
   const onMouseOverHandler = (data, idx) => {
-    if (data.location === postList[idx].location) {
-      setHover({ location: data.location });
+    if (data.contentId === postList[idx].contentId) {
+      setHover({ contentId: data.contentId });
     }
   };
   // 게시글 마우스 Out시
@@ -174,7 +174,7 @@ const SearchPostResult = (props) => {
                   alt={`게시글${idx}`}
                   className="imghover"
                 />
-                {hover.location === data.location ? (
+                {hover.contentId === data.contentId ? (
                   <div className="search-post-hover">
                     <h4>
                       <FaHeart className="search-post-hover-icon" />
@@ -205,7 +205,7 @@ const SearchPostResult = (props) => {
                     type="video/mp4"
                   />
                 </video>
-                {hover.location === data.location ? (
+                {hover.contentId === data.contentId ? (
                   <div className="search-post-hover">
                     <h4>
                       <FaHeart className="search-post-hover-icon" />

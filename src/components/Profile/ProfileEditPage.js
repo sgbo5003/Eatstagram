@@ -3,6 +3,7 @@ import * as fncObj from "../../commonFunc/CommonObjFunctions";
 import Modal from "../../Modal";
 import ProfileImgModal from "./ProfileImgModal";
 import profileDefaultImg from "../../../public/images/default_user.png";
+import ProfileImgNoneModal from "./ProfileImgNoneModal";
 const ProfileEditPage = (props) => {
   const { profileData, localUser, setProfileData, profileFilePath } = props;
 
@@ -124,11 +125,19 @@ const ProfileEditPage = (props) => {
         </div>
       </div>
       <Modal isOpen={profileImgModalOn} setIsOpen={setProfileImgModalOn}>
-        <ProfileImgModal
-          userImg={userImg}
-          setUserImg={setUserImg}
-          setProfileImgModalOn={setProfileImgModalOn}
-        />
+        {profileData.profileImgName === null ? (
+          <ProfileImgNoneModal
+            userImg={userImg}
+            setUserImg={setUserImg}
+            setProfileImgModalOn={setProfileImgModalOn}
+          />
+        ) : (
+          <ProfileImgModal
+            userImg={userImg}
+            setUserImg={setUserImg}
+            setProfileImgModalOn={setProfileImgModalOn}
+          />
+        )}
       </Modal>
     </>
   );

@@ -71,6 +71,7 @@ const ProfileSave = (props) => {
   };
   useEffect(() => {
     getData();
+    page = 0;
   }, [paramsId]);
 
   // Slider 세팅
@@ -180,7 +181,7 @@ const ProfileSave = (props) => {
                     src={contentFilePath + data.contentFileDTOList[0].name}
                     alt={`게시글${idx}`}
                   />
-                  {hover.location === data.location ? (
+                  {hover.contentId === data.contentId ? (
                     <div className="post-hover">
                       <h4>
                         <FaHeart className="post-hover-icon" />
@@ -211,7 +212,7 @@ const ProfileSave = (props) => {
                       type="video/mp4"
                     />
                   </video>
-                  {hover.location === data.location ? (
+                  {hover.contentId === data.contentId ? (
                     <div className="post-hover">
                       <h4>
                         <FaHeart className="post-hover-icon" />

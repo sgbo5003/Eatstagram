@@ -4,7 +4,8 @@ import * as fnc from "../../commonFunc/CommonFunctions";
 import { FaUserLock } from "react-icons/fa";
 import profileDefaultImg from "../../../public/images/default_user.png";
 import { useHistory } from "react-router";
-const FindPasswordLink = () => {
+
+const FindPasswordLink = (props) => {
   const paramsId = location.search.split("=")[1];
   const [confirmNewPwd, setConfirmNewPwd] = useState("");
   const [confirmNewPwdCheck, setConfirmNewPwdCheck] = useState(false);
@@ -12,9 +13,9 @@ const FindPasswordLink = () => {
   const [newPwdCheck, setNewPwdCheck] = useState(false);
   const [button, setButton] = useState(false);
   const [passwordError, setPasswordError] = useState(false); // 비밀번호 양식 체크
+  const history = useHistory();
 
   const sendNewPasswordData = () => {
-    const history = useHistory();
     fnc.executeQuery({
       url: "changePasswordBeforeLoggingIn",
       data: {
@@ -95,19 +96,19 @@ const FindPasswordLink = () => {
   return (
     <div>
       <div id="form">
-        <div class="form-logo__find">
+        <div className="form-logo__find">
           <h3>Eatstagram</h3>
           <h1>
             <FaUserLock />
           </h1>
           <h2>비밀 번호를 변경하세요</h2>
         </div>
-        <div class="change-pw">
-          <div class="change-pw-li">
+        <div className="change-pw">
+          <div className="change-pw-li">
             <aside>
-              <label for="userid">새 비밀번호</label>
+              <label htmlFor="userid">새 비밀번호</label>
             </aside>
-            <div class="change-pw-li__input">
+            <div className="change-pw-li__input">
               <input
                 type="password"
                 name="newPwd"
@@ -117,11 +118,11 @@ const FindPasswordLink = () => {
               />
             </div>
           </div>
-          <div class="change-pw-li">
+          <div className="change-pw-li">
             <aside>
-              <label for="usertext">새 비밀번호 확인</label>
+              <label htmlFor="usertext">새 비밀번호 확인</label>
             </aside>
-            <div class="change-pw-li__input">
+            <div className="change-pw-li__input">
               <input
                 type="password"
                 name="confirmNewPwd"
@@ -132,7 +133,7 @@ const FindPasswordLink = () => {
           </div>
         </div>
       </div>
-      <div class="change-pw__btn">
+      <div className="change-pw__btn">
         {button ? (
           <button className="active" onClick={onSubmit}>
             비밀번호 변경

@@ -5,6 +5,9 @@ import Modal from "../Modal";
 import CommentModal from "./Home/CommentModal";
 import { AiFillRightCircle, AiFillLeftCircle } from "react-icons/ai";
 import { useHistory } from "react-router";
+
+let page = 0;
+
 const Recommend = (props) => {
   const { contentFilePath, profileFilePath } = props;
   const categoryData = [
@@ -53,6 +56,7 @@ const Recommend = (props) => {
   const [commentData, setCommentData] = useState({});
   const [items, setItems] = useState([]);
   const history = useHistory();
+  const [title, setTitle] = useState("");
 
   const getCategoryData = () => {
     fncObj.executeQuery({
@@ -72,7 +76,28 @@ const Recommend = (props) => {
     });
   };
 
+  const getAddCategoryData = (page) => {
+    fncObj.executeQuery({
+      url: "content/getCategoryPagingList",
+      data: {
+        page: page,
+        size: 9,
+        username: localUser,
+        category: title,
+      },
+      success: (res) => {
+        if (res.content.length > 0) {
+          res.content.map((item, idx) => {
+            getRegdate(item);
+          });
+          setPosts(posts.concat(res.content));
+        }
+      },
+    });
+  };
+
   const onClickCategoryData = (data) => {
+    setTitle(data);
     let itemSet = new Set(menuClicked);
     itemSet.add(data);
     setMenuClicked(itemSet);
@@ -85,7 +110,7 @@ const Recommend = (props) => {
       url: "content/getCategoryPagingList",
       data: {
         page: 0,
-        size: 6,
+        size: 9,
         username: localUser,
         category: data,
       },
@@ -100,8 +125,8 @@ const Recommend = (props) => {
 
   // 게시글 마우스 Over시
   const onMouseOverHandler = (data, idx) => {
-    if (data.location === posts[idx].location) {
-      setHover({ location: data.location });
+    if (data.contentId === posts[idx].contentId) {
+      setHover({ contentId: data.contentId });
     }
   };
   // 게시글 마우스 Out시
@@ -181,11 +206,35 @@ const Recommend = (props) => {
     history.push(`/Profile?username=${data.username}`);
   };
 
+  // 스크롤 감지
+  const handleScroll = () => {
+    const scrollHeight = document.documentElement.scrollHeight;
+    const scrollTop = document.documentElement.scrollTop;
+    const clientHeight = document.documentElement.clientHeight;
+    if (scrollTop + clientHeight >= scrollHeight) {
+      ++page;
+      getAddCategoryData(page);
+    }
+  };
+
+  // 스크롤 이벤트
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  });
+
+  useEffect(() => {
+    page = 0;
+  }, [menuClicked]);
+
   useEffect(() => {
     getCategoryData();
     let itemSet = new Set(menuClicked);
     itemSet.add("한식");
     setMenuClicked(itemSet);
+    setTitle("한식");
   }, []);
   return (
     <div className="recommend-main-area">
@@ -235,7 +284,7 @@ const Recommend = (props) => {
                       alt="추천 게시글"
                       className="imghover"
                     />
-                    {hover.location === data.location ? (
+                    {hover.contentId === data.contentId ? (
                       <div className="post-hover">
                         <h4>
                           <FaHeart className="post-hover-icon" />
@@ -266,7 +315,7 @@ const Recommend = (props) => {
                         type="video/mp4"
                       />
                     </video>
-                    {hover.location === data.location ? (
+                    {hover.contentId === data.contentId ? (
                       <div className="post-hover">
                         <h4>
                           <FaHeart className="post-hover-icon" />

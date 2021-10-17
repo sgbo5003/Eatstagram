@@ -120,7 +120,7 @@
 .search-post {
   margin-top: 20px;
   display: flex;
-  /* flex-wrap: wrap; */
+  flex-wrap: wrap;
   /* justify-content: space-between; */
   justify-content: flex-start;
 }

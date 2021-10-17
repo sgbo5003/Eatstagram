@@ -59,8 +59,8 @@ const Profile = (props) => {
   };
   // 게시글 마우스 Over시
   const onMouseOverHandler = (data, idx) => {
-    if (data.location === posts[idx].location) {
-      setHover({ location: data.location });
+    if (data.contentId === posts[idx].contentId) {
+      setHover({ contentId: data.contentId });
     }
   };
   // 게시글 마우스 Out시
