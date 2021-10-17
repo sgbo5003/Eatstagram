@@ -13,9 +13,11 @@ const MyPostModal = (props) => {
       },
       success: (res) => {
         alert(res.msg);
+        setMyPostModalOn(false);
       },
       fail: (res) => {
         alert(res.data.msg);
+        setMyPostModalOn(false);
       },
     });
   };

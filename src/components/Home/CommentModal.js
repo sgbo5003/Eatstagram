@@ -66,11 +66,16 @@ const CommentModal = (props) => {
     };
     ws.current.onmessage = (evt) => {
       const data = JSON.parse(evt.data);
-      items.push(data);
-      items.forEach((item) => {
-        getRegdate(item);
-      });
-      setItems([...items]);
+      if (data.type === "error") {
+        setResponse(false);
+      } else {
+        console.log("data", data);
+        items.push(data);
+        items.forEach((item) => {
+          getRegdate(item);
+        });
+        setItems([...items]);
+      }
     };
     return () => {
       console.log("clean up");
@@ -86,7 +91,6 @@ const CommentModal = (props) => {
 
   // 댓글 전송
   const onSendMessageHandler = () => {
-    getCheckContent();
     if (comment === "" || comment.trim() === "") {
       return;
     } else {
@@ -108,7 +112,6 @@ const CommentModal = (props) => {
 
   // 엔터키 눌러 댓글 전송
   const onKeyPress = (e) => {
-    getCheckContent();
     if (e.key == "Enter") {
       if (comment === "" || comment.trim() === "") {
         return;
