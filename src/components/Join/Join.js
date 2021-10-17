@@ -214,6 +214,7 @@ const Join = () => {
             <h4>나만의 맛집을 친구들과 공유하고 싶다면 가입하세요.</h4>
           </div>
           <form id="join-form">
+            <div className="title">이메일</div>
             <input
               name="usermail"
               type="text"
@@ -234,10 +235,11 @@ const Join = () => {
                 이메일 형식이 일치하지 않습니다.
               </div>
             )}
+            <div className="title">아이디</div>
             <input
               name="userid"
               type="text"
-              placeholder="아이디"
+              placeholder="영문 또는 숫자로 조합, 길이는 6 ~ 18자"
               value={userid}
               onChange={onChangeUseridHandler}
               onBlur={getUseridData}
@@ -266,6 +268,7 @@ const Join = () => {
                 아이디가 중복됩니다.
               </div>
             )}
+            <div className="title">닉네임</div>
             <input
               name="nickname"
               type="text"
@@ -286,6 +289,7 @@ const Join = () => {
                 닉네임이 중복됩니다.
               </div>
             )}
+            <div className="name">성명</div>
             <input
               name="name"
               type="text"
@@ -305,10 +309,11 @@ const Join = () => {
                 이름 형식이 일치하지 않습니다.
               </div>
             )}
+            <div className="pwd">비밀번호</div>
             <input
               name="password"
               type="password"
-              placeholder="비밀번호"
+              placeholder="숫자, 영문, 특수문자 1개이상 을 포함한 8~20자"
               value={password}
               onChange={onChangePasswordHandler}
             />
@@ -324,6 +329,7 @@ const Join = () => {
                 비밀번호 형식이 일치하지 않습니다.
               </div>
             )}
+            <div className="confirmpwd">비밀번호 확인</div>
             <input
               name="passwordChecked"
               type="password"
