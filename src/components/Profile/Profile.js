@@ -17,6 +17,7 @@ const Profile = () => {
   const history = useHistory();
   const paramsId = location.search.split("=")[1];
   const localUser = localStorage.getItem("username");
+  const [isPage, setIsPage] = useState(false); // 페이지가 존재하는지 체크
   const [activeBar, setActiveBar] = useState(false);
   const [followerModalOn, setFollowerModalOn] = useState(false); // 팔로워 모달
   const [followModalOn, setFollowModalOn] = useState(false); // 팔로우 모달
@@ -72,7 +73,11 @@ const Profile = () => {
         username: user,
       },
       success: (res) => {
-        setProfileData(res);
+        if (res === "") {
+          setIsPage(true);
+        } else {
+          setProfileData(res);
+        }
       },
     });
   };
@@ -159,9 +164,14 @@ const Profile = () => {
     }
   }, []);
   return (
-    <>
-      <div className="profile-area">
-        {[profileData].map((data, idx) => {
+    <div className="profile-area">
+      {isPage ? (
+        <div className="no-text">
+          <h1>죄송합니다. 페이지를 찾을 수 없습니다.</h1>
+          <h3>클릭하신 링크가 잘못되었거나 페이지가 삭제되었습니다.</h3>
+        </div>
+      ) : (
+        [profileData].map((data, idx) => {
           return (
             <div className="profile-area-top" key={idx}>
               <div className="profile-img" onClick={onProfileImgClick}>
@@ -221,70 +231,75 @@ const Profile = () => {
               </div>
             </div>
           );
-        })}
-
-        <div className="profile-area-border">
-          <div className="profile-area-border-li">
-            {activeBar ? "" : <span className="profile-bar-post"></span>}
-            <p>
-              <FaTh />
-            </p>
-            <p onClick={onPostMenuClick}>게시물</p>
+        })
+      )}
+      {isPage ? (
+        ""
+      ) : (
+        <>
+          <div className="profile-area-border">
+            <div className="profile-area-border-li">
+              {activeBar ? "" : <span className="profile-bar-post"></span>}
+              <p>
+                <FaTh />
+              </p>
+              <p onClick={onPostMenuClick}>게시물</p>
+            </div>
+            <div className="profile-area-border-li">
+              {activeBar ? <span className="profile-bar-post"></span> : ""}
+              <p>
+                <FaBookmark />
+              </p>
+              <p onClick={onSaveMenuClick}>저장됨</p>
+            </div>
           </div>
-          <div className="profile-area-border-li">
-            {activeBar ? <span className="profile-bar-post"></span> : ""}
-            <p>
-              <FaBookmark />
-            </p>
-            <p onClick={onSaveMenuClick}>저장됨</p>
+          <div className="profile-area-bottom">
+            {activeBar ? (
+              <ProfileSave
+                posts={posts}
+                setPosts={setPosts}
+                hover={hover}
+                setHover={setHover}
+                onMouseOverHandler={onMouseOverHandler}
+                onMouseOutHandler={onMouseOutHandler}
+                paramsId={paramsId}
+              />
+            ) : (
+              <ProfilePost
+                posts={posts}
+                setPosts={setPosts}
+                hover={hover}
+                setHover={setHover}
+                onMouseOverHandler={onMouseOverHandler}
+                onMouseOutHandler={onMouseOutHandler}
+                paramsId={paramsId}
+              />
+            )}
           </div>
-        </div>
-        <div className="profile-area-bottom">
-          {activeBar ? (
-            <ProfileSave
-              posts={posts}
-              setPosts={setPosts}
-              hover={hover}
-              setHover={setHover}
-              onMouseOverHandler={onMouseOverHandler}
-              onMouseOutHandler={onMouseOutHandler}
+          <Modal isOpen={followerModalOn} setIsOpen={setFollowerModalOn}>
+            <FollowerModal
+              localUser={localUser}
               paramsId={paramsId}
+              setFollowerModalOn={setFollowerModalOn}
             />
-          ) : (
-            <ProfilePost
-              posts={posts}
-              setPosts={setPosts}
-              hover={hover}
-              setHover={setHover}
-              onMouseOverHandler={onMouseOverHandler}
-              onMouseOutHandler={onMouseOutHandler}
+          </Modal>
+          <Modal isOpen={followModalOn} setIsOpen={setFollowModalOn}>
+            <FollowModal
+              localUser={localUser}
               paramsId={paramsId}
+              setFollowModalOn={setFollowModalOn}
             />
-          )}
-        </div>
-      </div>
-      <Modal isOpen={followerModalOn} setIsOpen={setFollowerModalOn}>
-        <FollowerModal
-          localUser={localUser}
-          paramsId={paramsId}
-          setFollowerModalOn={setFollowerModalOn}
-        />
-      </Modal>
-      <Modal isOpen={followModalOn} setIsOpen={setFollowModalOn}>
-        <FollowModal
-          localUser={localUser}
-          paramsId={paramsId}
-          setFollowModalOn={setFollowModalOn}
-        />
-      </Modal>
-      <Modal isOpen={profileImgModalOn} setIsOpen={setProfileImgModalOn}>
-        <ProfileImgModal
-          userImg={userImg}
-          setUserImg={setUserImg}
-          setProfileImgModalOn={setProfileImgModalOn}
-        />
-      </Modal>
-    </>
+          </Modal>
+          <Modal isOpen={profileImgModalOn} setIsOpen={setProfileImgModalOn}>
+            <ProfileImgModal
+              userImg={userImg}
+              setUserImg={setUserImg}
+              setProfileImgModalOn={setProfileImgModalOn}
+            />
+          </Modal>
+        </>
+      )}
+    </div>
   );
 };
 

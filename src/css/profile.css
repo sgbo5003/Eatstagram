@@ -345,3 +345,21 @@
   padding: 20px;
   margin-bottom: 10px;
 }
+
+/**********no***********/
+.no-text {
+  text-align: center;
+  margin-top: 3em;
+}
+
+.no-text h1 {
+  font-size: 24px;
+  color: #6e6e6e;
+}
+
+.no-text h3 {
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight: 300;
+  color: #6e6e6e;
+}
