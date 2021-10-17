@@ -1,10 +1,18 @@
 import React, { useEffect, useState } from "react";
 import storyProfileImg1 from "../../../public/images/명수스토리.jpg";
+import profileDefaultImg from "../../../public/images/default_user.png";
 import { FaTimes } from "react-icons/fa";
 import * as fncObj from "../../commonFunc/CommonObjFunctions";
 
 const ShareModal = (props) => {
-  const { setShareModalOn, ws, contentId, contentFile, webSocketUrl } = props;
+  const {
+    setShareModalOn,
+    ws,
+    contentId,
+    contentFile,
+    webSocketUrl,
+    profileFilePath,
+  } = props;
   const [inputText, setInputText] = useState("");
   const [list, setList] = useState([]);
   const [checked, setChecked] = useState({ username: "", roomId: "" });
@@ -95,7 +103,7 @@ const ShareModal = (props) => {
 
   useEffect(() => {
     getChatList();
-    const webSocketUrl = `ws://localhost:8080/eatstagram/ws/contentReply/${contentId}`;
+    const webSocketUrl = `ws://www.whereyedo.com:55808/eatstagram/ws/contentReply/${contentId}`;
     ws.current = new WebSocket(webSocketUrl);
   }, []);
 
@@ -130,7 +138,14 @@ const ShareModal = (props) => {
                     {data.directMessageRoomMemberDTOList.map((data, idx) => {
                       return (
                         <div className="recommend-user" key={idx}>
-                          <img src={storyProfileImg1} alt="" />
+                          <img
+                            src={
+                              data.profileImgName === null
+                                ? profileDefaultImg
+                                : profileFilePath + data.profileImgName
+                            }
+                            alt=""
+                          />
                           <div className="recommend-user-nameBox">
                             <h4>
                               {data.nickname === null ? "유저1" : data.nickname}
@@ -157,7 +172,14 @@ const ShareModal = (props) => {
                 return (
                   <div className="recommend-list" key={idx}>
                     <div className="recommend-user" key={idx}>
-                      <img src={storyProfileImg1} alt="" />
+                      <img
+                        src={
+                          data.profileImgName === null
+                            ? profileDefaultImg
+                            : profileFilePath + data.profileImgName
+                        }
+                        alt=""
+                      />
                       <div className="recommend-user-nameBox">
                         <h4>
                           {data.nickname === null ? "유저1" : data.nickname}

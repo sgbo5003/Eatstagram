@@ -6,7 +6,7 @@ import Modal from "../../Modal";
 import CommentModal from "../Home/CommentModal";
 
 const SearchPostResult = (props) => {
-  const { localUser, paramsId } = props;
+  const { localUser, paramsId, contentFilePath } = props;
   const [postList, setPostList] = useState([]);
   const [hover, setHover] = useState({}); // 마우스 hover
   const [commentModalOn, setCommentModalOn] = useState(false);
@@ -85,6 +85,9 @@ const SearchPostResult = (props) => {
         condition: paramsId,
       },
       success: (res) => {
+        res.content.map((item, idx) => {
+          getRegdate(item);
+        });
         setPostList(res.content);
       },
     });
@@ -128,7 +131,7 @@ const SearchPostResult = (props) => {
                 key={idx}
               >
                 <img
-                  src={`upload/content/${data.contentFileDTOList[0].name}`}
+                  src={contentFilePath + data.contentFileDTOList[0].name}
                   alt={`게시글${idx}`}
                   className="imghover"
                 />
@@ -159,7 +162,7 @@ const SearchPostResult = (props) => {
               >
                 <video controls>
                   <source
-                    src={`upload/content/${data.contentFileDTOList[0].name}`}
+                    src={contentFilePath + data.contentFileDTOList[0].name}
                     type="video/mp4"
                   />
                 </video>

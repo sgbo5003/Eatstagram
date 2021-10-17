@@ -17,6 +17,7 @@ const ProfilePost = (props) => {
     onMouseOverHandler,
     onMouseOutHandler,
     paramsId,
+    contentFilePath,
   } = props;
   const localUserName = localStorage.getItem("username");
   const [commentModalOn, setCommentModalOn] = useState(false);
@@ -144,7 +145,7 @@ const ProfilePost = (props) => {
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [paramsId]);
   return (
     <>
       <div className="profile-area__post">
@@ -163,7 +164,7 @@ const ProfilePost = (props) => {
                   key={idx}
                 >
                   <img
-                    src={`upload/content/${data.contentFileDTOList[0].name}`}
+                    src={contentFilePath + data.contentFileDTOList[0].name}
                     alt={`게시글${idx}`}
                   />
                   {hover.location === data.location ? (
@@ -193,7 +194,7 @@ const ProfilePost = (props) => {
                 >
                   <video controls>
                     <source
-                      src={`upload/content/${data.contentFileDTOList[0].name}`}
+                      src={contentFilePath + data.contentFileDTOList[0].name}
                       type="video/mp4"
                     />
                   </video>

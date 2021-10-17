@@ -12,8 +12,10 @@ import FollowerModal from "./FollowerModal";
 import ProfileImgModal from "./ProfileImgModal";
 import { useHistory } from "react-router";
 import FollowModal from "./FollowModal";
+import ProfileImgNoneModal from "./ProfileImgNoneModal";
 
-const Profile = () => {
+const Profile = (props) => {
+  const { profileFilePath, contentFilePath } = props;
   const history = useHistory();
   const paramsId = location.search.split("=")[1];
   const localUser = localStorage.getItem("username");
@@ -149,6 +151,12 @@ const Profile = () => {
     });
   };
 
+  const onProfileClick = (data) => {
+    history.push(`/Profile?username=${data}`);
+    setFollowerModalOn(false);
+    setFollowModalOn(false);
+  };
+
   // 팔로우& 팔로우 취소 버튼 클릭 시
   const onFollowButtonClick = () => {
     sendFollowYnData();
@@ -162,7 +170,7 @@ const Profile = () => {
       getFollowYnData();
       getFollowerYnData();
     }
-  }, []);
+  }, [paramsId]);
   return (
     <div className="profile-area">
       {isPage ? (
@@ -179,7 +187,7 @@ const Profile = () => {
                   src={
                     data.profileImgName === null
                       ? profileDefaultImg
-                      : `upload/profile/${data.profileImgName}`
+                      : profileFilePath + data.profileImgName
                   }
                   alt=""
                 />
@@ -190,7 +198,10 @@ const Profile = () => {
                   {paramsId === localUser ? (
                     <button onClick={onProfileEditBtnClick}>프로필편집</button>
                   ) : follow === "N" && follower === "Y" ? (
-                    <button onClick={() => onFollowButtonClick(data, idx)}>
+                    <button
+                      className="follow"
+                      onClick={() => onFollowButtonClick(data, idx)}
+                    >
                       맞팔로우
                     </button>
                   ) : (follow === "Y" && follower === "Y") ||
@@ -199,7 +210,10 @@ const Profile = () => {
                       언팔로우
                     </button>
                   ) : (
-                    <button onClick={() => onFollowButtonClick(data, idx)}>
+                    <button
+                      className="follow"
+                      onClick={() => onFollowButtonClick(data, idx)}
+                    >
                       팔로우
                     </button>
                   )}
@@ -263,6 +277,7 @@ const Profile = () => {
                 onMouseOverHandler={onMouseOverHandler}
                 onMouseOutHandler={onMouseOutHandler}
                 paramsId={paramsId}
+                contentFilePath={contentFilePath}
               />
             ) : (
               <ProfilePost
@@ -273,6 +288,7 @@ const Profile = () => {
                 onMouseOverHandler={onMouseOverHandler}
                 onMouseOutHandler={onMouseOutHandler}
                 paramsId={paramsId}
+                contentFilePath={contentFilePath}
               />
             )}
           </div>
@@ -281,6 +297,8 @@ const Profile = () => {
               localUser={localUser}
               paramsId={paramsId}
               setFollowerModalOn={setFollowerModalOn}
+              onProfileClick={onProfileClick}
+              profileFilePath={profileFilePath}
             />
           </Modal>
           <Modal isOpen={followModalOn} setIsOpen={setFollowModalOn}>
@@ -288,14 +306,24 @@ const Profile = () => {
               localUser={localUser}
               paramsId={paramsId}
               setFollowModalOn={setFollowModalOn}
+              onProfileClick={onProfileClick}
+              profileFilePath={profileFilePath}
             />
           </Modal>
           <Modal isOpen={profileImgModalOn} setIsOpen={setProfileImgModalOn}>
-            <ProfileImgModal
-              userImg={userImg}
-              setUserImg={setUserImg}
-              setProfileImgModalOn={setProfileImgModalOn}
-            />
+            {profileData.profileImgName === null ? (
+              <ProfileImgNoneModal
+                userImg={userImg}
+                setUserImg={setUserImg}
+                setProfileImgModalOn={setProfileImgModalOn}
+              />
+            ) : (
+              <ProfileImgModal
+                userImg={userImg}
+                setUserImg={setUserImg}
+                setProfileImgModalOn={setProfileImgModalOn}
+              />
+            )}
           </Modal>
         </>
       )}

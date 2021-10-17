@@ -3,7 +3,8 @@ import { FaTh, FaUser, FaSearch } from "react-icons/fa";
 import SearchPostResult from "./SearchPostResult";
 import SearchUserResult from "./SearchUserResult";
 
-const SearchResult = () => {
+const SearchResult = (props) => {
+  const { contentFilePath, profileFilePath } = props;
   const [menuClicked, setMenuClicked] = useState(false);
   const paramsIdStr = location.search.split("=")[1];
   const paramsId = decodeURI(paramsIdStr);
@@ -44,9 +45,17 @@ const SearchResult = () => {
           </div>
         </div>
         {menuClicked ? (
-          <SearchPostResult localUser={localUser} paramsId={paramsId} />
+          <SearchPostResult
+            localUser={localUser}
+            paramsId={paramsId}
+            contentFilePath={contentFilePath}
+          />
         ) : (
-          <SearchUserResult localUser={localUser} paramsId={paramsId} />
+          <SearchUserResult
+            localUser={localUser}
+            paramsId={paramsId}
+            profileFilePath={profileFilePath}
+          />
         )}
       </div>
     </div>

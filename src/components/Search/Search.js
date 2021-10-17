@@ -3,7 +3,8 @@ import SearchDropDown from "./SeachDropDown";
 import * as fncObj from "../../commonFunc/CommonObjFunctions";
 import { useHistory } from "react-router";
 
-const Search = () => {
+const Search = (props) => {
+  const { profileFilePath } = props;
   const history = useHistory();
   const [modalOn, setModalOn] = useState(false);
   const localUser = localStorage.getItem("username");
@@ -70,6 +71,7 @@ const Search = () => {
             setUserList={setUserList}
             inputText={inputText}
             setInputText={setInputText}
+            profileFilePath={profileFilePath}
           />
         ) : (
           ""

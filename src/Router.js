@@ -23,13 +23,6 @@ const Router = () => {
   const contentFilePath = uploadPath + "content/";
   const dmFilePath = uploadPath + "dm/";
 
-  //   useEffect(() => {
-  //     if (isLogin !== "undefined" && isLogin) {
-  //       return;
-  //     } else {
-  //       history.push("/");
-  //     }
-  //   }, []);
   return (
     <Switch>
       {isLogin !== "undefined" && isLogin ? (
@@ -37,23 +30,61 @@ const Router = () => {
           <Header
             messageCount={messageCount}
             setMessageCount={setMessageCount}
+            profileFilePath={profileFilePath}
           />
-          <Route exact path="/" component={Home} />
+          <Route
+            exact
+            path="/"
+            render={() => (
+              <Home
+                profileFilePath={profileFilePath}
+                contentFilePath={contentFilePath}
+              />
+            )}
+          />
           <Route
             path="/Chat"
             render={() => (
               <Chat
                 messageCount={messageCount}
                 setMessageCount={setMessageCount}
+                profileFilePath={profileFilePath}
+                contentFilePath={contentFilePath}
+                dmFilePath={dmFilePath}
               />
             )}
           />
-          <Route path="/Recommend" component={Recommend} />
+          <Route
+            path="/Recommend"
+            render={() => <Recommend contentFilePath={contentFilePath} />}
+          />
 
-          <Route path="/Profile" component={Profile} />
-          <Route path="/ProfileEdit" component={ProfileEdit} />
-          <Route path="/Ranking" component={Ranking} />
-          <Route path="/SearchResult" component={SearchResult} />
+          <Route
+            path="/Profile"
+            render={() => (
+              <Profile
+                profileFilePath={profileFilePath}
+                contentFilePath={contentFilePath}
+              />
+            )}
+          />
+          <Route
+            path="/ProfileEdit"
+            render={() => <ProfileEdit profileFilePath={profileFilePath} />}
+          />
+          <Route
+            path="/Ranking"
+            render={() => <Ranking profileFilePath={profileFilePath} />}
+          />
+          <Route
+            path="/SearchResult"
+            render={() => (
+              <SearchResult
+                profileFilePath={profileFilePath}
+                contentFilePath={contentFilePath}
+              />
+            )}
+          />
         </>
       ) : (
         <>

@@ -4,7 +4,8 @@ import * as fncObj from "../commonFunc/CommonObjFunctions";
 import Modal from "../Modal";
 import CommentModal from "./Home/CommentModal";
 import { AiFillRightCircle, AiFillLeftCircle } from "react-icons/ai";
-const Recommend = () => {
+const Recommend = (props) => {
+  const { contentFilePath } = props;
   const categoryData = [
     {
       src: "./images/한식.png",
@@ -212,7 +213,7 @@ const Recommend = () => {
                 onClick={() => onCommentModalHandler(data)}
               >
                 <img
-                  src={`upload/content/${data.contentFileDTOList[0].name}`}
+                  src={contentFilePath + data.contentFileDTOList[0].name}
                   alt="추천 게시글"
                   className="imghover"
                 />

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import * as fncObj from "../../commonFunc/CommonObjFunctions";
 import * as fnc from "../../commonFunc/CommonFunctions";
+import { FaUserLock } from "react-icons/fa";
 import profileDefaultImg from "../../../public/images/default_user.png";
 const FindPasswordLink = () => {
   const paramsId = location.search.split("=")[1];
@@ -85,56 +86,55 @@ const FindPasswordLink = () => {
   });
 
   return (
-    <>
-      <div className="edit-right-li">
-        <aside>
-          <img src="" alt="" />
-        </aside>
-        <div className="edit-right-li__input">
-          <h1>hi</h1>
+    <div>
+      <div id="form">
+        <div class="form-logo__find">
+          <h3>Eatstagram</h3>
+          <h1>
+            <FaUserLock />
+          </h1>
+          <h2>비밀 번호를 변경하세요</h2>
+        </div>
+        <div class="change-pw">
+          <div class="change-pw-li">
+            <aside>
+              <label for="userid">새 비밀번호</label>
+            </aside>
+            <div class="change-pw-li__input">
+              <input
+                type="password"
+                name="newPwd"
+                value={newPwd}
+                onChange={onNewPwdChange}
+                placeholder="숫자, 영문, 특수문자 1개이상 을 포함한 8~20자를 입력해주세요."
+              />
+            </div>
+          </div>
+          <div class="change-pw-li">
+            <aside>
+              <label for="usertext">새 비밀번호 확인</label>
+            </aside>
+            <div class="change-pw-li__input">
+              <input
+                type="password"
+                name="confirmNewPwd"
+                value={confirmNewPwd}
+                onChange={onConfirmNewPwdChange}
+              />
+            </div>
+          </div>
         </div>
       </div>
-
-      <div className="edit-right-li">
-        <aside>
-          <label htmlFor="userid">새 비밀번호</label>
-        </aside>
-        <div className="edit-right-li__input">
-          <input
-            type="password"
-            name="newPwd"
-            value={newPwd}
-            onChange={onNewPwdChange}
-            placeholder="숫자, 영문, 특수문자 1개이상 을 포함한 8~20자를 입력해주세요."
-          />
-        </div>
+      <div class="change-pw__btn">
+        {button ? (
+          <button className="active" onClick={onSubmit}>
+            비밀번호 변경
+          </button>
+        ) : (
+          <button disabled="disabled">비밀번호 변경</button>
+        )}
       </div>
-      <div className="edit-right-li">
-        <aside>
-          <label htmlFor="usertext">새 비밀번호 확인</label>
-        </aside>
-        <div className="edit-right-li__input">
-          <input
-            type="password"
-            name="confirmNewPwd"
-            value={confirmNewPwd}
-            onChange={onConfirmNewPwdChange}
-          />
-        </div>
-      </div>
-      <div className="edit-right-li edit-btn">
-        <aside></aside>
-        <div className="edit-right-li__btn">
-          {button ? (
-            <button className="active" onClick={onSubmit}>
-              비밀번호 변경
-            </button>
-          ) : (
-            <button disabled="disabled">비밀번호 변경</button>
-          )}
-        </div>
-      </div>
-    </>
+    </div>
   );
 };
 

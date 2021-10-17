@@ -515,31 +515,41 @@
 .comment,
 .first-comment {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   width: 100%;
   margin: 10px 16px;
+}
+.user-comment {
+  margin-left: 10px;
 }
 
 .comment-user__img {
   height: 34px;
 }
 
+.comment-user__text,
+.comment-user__time,
 .comment-user__id {
-  font-size: 14px;
-  margin: 0 12px;
+  width: 325px;
+}
+
+.comment-user__id {
+  font-size: 12px;
 }
 
 .comment-user__id h1 {
   cursor: pointer;
 }
 
-.comment-user__text {
-  margin-right: 20px;
-}
-
 .comment-user__text p {
   font-size: 14px;
   font-weight: 400;
+}
+
+.comment-user__time {
+  font-size: 10px;
+  font-weight: 300;
+  color: #6e6e6e;
 }
 
 .post-window-bottom {

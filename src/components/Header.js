@@ -22,7 +22,8 @@ import Search from "./Search/Search";
 const Header = (props) => {
   const { messageCount, setMessageCount, profileFilePath } = props;
   const localUserName = localStorage.getItem("username");
-  const webSocketUrl = `ws://localhost:8080/eatstagram/ws/header/${localUserName}`;
+  const webSocketUrl = `ws://www.whereyedo.com:55808/eatstagram/ws/header/${localUserName}`;
+  // const webSocketUrl = `ws://localhost:8080/eatstagram/ws/header/${localUserName}`;
   let ws = useRef(null);
   const history = useHistory();
   const [writeModalOn, setWriteModalOn] = useState(false);
@@ -117,7 +118,7 @@ const Header = (props) => {
           <div>
             <h1 onClick={onLogoClick}>Eatstagram</h1>
           </div>
-          <Search />
+          <Search profileFilePath={profileFilePath} />
           <div className="header-area__icons">
             <Link to="/">
               <p className="header-area__icons_items">
@@ -149,7 +150,7 @@ const Header = (props) => {
                 src={
                   profileData.profileImgName === null
                     ? profileDefaultImg
-                    : `upload/profile/${profileData.profileImgName}`
+                    : profileFilePath + profileData.profileImgName
                 }
                 alt=""
                 onClick={onDropDownHandler}

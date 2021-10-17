@@ -25,10 +25,13 @@ const CommentModal = (props) => {
     getRegdate,
     settings,
     onProfileClick,
+    time,
+    profileFilePath,
+    contentFilePath,
   } = props;
 
   //   const webSocketUrl = `ws://www.whereyedo.com:55808/eatstagram/ws/contentReply/${commentData.contentId}`;
-  const webSocketUrl = `ws://localhost:8080/eatstagram/ws/contentReply/${commentData.contentId}`;
+  const webSocketUrl = `ws://www.whereyedo.com:55808/eatstagram/ws/contentReply/${commentData.contentId}`;
   let ws = useRef(null);
 
   // 게시글이 존재하는지 하지 않는지 체크
@@ -206,8 +209,7 @@ const CommentModal = (props) => {
                     ) {
                       return (
                         <img
-                          //   src={`public/upload/content/${data.name}`}
-                          src={`upload/content/${data.name}`}
+                          src={contentFilePath + data.name}
                           alt=""
                           key={idx}
                         />
@@ -216,8 +218,7 @@ const CommentModal = (props) => {
                       return (
                         <video controls height="600" key={idx}>
                           <source
-                            // src={`public/upload/content/${data.name}`}
-                            src={`upload/content/${data.name}`}
+                            src={contentFilePath + data.name}
                             type="video/mp4"
                           />
                         </video>
@@ -235,7 +236,7 @@ const CommentModal = (props) => {
                       src={
                         commentData.profileImgName === null
                           ? profileDefaultImg
-                          : `upload/profile/${commentData.profileImgName}`
+                          : profileFilePath + commentData.profileImgName
                       }
                       alt=""
                       onClick={() => onProfileClick(commentData)}
@@ -252,7 +253,7 @@ const CommentModal = (props) => {
                         <h2>{commentData.location}</h2>
                       </div>
                       <div className="post-window-time">
-                        <h2> • {commentData.time}</h2>
+                        <h2> • {commentData.time || time}</h2>
                       </div>
                     </div>
                   </div>
@@ -271,19 +272,24 @@ const CommentModal = (props) => {
                       src={
                         commentData.profileImgName === null
                           ? profileDefaultImg
-                          : `upload/profile/${commentData.profileImgName}`
+                          : profileFilePath + commentData.profileImgName
                       }
                       alt=""
                       onClick={() => onProfileClick(commentData)}
                     />
                   </div>
-                  <div className="comment-user__id">
-                    <h1 onClick={() => onProfileClick(commentData)}>
-                      {commentData.nickname}
-                    </h1>
-                  </div>
-                  <div className="comment-user__text">
-                    <p>{commentData.text}</p>
+                  <div className="user-comment">
+                    <div className="comment-user__id">
+                      <h1 onClick={() => onProfileClick(commentData)}>
+                        {commentData.nickname}
+                      </h1>
+                    </div>
+                    <div className="comment-user__text">
+                      <p>{commentData.text}</p>
+                    </div>
+                    <div className="comment-user__time">
+                      <p>{commentData.time}</p>
+                    </div>
                   </div>
                 </div>
                 {items
@@ -297,22 +303,24 @@ const CommentModal = (props) => {
                             src={
                               data.profileImgName === null
                                 ? profileDefaultImg
-                                : `upload/profile/${data.profileImgName}`
+                                : profileFilePath + data.profileImgName
                             }
                             alt=""
                             onClick={() => onProfileClick(data)}
                           />
                         </div>
-                        <div className="comment-user__id">
-                          <h1 onClick={() => onProfileClick(data)}>
-                            {data.nickname}
-                          </h1>
-                        </div>
-                        <div className="comment-user__text">
-                          <p>{data.msg}</p>
-                        </div>
-                        <div className="comment-user__text">
-                          <p>{data.time}</p>
+                        <div className="user-comment">
+                          <div className="comment-user__id">
+                            <h1 onClick={() => onProfileClick(data)}>
+                              {data.nickname}
+                            </h1>
+                          </div>
+                          <div className="comment-user__text">
+                            <p>{data.msg}</p>
+                          </div>
+                          <div className="comment-user__time">
+                            <p>{data.time}</p>
+                          </div>
                         </div>
                       </div>
                     );
@@ -325,22 +333,24 @@ const CommentModal = (props) => {
                           src={
                             data.profileImgName === null
                               ? profileDefaultImg
-                              : `upload/profile/${data.profileImgName}`
+                              : profileFilePath + data.profileImgName
                           }
                           alt=""
                           onClick={() => onProfileClick(data)}
                         />
                       </div>
-                      <div className="comment-user__id">
-                        <h1 onClick={() => onProfileClick(data)}>
-                          {data.nickname}
-                        </h1>
-                      </div>
-                      <div className="comment-user__text">
-                        <p>{data.reply}</p>
-                      </div>
-                      <div className="comment-user__text">
-                        <p>{data.time}</p>
+                      <div className="user-comment">
+                        <div className="comment-user__id">
+                          <h1 onClick={() => onProfileClick(data)}>
+                            {data.nickname}
+                          </h1>
+                        </div>
+                        <div className="comment-user__text">
+                          <p>{data.reply}</p>
+                        </div>
+                        <div className="comment-user__time">
+                          <p>{data.time}</p>
+                        </div>
                       </div>
                     </div>
                   );

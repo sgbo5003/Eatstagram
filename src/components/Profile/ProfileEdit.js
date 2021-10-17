@@ -10,6 +10,7 @@ import ProfileEditPage from "./ProfileEditPage";
 import ProfileImgModal from "./ProfileImgModal";
 
 const ProfileEdit = (props) => {
+  const { profileFilePath } = props;
   const location = useLocation();
   const localUser = localStorage.getItem("username");
   const [editPage, setEditPage] = useState(false);
@@ -68,9 +69,15 @@ const ProfileEdit = (props) => {
             <ProfileChangePassword
               profileData={profileData}
               localUser={localUser}
+              profileFilePath={profileFilePath}
             />
           ) : (
-            <ProfileEditPage profileData={profileData} localUser={localUser} />
+            <ProfileEditPage
+              profileData={profileData}
+              setProfileData={setProfileData}
+              localUser={localUser}
+              profileFilePath={profileFilePath}
+            />
           )}
         </div>
       </div>

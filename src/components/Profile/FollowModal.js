@@ -7,7 +7,13 @@ import * as fnc from "../../commonFunc/CommonFunctions";
 let page = 0;
 
 const FollowModal = (props) => {
-  const { localUser, paramsId, setFollowModalOn } = props;
+  const {
+    localUser,
+    paramsId,
+    setFollowModalOn,
+    onProfileClick,
+    profileFilePath,
+  } = props;
   const [list, setList] = useState([]);
   const scrollRef = useRef(null);
 
@@ -119,18 +125,24 @@ const FollowModal = (props) => {
                         src={
                           data.profileImgName === null
                             ? profileDefaultImg
-                            : `upload/profile/${data.profileImgName}`
+                            : profileFilePath + data.profileImgName
                         }
                         alt=""
+                        onClick={() => onProfileClick(data.follow)}
                       />
                       <div>
-                        <h4>{data.nickname}</h4>
+                        <h4 onClick={() => onProfileClick(data.follow)}>
+                          {data.nickname}
+                        </h4>
                         <h5>{data.name}</h5>
                       </div>
                     </div>
                     <div className="subs-cancle">
                       {data.followYn === "N" && data.followerYn === "Y" ? (
-                        <button onClick={() => followBtnClick(data, idx)}>
+                        <button
+                          className="follow"
+                          onClick={() => followBtnClick(data, idx)}
+                        >
                           맞팔로우
                         </button>
                       ) : (data.followYn === "Y" && data.followerYn === "Y") ||
@@ -139,7 +151,10 @@ const FollowModal = (props) => {
                           언팔로우
                         </button>
                       ) : (
-                        <button onClick={() => followBtnClick(data, idx)}>
+                        <button
+                          className="follow"
+                          onClick={() => followBtnClick(data, idx)}
+                        >
                           팔로우
                         </button>
                       )}
@@ -154,7 +169,7 @@ const FollowModal = (props) => {
                         src={
                           data.profileImgName === null
                             ? profileDefaultImg
-                            : `upload/profile/${data.profileImgName}`
+                            : profileFilePath + data.profileImgName
                         }
                         alt=""
                       />
@@ -165,7 +180,10 @@ const FollowModal = (props) => {
                       {localUser === data.follow ? (
                         ""
                       ) : data.followYn === "N" && data.followerYn === "Y" ? (
-                        <button onClick={() => followBtnClick(data, idx)}>
+                        <button
+                          className="follow"
+                          onClick={() => followBtnClick(data, idx)}
+                        >
                           맞팔로우
                         </button>
                       ) : (data.followYn === "Y" && data.followerYn === "Y") ||
@@ -174,7 +192,10 @@ const FollowModal = (props) => {
                           언팔로우
                         </button>
                       ) : (
-                        <button onClick={() => followBtnClick(data, idx)}>
+                        <button
+                          className="follow"
+                          onClick={() => followBtnClick(data, idx)}
+                        >
                           팔로우
                         </button>
                       )}

@@ -15,7 +15,6 @@ const Login = () => {
   const passwordRef = useRef(null);
 
   const kakaoAppKey = "6bd6889a5435fbc5a9c77e8d49c9e5f3";
-  // http://localhost:3000/oauth2/authorization/google -> google
 
   const onChangeUseridHandler = (e) => {
     setUserid(e.target.value);
@@ -108,15 +107,6 @@ const Login = () => {
             <input type="submit" value="로그인" onClick={onSubmit} />
             <div className="line">
               <span>또는</span>
-            </div>
-            {/*구글 소셜 로그인*/}
-            <div className="googlebtn">
-              <a className="oauth-container btn darken-4 white black-text">
-                <div className="inside__google">
-                  <img alt="Google sign-in" src={googleLogo} />
-                  <span>Login with Google</span>
-                </div>
-              </a>
             </div>
             {/*카카오 소셜 로그인*/}
             <KakaoLogin

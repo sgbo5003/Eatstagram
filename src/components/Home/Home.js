@@ -67,7 +67,8 @@ const storys = [
   },
 ];
 
-const Home = () => {
+const Home = (props) => {
+  const { profileFilePath, contentFilePath } = props;
   const history = useHistory();
 
   let ws = useRef(null);
@@ -279,7 +280,7 @@ const Home = () => {
   // 댓글 게시 클릭 시
   const onClickCommentSubmit = (data) => {
     //   const webSocketUrl = `ws://www.whereyedo.com:55808/eatstagram/ws/contentReply/${data.contentId}`;
-    const webSocketUrl = `ws://localhost:8080/eatstagram/ws/contentReply/${data.contentId}`;
+    const webSocketUrl = `ws://www.whereyedo.com:55808/eatstagram/ws/contentReply/${data.contentId}`;
     if (inputComment === "" || inputComment.trim() === "") {
       return;
     } else {
@@ -470,7 +471,7 @@ const Home = () => {
                               src={
                                 data.profileImgName === null
                                   ? profileDefaultImg
-                                  : `upload/profile/${data.profileImgName}`
+                                  : profileFilePath + data.profileImgName
                               }
                               alt=""
                               onClick={() => onProfileClick(data)}
@@ -500,8 +501,7 @@ const Home = () => {
                               ) {
                                 return (
                                   <img
-                                    //   src={`public/upload/content/${data.name}`}
-                                    src={`upload/content/${data.name}`}
+                                    src={contentFilePath + data.name}
                                     alt=""
                                     key={idx}
                                   />
@@ -510,8 +510,7 @@ const Home = () => {
                                 return (
                                   <video controls height="600" key={idx}>
                                     <source
-                                      // src={`public/upload/content/${data.name}`}
-                                      src={`upload/content/${data.name}`}
+                                      src={contentFilePath + data.name}
                                       type="video/mp4"
                                     />
                                   </video>
@@ -613,7 +612,7 @@ const Home = () => {
                       src={
                         profileData.profileImgName === null
                           ? profileDefaultImg
-                          : `upload/profile/${profileData.profileImgName}`
+                          : profileFilePath + profileData.profileImgName
                       }
                       alt=""
                       onClick={() => onProfileClick(profileData)}
@@ -623,6 +622,9 @@ const Home = () => {
                     <h1 onClick={() => onProfileClick(profileData)}>
                       {getLocalUserNickName}
                     </h1>
+                    <h3 onClick={() => onProfileClick(profileData)}>
+                      {profileData.name}
+                    </h3>
                   </div>
                 </div>
                 <div className="main-lank">
@@ -646,7 +648,7 @@ const Home = () => {
                                 src={
                                   data.profileImgName === null
                                     ? profileDefaultImg
-                                    : `upload/profile/${data.profileImgName}`
+                                    : profileFilePath + data.profileImgName
                                 }
                                 alt=""
                               />
@@ -696,6 +698,8 @@ const Home = () => {
           getRegdate={getRegdate}
           settings={settings}
           onProfileClick={onProfileClick}
+          profileFilePath={profileFilePath}
+          contentFilePath={contentFilePath}
         />
       </Modal>
       <Modal isOpen={shareModalOn} setIsOpen={setShareModalOn}>
@@ -704,6 +708,7 @@ const Home = () => {
           ws={ws}
           contentId={contentId}
           contentFile={contentFile}
+          profileFilePath={profileFilePath}
         />
       </Modal>
       <Modal isOpen={myPostModalOn} setIsOpen={setMyPostModalOn}>

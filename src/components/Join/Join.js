@@ -214,19 +214,6 @@ const Join = () => {
             <h4>나만의 맛집을 친구들과 공유하고 싶다면 가입하세요.</h4>
           </div>
           <form id="join-form">
-            {/*구글 소셜 로그인*/}
-            <div className="googlebtn">
-              <a className="oauth-container btn darken-4 white black-text">
-                <div className="inside__google">
-                  <img alt="Google sign-in" src={googleLogo} />
-                  <span>Start with Google</span>
-                </div>
-              </a>
-            </div>
-
-            <div className="line">
-              <span>또는</span>
-            </div>
             <input
               name="usermail"
               type="text"

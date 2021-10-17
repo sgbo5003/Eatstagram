@@ -27,6 +27,7 @@ const OtherPostModal = (props) => {
       },
       success: (res) => {
         setFollow(res.followYn);
+        setOtherPostModalOn(false);
       },
     });
   };
@@ -41,12 +42,16 @@ const OtherPostModal = (props) => {
       <div className="delete-area">
         <div className="delete-btn">
           {follow === "N" && follower === "Y" ? (
-            <button onClick={followBtnClick}>맞팔로우</button>
+            <button className="follow" onClick={followBtnClick}>
+              맞팔로우
+            </button>
           ) : (follow === "Y" && follower === "Y") ||
             (follow === "Y" && follower === "N") ? (
             <button onClick={followBtnClick}>언팔로우</button>
           ) : (
-            <button onClick={followBtnClick}>팔로우</button>
+            <button className="follow" onClick={followBtnClick}>
+              팔로우
+            </button>
           )}
         </div>
         <div className="delete-cancle-btn">

@@ -7,7 +7,7 @@ import { useHistory } from "react-router";
 import { FaTimes } from "react-icons/fa";
 
 const ChatCreateModal = (props) => {
-  const { setChatCreateModalOn, ws } = props;
+  const { setChatCreateModalOn, ws, profileFilePath } = props;
   const history = useHistory();
   const [inputText, setInputText] = useState("");
   const [userList, setUserList] = useState([]);
@@ -88,7 +88,7 @@ const ChatCreateModal = (props) => {
                       src={
                         data.profileImgName === null
                           ? profileDefaultImg
-                          : `upload/profile/${data.profileImgName}`
+                          : profileFilePath + data.profileImgName
                       }
                       alt=""
                     />

@@ -3,7 +3,7 @@ import * as fncObj from "../../commonFunc/CommonObjFunctions";
 import * as fnc from "../../commonFunc/CommonFunctions";
 import profileDefaultImg from "../../../public/images/default_user.png";
 const ProfileChangePassword = (props) => {
-  const { profileData, localUser } = props;
+  const { profileData, localUser, profileFilePath } = props;
   const [previewPwdCheck, setPreviewPwdCheck] = useState(false);
   const [previewPwd, setPreViewPwd] = useState("");
   const [confirmNewPwd, setConfirmNewPwd] = useState("");
@@ -102,7 +102,7 @@ const ProfileChangePassword = (props) => {
             src={
               profileData.profileImgName === null
                 ? profileDefaultImg
-                : `upload/profile/${profileData.profileImgName}`
+                : profileFilePath + profileData.profileImgName
             }
             alt=""
           />

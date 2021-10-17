@@ -2,9 +2,12 @@ import React, { useEffect, useState } from "react";
 import * as fncObj from "../../commonFunc/CommonObjFunctions";
 import * as fnc from "../../commonFunc/CommonFunctions";
 import profileDefaultImg from "../../../public/images/default_user.png";
+import { useHistory } from "react-router";
 
-const Ranking = () => {
+const Ranking = (props) => {
+  const { profileFilePath } = props;
   const getLocalUserName = localStorage.getItem("username");
+  const history = useHistory();
   const [rankingList, setRankingList] = useState([]);
   const getRankingData = () => {
     fncObj.executeQuery({
@@ -41,6 +44,10 @@ const Ranking = () => {
     sendFollowYnData(data.username, idx);
   };
 
+  const onProfileClick = (data) => {
+    history.push(`/Profile?username=${data.username}`);
+  };
+
   useEffect(() => {
     getRankingData();
   }, []);
@@ -65,14 +72,17 @@ const Ranking = () => {
                       src={
                         data.profileImgName === null
                           ? profileDefaultImg
-                          : `upload/profile/${data.profileImgName}`
+                          : profileFilePath + data.profileImgName
                       }
                       alt=""
+                      onClick={() => onProfileClick(data)}
                     />
                   </div>
                   <div>
                     <div className="rank__user">
-                      <h2>{data.nickname}</h2>
+                      <h2 onClick={() => onProfileClick(data)}>
+                        {data.nickname}
+                      </h2>
                       <h4>{data.name}</h4>
                     </div>
                     <div className="rank-follower">

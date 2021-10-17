@@ -4,7 +4,7 @@ import Modal from "../../Modal";
 import ProfileImgModal from "./ProfileImgModal";
 import profileDefaultImg from "../../../public/images/default_user.png";
 const ProfileEditPage = (props) => {
-  const { profileData, localUser } = props;
+  const { profileData, localUser, setProfileData, profileFilePath } = props;
 
   const [inputData, setInputData] = useState({
     name: "",
@@ -56,7 +56,7 @@ const ProfileEditPage = (props) => {
             src={
               profileData.profileImgName === null
                 ? profileDefaultImg
-                : `upload/profile/${profileData.profileImgName}`
+                : profileFilePath + profileData.profileImgName
             }
             alt=""
             onClick={onProfileImgClick}

@@ -17,6 +17,7 @@ const ProfileSave = (props) => {
     onMouseOverHandler,
     onMouseOutHandler,
     paramsId,
+    contentFilePath,
   } = props;
   const localUser = localStorage.getItem("username");
   const [commentModalOn, setCommentModalOn] = useState(false);
@@ -62,7 +63,7 @@ const ProfileSave = (props) => {
   };
   useEffect(() => {
     getData();
-  }, []);
+  }, [paramsId]);
 
   // Slider 세팅
   const settings = {
@@ -164,7 +165,7 @@ const ProfileSave = (props) => {
                   key={idx}
                 >
                   <img
-                    src={`upload/content/${data.contentFileDTOList[0].name}`}
+                    src={contentFilePath + data.contentFileDTOList[0].name}
                     alt={`게시글${idx}`}
                   />
                   {hover.location === data.location ? (
@@ -194,7 +195,7 @@ const ProfileSave = (props) => {
                 >
                   <video controls>
                     <source
-                      src={`upload/content/${data.contentFileDTOList[0].name}`}
+                      src={contentFilePath + data.contentFileDTOList[0].name}
                       type="video/mp4"
                     />
                   </video>

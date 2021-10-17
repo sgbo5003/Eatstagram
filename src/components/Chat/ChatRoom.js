@@ -15,11 +15,19 @@ import CommentModal from "../Home/CommentModal";
 let page = 0;
 
 const ChatRoom = (props) => {
-  const { paramsId, setUpdateChatList, updateChatList, userInfo } = props;
+  const {
+    paramsId,
+    setUpdateChatList,
+    updateChatList,
+    userInfo,
+    profileFilePath,
+    contentFilePath,
+    dmFilePath,
+  } = props;
   const history = useHistory();
   const localUserName = localStorage.getItem("username");
   // const webSocketUrl = `ws://www.whereyedo.com:55808/eatstagram/ws/directMessage/${paramsId}`;
-  const webSocketUrl = `ws://localhost:8080/eatstagram/ws/directMessage/${paramsId}?username=${localUserName}`;
+  const webSocketUrl = `ws://www.whereyedo.com:55808/eatstagram/ws/directMessage/${paramsId}?username=${localUserName}`;
   let ws = useRef(null);
   const scrollRef = useRef(null);
   const [inputText, setInputText] = useState(""); // input 부분
@@ -32,6 +40,7 @@ const ChatRoom = (props) => {
   const [commentModalOn, setCommentModalOn] = useState(false);
   const [commentData, setCommentData] = useState({});
   const [items, setItems] = useState([]);
+  const [time, setTime] = useState("");
   let uploadUserName;
 
   // Slider 세팅
@@ -204,6 +213,7 @@ const ChatRoom = (props) => {
         if (data.type === "file") {
           uploadUserName = data.username;
         } else {
+          getRegdate(data);
           setMyChatBox((prevItems) => [...prevItems, data]);
         }
       }
@@ -226,6 +236,9 @@ const ChatRoom = (props) => {
         username: localUserName,
       },
       success: (res) => {
+        res.content.map((item, idx) => {
+          getRegdate(item);
+        });
         setChatList(res.content);
         initialScrollPosition();
       },
@@ -298,7 +311,13 @@ const ChatRoom = (props) => {
     setChatExitModalOn(true);
   };
 
-  const onCommentModalHandler = (data) => {
+  const onCommentModalHandler = (data, jsonData) => {
+    setTime(data.time);
+    setCommentData(jsonData);
+    setCommentModalOn(true);
+  };
+
+  const onWebSocketCommentModalHandler = (data) => {
     setCommentData(data);
     setCommentModalOn(true);
   };
@@ -333,7 +352,8 @@ const ChatRoom = (props) => {
                 userInfo.directMessageRoomMemberDTOList[0].profileImgName ===
                 null
                   ? profileDefaultImg
-                  : `upload/profile/${userInfo.directMessageRoomMemberDTOList[0].profileImgName}`
+                  : profileFilePath +
+                    userInfo.directMessageRoomMemberDTOList[0].profileImgName
               }
               alt=""
               onClick={() => onProfileClick(userInfo)}
@@ -371,8 +391,7 @@ const ChatRoom = (props) => {
                   return (
                     <div className="my-message" key={idx}>
                       <div className="img-message">
-                        {/*<img src={`public/upload/dm/${data.directMessage}`} />*/}
-                        <img src={`upload/dm/${data.directMessage}`} />
+                        <img src={dmFilePath + data.directMessage} />
                       </div>
                     </div>
                   );
@@ -388,7 +407,7 @@ const ChatRoom = (props) => {
                               src={
                                 jsonData.profileImgName === null
                                   ? profileDefaultImg
-                                  : `upload/profile/${jsonData.profileImgName}`
+                                  : profileFilePath + jsonData.profileImgName
                               }
                               alt=""
                               onClick={() => onShareProfileClick(jsonData)}
@@ -399,11 +418,13 @@ const ChatRoom = (props) => {
                           </div>
                           <div
                             className="share-contents"
-                            onClick={() => onCommentModalHandler(jsonData)}
+                            onClick={() =>
+                              onCommentModalHandler(data, jsonData)
+                            }
                           >
                             <video controls height="200">
                               <source
-                                src={`upload/content/${jsonData.thumbnail}`}
+                                src={contentFilePath + jsonData.thumbnail}
                                 type="video/mp4"
                               />
                             </video>
@@ -427,7 +448,7 @@ const ChatRoom = (props) => {
                               src={
                                 jsonData.profileImgName === null
                                   ? profileDefaultImg
-                                  : `upload/profile/${jsonData.profileImgName}`
+                                  : profileFilePath + jsonData.profileImgName
                               }
                               alt=""
                               onClick={() => onShareProfileClick(jsonData)}
@@ -438,10 +459,12 @@ const ChatRoom = (props) => {
                           </div>
                           <div
                             className="share-contents"
-                            onClick={() => onCommentModalHandler(jsonData)}
+                            onClick={() =>
+                              onCommentModalHandler(data, jsonData)
+                            }
                           >
                             <img
-                              src={`upload/content/${jsonData.thumbnail}`}
+                              src={contentFilePath + jsonData.thumbnail}
                               alt=""
                             />
                           </div>
@@ -465,7 +488,9 @@ const ChatRoom = (props) => {
                           userInfo.directMessageRoomMemberDTOList[0]
                             .profileImgName === null
                             ? profileDefaultImg
-                            : `upload/profile/${userInfo.directMessageRoomMemberDTOList[0].profileImgName}`
+                            : profileFilePath +
+                              userInfo.directMessageRoomMemberDTOList[0]
+                                .profileImgName
                         }
                         alt=""
                         onClick={() => onChatProfileClick(data)}
@@ -482,14 +507,15 @@ const ChatRoom = (props) => {
                           userInfo.directMessageRoomMemberDTOList[0]
                             .profileImgName === null
                             ? profileDefaultImg
-                            : `upload/profile/${userInfo.directMessageRoomMemberDTOList[0].profileImgName}`
+                            : profileFilePath +
+                              userInfo.directMessageRoomMemberDTOList[0]
+                                .profileImgName
                         }
                         alt=""
                         onClick={() => onChatProfileClick(data)}
                       />
                       <div className="img-message">
-                        {/*<img src={`public/upload/dm/${data.directMessage}`} />*/}
-                        <img src={`upload/dm/${data.directMessage}`} />
+                        <img src={dmFilePath + data.directMessage} />
                       </div>
                     </div>
                   );
@@ -504,7 +530,9 @@ const ChatRoom = (props) => {
                             userInfo.directMessageRoomMemberDTOList[0]
                               .profileImgName === null
                               ? profileDefaultImg
-                              : `upload/profile/${userInfo.directMessageRoomMemberDTOList[0].profileImgName}`
+                              : profileFilePath +
+                                userInfo.directMessageRoomMemberDTOList[0]
+                                  .profileImgName
                           }
                           alt=""
                           onClick={() => onChatProfileClick(data)}
@@ -515,7 +543,7 @@ const ChatRoom = (props) => {
                               src={
                                 jsonData.profileImgName === null
                                   ? profileDefaultImg
-                                  : `upload/profile/${jsonData.profileImgName}`
+                                  : profileFilePath + jsonData.profileImgName
                               }
                               alt=""
                               onClick={() => onShareProfileClick(jsonData)}
@@ -526,11 +554,13 @@ const ChatRoom = (props) => {
                           </div>
                           <div
                             className="share-contents"
-                            onClick={() => onCommentModalHandler(jsonData)}
+                            onClick={() =>
+                              onCommentModalHandler(data, jsonData)
+                            }
                           >
                             <video controls height="200">
                               <source
-                                src={`upload/content/${jsonData.thumbnail}`}
+                                src={contentFilePath + jsonData.thumbnail}
                                 type="video/mp4"
                               />
                             </video>
@@ -554,7 +584,9 @@ const ChatRoom = (props) => {
                             userInfo.directMessageRoomMemberDTOList[0]
                               .profileImgName === null
                               ? profileDefaultImg
-                              : `upload/profile/${userInfo.directMessageRoomMemberDTOList[0].profileImgName}`
+                              : profileFilePath +
+                                userInfo.directMessageRoomMemberDTOList[0]
+                                  .profileImgName
                           }
                           alt=""
                           onClick={() => onChatProfileClick(data)}
@@ -565,7 +597,7 @@ const ChatRoom = (props) => {
                               src={
                                 jsonData.profileImgName === null
                                   ? profileDefaultImg
-                                  : `upload/profile/${jsonData.profileImgName}`
+                                  : profileFilePath + jsonData.profileImgName
                               }
                               alt=""
                               onClick={() => onShareProfileClick(jsonData)}
@@ -576,10 +608,12 @@ const ChatRoom = (props) => {
                           </div>
                           <div
                             className="share-contents"
-                            onClick={() => onCommentModalHandler(jsonData)}
+                            onClick={() =>
+                              onCommentModalHandler(data, jsonData)
+                            }
                           >
                             <img
-                              src={`upload/content/${jsonData.thumbnail}`}
+                              src={contentFilePath + jsonData.thumbnail}
                               alt=""
                             />
                           </div>
@@ -608,7 +642,6 @@ const ChatRoom = (props) => {
                 return (
                   <div className="my-message" key={idx}>
                     <div className="img-message">
-                      {/* <img src={`public/upload/dm/${data.msg}`} /> */}
                       <img src={data.msg} />
                     </div>
                   </div>
@@ -623,7 +656,7 @@ const ChatRoom = (props) => {
                             src={
                               data.profileImgName === null
                                 ? profileDefaultImg
-                                : `upload/profile/${data.profileImgName}`
+                                : profileFilePath + data.profileImgName
                             }
                             alt=""
                             onClick={() => onShareProfileClick(data)}
@@ -634,11 +667,11 @@ const ChatRoom = (props) => {
                         </div>
                         <div
                           className="share-contents"
-                          onClick={() => onCommentModalHandler(data)}
+                          onClick={() => onWebSocketCommentModalHandler(data)}
                         >
                           <video controls height="200">
                             <source
-                              src={`upload/content/${data.thumbnail}`}
+                              src={contentFilePath + data.thumbnail}
                               type="video/mp4"
                             />
                           </video>
@@ -654,6 +687,7 @@ const ChatRoom = (props) => {
                   data.contentFileDTOList[0].type === "image/jpeg" ||
                   data.contentFileDTOList[0].type === "image/png"
                 ) {
+                  console.log("data", data);
                   return (
                     <div className="my-message2" key={idx}>
                       <div className="my-message__share">
@@ -662,7 +696,7 @@ const ChatRoom = (props) => {
                             src={
                               data.profileImgName === null
                                 ? profileDefaultImg
-                                : `upload/profile/${data.profileImgName}`
+                                : profileFilePath + data.profileImgName
                             }
                             alt=""
                             onClick={() => onShareProfileClick(data)}
@@ -673,12 +707,9 @@ const ChatRoom = (props) => {
                         </div>
                         <div
                           className="share-contents"
-                          onClick={() => onCommentModalHandler(data)}
+                          onClick={() => onWebSocketCommentModalHandler(data)}
                         >
-                          <img
-                            src={`upload/content/${data.thumbnail}`}
-                            alt=""
-                          />
+                          <img src={contentFilePath + data.thumbnail} alt="" />
                         </div>
                         <div className="share-post">
                           <h4>{data.nickname}</h4>
@@ -699,7 +730,9 @@ const ChatRoom = (props) => {
                         userInfo.directMessageRoomMemberDTOList[0]
                           .profileImgName === null
                           ? profileDefaultImg
-                          : `upload/profile/${userInfo.directMessageRoomMemberDTOList[0].profileImgName}`
+                          : profileFilePath +
+                            userInfo.directMessageRoomMemberDTOList[0]
+                              .profileImgName
                       }
                       alt=""
                     />
@@ -715,13 +748,14 @@ const ChatRoom = (props) => {
                         userInfo.directMessageRoomMemberDTOList[0]
                           .profileImgName === null
                           ? profileDefaultImg
-                          : `upload/profile/${userInfo.directMessageRoomMemberDTOList[0].profileImgName}`
+                          : profileFilePath +
+                            userInfo.directMessageRoomMemberDTOList[0]
+                              .profileImgName
                       }
                       alt=""
                       onClick={() => onChatProfileClick(data)}
                     />
                     <div className="img-message">
-                      {/* <img src={`public/upload/dm/${data.directMessage}`} /> */}
                       <img src={data.msg} />
                     </div>
                   </div>
@@ -736,7 +770,9 @@ const ChatRoom = (props) => {
                           userInfo.directMessageRoomMemberDTOList[0]
                             .profileImgName === null
                             ? profileDefaultImg
-                            : `upload/profile/${userInfo.directMessageRoomMemberDTOList[0].profileImgName}`
+                            : profileFilePath +
+                              userInfo.directMessageRoomMemberDTOList[0]
+                                .profileImgName
                         }
                         alt=""
                         onClick={() => onChatProfileClick(data)}
@@ -747,7 +783,7 @@ const ChatRoom = (props) => {
                             src={
                               data.profileImgName === null
                                 ? profileDefaultImg
-                                : `upload/profile/${data.profileImgName}`
+                                : profileFilePath + data.profileImgName
                             }
                             alt=""
                             onClick={() => onShareProfileClick(data)}
@@ -758,11 +794,11 @@ const ChatRoom = (props) => {
                         </div>
                         <div
                           className="share-contents"
-                          onClick={() => onCommentModalHandler(data)}
+                          onClick={() => onWebSocketCommentModalHandler(data)}
                         >
                           <video controls height="200">
                             <source
-                              src={`upload/content/${data.thumbnail}`}
+                              src={contentFilePath + data.thumbnail}
                               type="video/mp4"
                             />
                           </video>
@@ -786,7 +822,9 @@ const ChatRoom = (props) => {
                           userInfo.directMessageRoomMemberDTOList[0]
                             .profileImgName === null
                             ? profileDefaultImg
-                            : `upload/profile/${userInfo.directMessageRoomMemberDTOList[0].profileImgName}`
+                            : profileFilePath +
+                              userInfo.directMessageRoomMemberDTOList[0]
+                                .profileImgName
                         }
                         alt=""
                         onClick={() => onChatProfileClick(data)}
@@ -797,7 +835,7 @@ const ChatRoom = (props) => {
                             src={
                               data.profileImgName === null
                                 ? profileDefaultImg
-                                : `upload/profile/${data.profileImgName}`
+                                : profileFilePath + data.profileImgName
                             }
                             alt=""
                             onClick={() => onShareProfileClick(data)}
@@ -808,12 +846,9 @@ const ChatRoom = (props) => {
                         </div>
                         <div
                           className="share-contents"
-                          onClick={() => onCommentModalHandler(data)}
+                          onClick={() => onWebSocketCommentModalHandler(data)}
                         >
-                          <img
-                            src={`upload/content/${data.thumbnail}`}
-                            alt=""
-                          />
+                          <img src={contentFilePath + data.thumbnail} alt="" />
                         </div>
                         <div className="share-post">
                           <h4>{data.nickname}</h4>
@@ -848,21 +883,6 @@ const ChatRoom = (props) => {
               <FaRegImage />
             </label>
           </div>
-          <p>
-            <FaRegHeart
-              onClick={() => {
-                ws.current.send(
-                  JSON.stringify({
-                    msg: inputText,
-                    type: "text",
-                    roomType: "directMessage",
-                    roomId: paramsId,
-                    username: localUserName,
-                  })
-                );
-              }}
-            />
-          </p>
         </div>
       </div>
       <Modal isOpen={chatExitModalOn} setIsOpen={setChatExitModalOn}>
@@ -879,6 +899,7 @@ const ChatRoom = (props) => {
           setItems={setItems}
           getRegdate={getRegdate}
           settings={settings}
+          time={time}
         />
       </Modal>
     </>

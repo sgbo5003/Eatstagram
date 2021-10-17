@@ -14,7 +14,13 @@ import axios from "axios";
 let roomListObj;
 
 const Chat = (props) => {
-  const { messageCount, setMessageCount } = props;
+  const {
+    messageCount,
+    setMessageCount,
+    profileFilePath,
+    contentFilePath,
+    dmFilePath,
+  } = props;
   const localUserName = localStorage.getItem("username");
   const localUserNickName = localStorage.getItem("userNickname");
   const paramsId = location.search.split("=")[1];
@@ -24,7 +30,7 @@ const Chat = (props) => {
   const [updateChatList, setUpdateChatList] = useState(false);
   const [userInfo, setUserInfo] = useState({}); // 채팅할 상대 정보
   const history = useHistory();
-  const webSocketUrl = `ws://localhost:8080/eatstagram/ws/directMessageRoomList/${localUserName}`;
+  const webSocketUrl = `ws://www.whereyedo.com:55808/eatstagram/ws/directMessageRoomList/${localUserName}`;
   let ws = useRef(null);
 
   roomListObj = [...roomList];
@@ -198,7 +204,7 @@ const Chat = (props) => {
                                 src={
                                   data.profileImgName === null
                                     ? profileDefaultImg
-                                    : `upload/profile/${data.profileImgName}`
+                                    : profileFilePath + data.profileImgName
                                 }
                                 alt=""
                               />
@@ -230,6 +236,9 @@ const Chat = (props) => {
               setUpdateChatList={setUpdateChatList}
               updateChatList={updateChatList}
               userInfo={userInfo}
+              profileFilePath={profileFilePath}
+              contentFilePath={contentFilePath}
+              dmFilePath={dmFilePath}
             />
           ) : (
             <ChatInitialRightComponent
@@ -239,7 +248,11 @@ const Chat = (props) => {
         </div>
       </div>
       <Modal isOpen={chatCreateModalOn} setIsOpen={setChatCreateModalOn}>
-        <ChatCreateModal setChatCreateModalOn={setChatCreateModalOn} ws={ws} />
+        <ChatCreateModal
+          setChatCreateModalOn={setChatCreateModalOn}
+          ws={ws}
+          profileFilePath={profileFilePath}
+        />
       </Modal>
     </>
   );
