@@ -141,7 +141,6 @@ const SearchPostResult = (props) => {
 
   // 스크롤 감지
   const handleScroll = () => {
-    console.log("page", page);
     const scrollHeight = document.documentElement.scrollHeight;
     const scrollTop = document.documentElement.scrollTop;
     const clientHeight = document.documentElement.clientHeight;
