@@ -76,20 +76,7 @@ const Profile = () => {
       },
     });
   };
-  // 게시글 data 불러오기
-  const getData = () => {
-    fncObj.executeQuery({
-      url: "content/getMyPagingList",
-      data: {
-        page: 0,
-        size: 6,
-        username: paramsId,
-      },
-      success: (res) => {
-        setPosts(res.content);
-      },
-    });
-  };
+
   // 팔로우 했는지 여부
   const getFollowYnData = () => {
     fnc.executeQuery({
@@ -267,7 +254,6 @@ const Profile = () => {
             <ProfilePost
               posts={posts}
               setPosts={setPosts}
-              getData={getData}
               hover={hover}
               setHover={setHover}
               onMouseOverHandler={onMouseOverHandler}

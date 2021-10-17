@@ -61,6 +61,9 @@ const Recommend = () => {
         category: "한식",
       },
       success: (res) => {
+        res.content.map((item, idx) => {
+          getRegdate(item);
+        });
         setPosts(res.content);
       },
     });
@@ -84,6 +87,9 @@ const Recommend = () => {
         category: data,
       },
       success: (res) => {
+        res.content.map((item, idx) => {
+          getRegdate(item);
+        });
         setPosts(res.content);
       },
     });

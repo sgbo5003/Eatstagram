@@ -12,7 +12,6 @@ const ProfilePost = (props) => {
   const {
     posts,
     setPosts,
-    getData,
     hover,
     setHover,
     onMouseOverHandler,
@@ -23,6 +22,24 @@ const ProfilePost = (props) => {
   const [commentModalOn, setCommentModalOn] = useState(false);
   const [commentData, setCommentData] = useState({});
   const [items, setItems] = useState([]);
+
+  // 게시글 data 불러오기
+  const getData = () => {
+    fncObj.executeQuery({
+      url: "content/getMyPagingList",
+      data: {
+        page: 0,
+        size: 6,
+        username: paramsId,
+      },
+      success: (res) => {
+        res.content.map((item, idx) => {
+          getRegdate(item);
+        });
+        setPosts(res.content);
+      },
+    });
+  };
 
   const getAddData = (page) => {
     fncObj.executeQuery({

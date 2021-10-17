@@ -32,6 +32,9 @@ const ProfileSave = (props) => {
         username: paramsId,
       },
       success: (res) => {
+        res.content.map((item, idx) => {
+          getRegdate(item);
+        });
         setPosts(res.content);
       },
     });
