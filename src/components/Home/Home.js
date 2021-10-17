@@ -140,6 +140,34 @@ const Home = () => {
     setContentFile(data.contentFileDTOList[0].name);
   };
 
+  // 팔로우 했는지 여부
+  const getFollowYnData = (data) => {
+    fnc.executeQuery({
+      url: "follow/getFollowYn",
+      data: {
+        username: getLocalUserName,
+        target: data.username,
+      },
+      success: (res) => {
+        setFollow(res.followYn);
+      },
+    });
+  };
+
+  // 팔로워 했는지 여부
+  const getFollowerYnData = (data) => {
+    fnc.executeQuery({
+      url: "follower/getFollowerYn",
+      data: {
+        username: getLocalUserName,
+        target: data.username,
+      },
+      success: (res) => {
+        setFollower(res.followerYn);
+      },
+    });
+  };
+
   // 내 게시물 & 다른사람 게시물 더보기 클릭 시
   const onPostClick = (data) => {
     if (data.username === getLocalUserName) {
@@ -148,8 +176,8 @@ const Home = () => {
     } else {
       setOtherPostModalOn(true);
       setOtherPostData(data);
-      setFollow(data.followYn);
-      setFollower(data.followerYn);
+      getFollowYnData(data);
+      getFollowerYnData(data);
     }
   };
 
