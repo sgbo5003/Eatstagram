@@ -54,7 +54,12 @@ const ProfilePost = (props) => {
         username: paramsId,
       },
       success: (res) => {
-        if (res.content.length > 0) setPosts(posts.concat(res.content));
+        if (res.content.length > 0) {
+          res.content.map((item, idx) => {
+            getRegdate(item);
+          });
+          setPosts(posts.concat(res.content));
+        }
       },
     });
   };

@@ -5,6 +5,8 @@ import * as fncObj from "../../commonFunc/CommonObjFunctions";
 import Modal from "../../Modal";
 import CommentModal from "../Home/CommentModal";
 
+let page = 0;
+
 const SearchPostResult = (props) => {
   const { localUser, paramsId, contentFilePath, profileFilePath } = props;
   const [postList, setPostList] = useState([]);
@@ -93,6 +95,24 @@ const SearchPostResult = (props) => {
     });
   };
 
+  const getAddPostSearchResultData = (page) => {
+    fncObj.executeQuery({
+      url: "content/getSearchPagingList",
+      data: {
+        page: page,
+        size: 6,
+        username: localUser,
+        condition: paramsId,
+      },
+      success: (res) => {
+        res.content.map((item, idx) => {
+          getRegdate(item);
+        });
+        setPostList(res.content);
+      },
+    });
+  };
+
   // 게시글 마우스 Over시
   const onMouseOverHandler = (data, idx) => {
     if (data.location === postList[idx].location) {
@@ -113,6 +133,25 @@ const SearchPostResult = (props) => {
   useEffect(() => {
     getPostSearchResultData();
   }, [paramsId]);
+
+  // 스크롤 감지
+  const handleScroll = () => {
+    const scrollHeight = document.documentElement.scrollHeight;
+    const scrollTop = document.documentElement.scrollTop;
+    const clientHeight = document.documentElement.clientHeight;
+    if (scrollTop + clientHeight >= scrollHeight) {
+      ++page;
+      getAddPostSearchResultData(page);
+    }
+  };
+
+  // 스크롤 이벤트
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  });
 
   return (
     <div className="search-result">

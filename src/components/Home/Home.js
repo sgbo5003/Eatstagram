@@ -211,7 +211,12 @@ const Home = (props) => {
         username: getLocalUserName,
       },
       success: (res) => {
-        if (res.content.length > 0) setUserPosts(userPosts.concat(res.content));
+        if (res.content.length > 0) {
+          res.content.map((item, idx) => {
+            getRegdate(item);
+          });
+          setUserPosts(userPosts.concat(res.content));
+        }
       },
     });
   };
