@@ -321,7 +321,7 @@ const ChatRoom = (props) => {
     setCommentModalOn(true);
   };
 
-  const onProfileClick = (data) => {
+  const onWebSocketProfileClick = (data) => {
     if (data.directMessageRoomMemberDTOList.length === 2) {
       history.push(
         `/Profile?username=${data.directMessageRoomMemberDTOList[1].username}`
@@ -331,6 +331,10 @@ const ChatRoom = (props) => {
         `/Profile?username=${data.directMessageRoomMemberDTOList[0].username}`
       );
     }
+  };
+
+  const onProfileClick = (data) => {
+    history.push(`/Profile?username=${data.username}`);
   };
 
   const onChatProfileClick = (data) => {
@@ -355,9 +359,9 @@ const ChatRoom = (props) => {
                     userInfo.directMessageRoomMemberDTOList[0].profileImgName
               }
               alt=""
-              onClick={() => onProfileClick(userInfo)}
+              onClick={() => onWebSocketProfileClick(userInfo)}
             />
-            <h5 onClick={() => onProfileClick(userInfo)}>
+            <h5 onClick={() => onWebSocketProfileClick(userInfo)}>
               {userInfo.directMessageRoomMemberDTOList.length === 2
                 ? userInfo.directMessageRoomMemberDTOList[1].nickname
                 : userInfo.directMessageRoomMemberDTOList[0].nickname}
@@ -898,6 +902,7 @@ const ChatRoom = (props) => {
           getRegdate={getRegdate}
           settings={settings}
           time={time}
+          onProfileClick={onProfileClick}
         />
       </Modal>
     </>

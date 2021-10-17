@@ -5,6 +5,7 @@ import { FaHeart, FaComment, FaCamera } from "react-icons/fa";
 import { AiFillRightCircle, AiFillLeftCircle } from "react-icons/ai";
 import Modal from "../../Modal";
 import CommentModal from "../Home/CommentModal";
+import { useHistory } from "react-router";
 
 let page = 0;
 
@@ -23,6 +24,7 @@ const ProfileSave = (props) => {
   const [commentModalOn, setCommentModalOn] = useState(false);
   const [commentData, setCommentData] = useState({});
   const [items, setItems] = useState([]);
+  const history = useHistory();
   // 게시물 저장 data 불러오기
   const getData = () => {
     fncObj.executeQuery({
@@ -147,6 +149,10 @@ const ProfileSave = (props) => {
     };
   });
 
+  const onProfileClick = (data) => {
+    history.push(`/Profile?username=${data.username}`);
+  };
+
   return (
     <>
       <div className="profile-area__post">
@@ -234,6 +240,7 @@ const ProfileSave = (props) => {
           setItems={setItems}
           getRegdate={getRegdate}
           settings={settings}
+          onProfileClick={onProfileClick}
         />
       </Modal>
     </>

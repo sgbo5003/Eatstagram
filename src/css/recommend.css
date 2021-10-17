@@ -71,3 +71,7 @@
   height: 330px;
   cursor: pointer;
 }
+
+.post-empty-recommend {
+  margin-left: 50%;
+}

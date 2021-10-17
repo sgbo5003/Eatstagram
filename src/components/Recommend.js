@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { FaHeart, FaComment } from "react-icons/fa";
+import { FaHeart, FaComment, FaCamera } from "react-icons/fa";
 import * as fncObj from "../commonFunc/CommonObjFunctions";
 import Modal from "../Modal";
 import CommentModal from "./Home/CommentModal";
 import { AiFillRightCircle, AiFillLeftCircle } from "react-icons/ai";
+import { useHistory } from "react-router";
 const Recommend = (props) => {
   const { contentFilePath } = props;
   const categoryData = [
@@ -51,6 +52,7 @@ const Recommend = (props) => {
   const [commentModalOn, setCommentModalOn] = useState(false);
   const [commentData, setCommentData] = useState({});
   const [items, setItems] = useState([]);
+  const history = useHistory();
 
   const getCategoryData = () => {
     fncObj.executeQuery({
@@ -175,6 +177,10 @@ const Recommend = (props) => {
     prevArrow: <AiFillLeftCircle color="#ffffff" />,
   };
 
+  const onProfileClick = (data) => {
+    history.push(`/Profile?username=${data.username}`);
+  };
+
   useEffect(() => {
     getCategoryData();
     let itemSet = new Set(menuClicked);
@@ -203,37 +209,82 @@ const Recommend = (props) => {
       {/*게시글*/}
       <div className="category-post-area">
         <div className="category-post">
-          {posts.map((data, idx) => {
-            return (
-              <div
-                className="category-post-li"
-                key={idx}
-                onMouseEnter={() => onMouseOverHandler(data, idx)}
-                onMouseLeave={onMouseOutHandler}
-                onClick={() => onCommentModalHandler(data)}
-              >
-                <img
-                  src={contentFilePath + data.contentFileDTOList[0].name}
-                  alt="추천 게시글"
-                  className="imghover"
-                />
-                {hover.location === data.location ? (
-                  <div className="post-hover">
-                    <h4>
-                      <FaHeart className="post-hover-icon" />
-                      {data.likeCount}
-                    </h4>
-                    <h4>
-                      <FaComment className="post-hover-icon" />
-                      {data.replyCount}
-                    </h4>
+          {posts.length < 1 ? (
+            <div className="post-empty-recommend">
+              <h1>
+                <FaCamera />
+              </h1>
+              <h1>게시물 없음</h1>
+            </div>
+          ) : (
+            posts.map((data, idx) => {
+              if (
+                data.contentFileDTOList[0].type === "image/jpeg" ||
+                data.contentFileDTOList[0].type === "image/png"
+              ) {
+                return (
+                  <div
+                    className="category-post-li"
+                    key={idx}
+                    onMouseEnter={() => onMouseOverHandler(data, idx)}
+                    onMouseLeave={onMouseOutHandler}
+                    onClick={() => onCommentModalHandler(data)}
+                  >
+                    <img
+                      src={contentFilePath + data.contentFileDTOList[0].name}
+                      alt="추천 게시글"
+                      className="imghover"
+                    />
+                    {hover.location === data.location ? (
+                      <div className="post-hover">
+                        <h4>
+                          <FaHeart className="post-hover-icon" />
+                          {data.likeCount}
+                        </h4>
+                        <h4>
+                          <FaComment className="post-hover-icon" />
+                          {data.replyCount}
+                        </h4>
+                      </div>
+                    ) : (
+                      ""
+                    )}
                   </div>
-                ) : (
-                  ""
-                )}
-              </div>
-            );
-          })}
+                );
+              } else if (data.contentFileDTOList[0].type === "video/mp4") {
+                return (
+                  <div
+                    className="category-post-li"
+                    key={idx}
+                    onMouseEnter={() => onMouseOverHandler(data, idx)}
+                    onMouseLeave={onMouseOutHandler}
+                    onClick={() => onCommentModalHandler(data)}
+                  >
+                    <video controls>
+                      <source
+                        src={contentFilePath + data.contentFileDTOList[0].name}
+                        type="video/mp4"
+                      />
+                    </video>
+                    {hover.location === data.location ? (
+                      <div className="post-hover">
+                        <h4>
+                          <FaHeart className="post-hover-icon" />
+                          {data.likeCount}
+                        </h4>
+                        <h4>
+                          <FaComment className="post-hover-icon" />
+                          {data.replyCount}
+                        </h4>
+                      </div>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                );
+              }
+            })
+          )}
           <Modal isOpen={commentModalOn} setIsOpen={setCommentModalOn}>
             <CommentModal
               commentData={commentData}
@@ -242,6 +293,7 @@ const Recommend = (props) => {
               setItems={setItems}
               getRegdate={getRegdate}
               settings={settings}
+              onProfileClick={onProfileClick}
             />
           </Modal>
         </div>

@@ -5,6 +5,7 @@ import { FaHeart, FaComment, FaCamera } from "react-icons/fa";
 import { AiFillRightCircle, AiFillLeftCircle } from "react-icons/ai";
 import CommentModal from "../Home/CommentModal";
 import Modal from "../../Modal";
+import { useHistory } from "react-router";
 
 let page = 0;
 
@@ -23,6 +24,7 @@ const ProfilePost = (props) => {
   const [commentModalOn, setCommentModalOn] = useState(false);
   const [commentData, setCommentData] = useState({});
   const [items, setItems] = useState([]);
+  const history = useHistory();
 
   // 게시글 data 불러오기
   const getData = () => {
@@ -143,6 +145,10 @@ const ProfilePost = (props) => {
     };
   });
 
+  const onProfileClick = (data) => {
+    history.push(`/Profile?username=${data.username}`);
+  };
+
   useEffect(() => {
     getData();
   }, [paramsId]);
@@ -233,6 +239,7 @@ const ProfilePost = (props) => {
           setItems={setItems}
           getRegdate={getRegdate}
           settings={settings}
+          onProfileClick={onProfileClick}
         />
       </Modal>
     </>

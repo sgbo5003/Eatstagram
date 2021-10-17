@@ -18,7 +18,7 @@ const FindPasswordLink = () => {
       data: {
         username: paramsId,
         newPassword: newPwd,
-        newPasswordConfirm: newPwdCheck,
+        newPasswordConfirm: confirmNewPwd,
       },
       success: (res) => {
         alert(res.msg);
