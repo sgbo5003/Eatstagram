@@ -258,11 +258,6 @@ const CommentModal = (props) => {
                     </div>
                   </div>
                 </div>
-                <div className="post-window-setting">
-                  <p>
-                    <FaEllipsisH />
-                  </p>
-                </div>
               </div>
 
               <div className="post-window-comment">
