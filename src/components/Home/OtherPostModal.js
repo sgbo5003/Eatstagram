@@ -17,10 +17,6 @@ const OtherPostModal = (props) => {
     setOtherPostModalOn(false);
   };
 
-  useEffect(() => {
-    console.log(otherPostData);
-  }, []);
-
   // 팔로우 추가 및 삭제
   const sendFollowYnData = () => {
     fnc.executeQuery({
