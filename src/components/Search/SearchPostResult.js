@@ -82,7 +82,7 @@ const SearchPostResult = (props) => {
       url: "content/getSearchPagingList",
       data: {
         page: 0,
-        size: 6,
+        size: 9,
         username: localUser,
         condition: paramsId,
       },
@@ -105,10 +105,14 @@ const SearchPostResult = (props) => {
         condition: paramsId,
       },
       success: (res) => {
-        res.content.map((item, idx) => {
-          getRegdate(item);
-        });
-        setPostList(res.content);
+        if (res.content.length > 0) {
+          res.content.map((item, idx) => {
+            getRegdate(item);
+          });
+          setPostList(postList.concat(res.content));
+        } else {
+          return;
+        }
       },
     });
   };
@@ -132,10 +136,12 @@ const SearchPostResult = (props) => {
 
   useEffect(() => {
     getPostSearchResultData();
+    page = 0;
   }, [paramsId]);
 
   // 스크롤 감지
   const handleScroll = () => {
+    console.log("page", page);
     const scrollHeight = document.documentElement.scrollHeight;
     const scrollTop = document.documentElement.scrollTop;
     const clientHeight = document.documentElement.clientHeight;

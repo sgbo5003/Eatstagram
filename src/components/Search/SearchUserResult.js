@@ -3,6 +3,7 @@ import * as fncObj from "../../commonFunc/CommonObjFunctions";
 import * as fnc from "../../commonFunc/CommonFunctions";
 import profileDefaultImg from "../../../public/images/default_user.png";
 import { useHistory } from "react-router";
+let page = 0;
 const SearchUserResult = (props) => {
   const { localUser, paramsId, profileFilePath } = props;
   const history = useHistory();
@@ -13,12 +14,29 @@ const SearchUserResult = (props) => {
       url: "getSearchPagingList",
       data: {
         page: 0,
-        size: 6,
+        size: 9,
         username: localUser,
         condition: paramsId,
       },
       success: (res) => {
         setUserList(res.content);
+      },
+    });
+  };
+
+  const getAddUserSearchResultData = (page) => {
+    fncObj.executeQuery({
+      url: "getSearchPagingList",
+      data: {
+        page: page,
+        size: 6,
+        username: localUser,
+        condition: paramsId,
+      },
+      success: (res) => {
+        if (res.content.length > 0) {
+          setUserList(userList.concat(res.content));
+        }
       },
     });
   };
@@ -48,8 +66,28 @@ const SearchUserResult = (props) => {
     history.push(`/Profile?username=${data.username}`);
   };
 
+  // 스크롤 감지
+  const handleScroll = () => {
+    const scrollHeight = document.documentElement.scrollHeight;
+    const scrollTop = document.documentElement.scrollTop;
+    const clientHeight = document.documentElement.clientHeight;
+    if (scrollTop + clientHeight >= scrollHeight) {
+      ++page;
+      getAddUserSearchResultData(page);
+    }
+  };
+
+  // 스크롤 이벤트
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  });
+
   useEffect(() => {
     getUserSearchResultData();
+    page = 0;
   }, [paramsId]);
   return (
     <div className="search-result">
