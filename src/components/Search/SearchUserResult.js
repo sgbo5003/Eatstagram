@@ -29,7 +29,7 @@ const SearchUserResult = (props) => {
       url: "getSearchPagingList",
       data: {
         page: page,
-        size: 6,
+        size: 9,
         username: localUser,
         condition: paramsId,
       },

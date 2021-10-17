@@ -5,6 +5,8 @@ import profileDefaultImg from "../../../public/images/default_user.png";
 import rankImg from "../../../public/images/rank.png";
 import { useHistory } from "react-router";
 
+let page = 0;
+
 const Ranking = (props) => {
   const { profileFilePath } = props;
   const getLocalUserName = localStorage.getItem("username");
@@ -23,6 +25,41 @@ const Ranking = (props) => {
       },
     });
   };
+
+  const getAddRankingData = (page) => {
+    fncObj.executeQuery({
+      url: "getRankingPagingList",
+      data: {
+        page: page,
+        size: 10,
+        username: getLocalUserName,
+      },
+      success: (res) => {
+        if (res.content.length > 0) {
+          setRankingList(rankingList.concat(res.content));
+        }
+      },
+    });
+  };
+
+  // 스크롤 감지
+  const handleScroll = () => {
+    const scrollHeight = document.documentElement.scrollHeight;
+    const scrollTop = document.documentElement.scrollTop;
+    const clientHeight = document.documentElement.clientHeight;
+    if (scrollTop + clientHeight >= scrollHeight) {
+      ++page;
+      getAddRankingData(page);
+    }
+  };
+
+  // 스크롤 이벤트
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  });
 
   // 팔로우 추가 및 삭제
   const sendFollowYnData = (data, idx) => {

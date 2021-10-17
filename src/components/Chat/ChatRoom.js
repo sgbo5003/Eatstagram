@@ -249,7 +249,7 @@ const ChatRoom = (props) => {
       url: "directMessage/getPagingList",
       data: {
         page: page,
-        size: 7,
+        size: 13,
         directMessageRoomId: paramsId,
         username: localUserName,
       },
