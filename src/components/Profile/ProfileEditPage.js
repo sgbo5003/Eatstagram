@@ -21,7 +21,6 @@ const ProfileEditPage = (props) => {
   const onChangeInputHandler = (e) => {
     const { name, value } = e.target;
     setInputData({ ...inputData, [name]: value });
-    console.log(inputData);
   };
 
   const sendProfileEditData = () => {

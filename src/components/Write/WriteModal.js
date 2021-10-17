@@ -13,9 +13,10 @@ import Qmenu from "./Qmenu";
 import Modal from "../../Modal";
 import WriteExitConfirmModal from "./WriteExitConfirmModal";
 import { useHistory } from "react-router";
+import profileDefaultImg from "../../../public/images/default_user.png";
 
 const WriteModal = (props) => {
-  const { setWriteModalOn } = props;
+  const { setWriteModalOn, profileData, profileFilePath } = props;
   const category = [
     "한식",
     "양식",
@@ -127,7 +128,6 @@ const WriteModal = (props) => {
   // 하단 이미지 선택 시
   const onImgClickHandler = (data) => {
     setUserImgList([data]);
-    console.log(data);
   };
   // 카카오맵 검색어 찾기
   const kakaoMap = () => {
@@ -138,7 +138,6 @@ const WriteModal = (props) => {
       headers: { Authorization: "KakaoAK 5e407f97877a18e777c7ef12779007da" },
     })
       .then((response) => {
-        console.log(response);
         setLocationList(response.data.documents);
       })
       .catch((error) => {
@@ -296,10 +295,17 @@ const WriteModal = (props) => {
             <div className="write-right">
               <div className="write-user">
                 <div className="write-user__img">
-                  <img src={myProfileImg} alt="" />
+                  <img
+                    src={
+                      profileData.profileImgName === null
+                        ? profileDefaultImg
+                        : profileFilePath + profileData.profileImgName
+                    }
+                    alt=""
+                  />
                 </div>
                 <div className="write-user__id">
-                  <h1>gyuxxr</h1>
+                  <h1>{profileData.nickname}</h1>
                 </div>
               </div>
               <div className="write-text">

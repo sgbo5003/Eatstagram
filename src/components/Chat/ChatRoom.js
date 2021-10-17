@@ -206,7 +206,6 @@ const ChatRoom = (props) => {
         setMyChatBox((prevItems) => [...prevItems, obj]);
       } else {
         const data = JSON.parse(evt.data);
-        console.log("data: ", data);
         if (updateChatList === false) {
           setUpdateChatList(true);
         }
@@ -687,7 +686,6 @@ const ChatRoom = (props) => {
                   data.contentFileDTOList[0].type === "image/jpeg" ||
                   data.contentFileDTOList[0].type === "image/png"
                 ) {
-                  console.log("data", data);
                   return (
                     <div className="my-message2" key={idx}>
                       <div className="my-message__share">

@@ -22,6 +22,7 @@ import {
   FaRegPaperPlane,
   FaBookmark,
   FaRegBookmark,
+  FaCamera,
 } from "react-icons/fa";
 import Header from "../Header";
 import { useHistory } from "react-router";
@@ -461,146 +462,157 @@ const Home = (props) => {
               </div>
               {/*게시글*/}
               <div className="post-area">
-                {userPosts.map((data, idx) => {
-                  return (
-                    <div className="post" key={idx}>
-                      <div className="post-top">
-                        <div className="post-user">
-                          <div className="post-user__img">
-                            <img
-                              src={
-                                data.profileImgName === null
-                                  ? profileDefaultImg
-                                  : profileFilePath + data.profileImgName
-                              }
-                              alt=""
+                {userPosts.length < 1 ? (
+                  <div className="post-empty">
+                    <h1>
+                      <FaCamera className="i" />
+                    </h1>
+                    <h1>게시물 없음</h1>
+                  </div>
+                ) : (
+                  userPosts.map((data, idx) => {
+                    return (
+                      <div className="post" key={idx}>
+                        <div className="post-top">
+                          <div className="post-user">
+                            <div className="post-user__img">
+                              <img
+                                src={
+                                  data.profileImgName === null
+                                    ? profileDefaultImg
+                                    : profileFilePath + data.profileImgName
+                                }
+                                alt=""
+                                onClick={() => onProfileClick(data)}
+                              />
+                            </div>
+                            <div
+                              className="post-user__id"
                               onClick={() => onProfileClick(data)}
-                            />
+                            >
+                              <h1>{data.nickname}</h1>
+                              <h4>{data.location}</h4>
+                            </div>
                           </div>
-                          <div
-                            className="post-user__id"
-                            onClick={() => onProfileClick(data)}
-                          >
-                            <h1>{data.nickname}</h1>
-                            <h4>{data.location}</h4>
+                          <div className="post-setting">
+                            <p onClick={() => onPostClick(data)}>
+                              <FaEllipsisH />
+                            </p>
                           </div>
                         </div>
-                        <div className="post-setting">
-                          <p onClick={() => onPostClick(data)}>
-                            <FaEllipsisH />
-                          </p>
-                        </div>
-                      </div>
-                      <div className="post-content">
-                        <div className="post-content__main">
-                          <Slider {...settings}>
-                            {data.contentFileDTOList.map((data, idx) => {
-                              if (
-                                data.type === "image/png" ||
-                                data.type === "image/jpeg"
-                              ) {
-                                return (
-                                  <img
-                                    src={contentFilePath + data.name}
-                                    alt=""
-                                    key={idx}
-                                  />
-                                );
-                              } else if (data.type === "video/mp4") {
-                                return (
-                                  <video controls height="600" key={idx}>
-                                    <source
+                        <div className="post-content">
+                          <div className="post-content__main">
+                            <Slider {...settings}>
+                              {data.contentFileDTOList.map((data, idx) => {
+                                if (
+                                  data.type === "image/png" ||
+                                  data.type === "image/jpeg"
+                                ) {
+                                  return (
+                                    <img
                                       src={contentFilePath + data.name}
-                                      type="video/mp4"
+                                      alt=""
+                                      key={idx}
                                     />
-                                  </video>
-                                );
-                              }
-                            })}
-                          </Slider>
-                        </div>
-                      </div>
-                      <div className="post-bottom">
-                        <div className="post-etc">
-                          <div className="post-etc__left">
-                            <p>
-                              {data.likeCheck ? (
-                                <FaHeart
-                                  color="red"
-                                  onClick={() => onLikeHandler(data, idx)}
-                                />
-                              ) : (
-                                <FaRegHeart
-                                  onClick={() => onLikeHandler(data, idx)}
-                                />
-                              )}
-                            </p>
-                            <p>
-                              <FaRegComment
-                                onClick={() => onCommentModalHandler(data, idx)}
-                              />
-                            </p>
-                            <p>
-                              <FaRegPaperPlane
-                                onClick={() => onShareModalHandler(data)}
-                              />
-                            </p>
-                          </div>
-                          <div className="post-etc__right">
-                            <p>
-                              {data.savedYn === "Y" ? (
-                                <FaBookmark
-                                  onClick={() => onSaveHandler(data, idx)}
-                                />
-                              ) : (
-                                <FaRegBookmark
-                                  onClick={() => onSaveHandler(data, idx)}
-                                />
-                              )}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="post-etc2">
-                          <div className="post-content__article">
-                            <div className="post-content__like">
-                              <p key={idx}>좋아요 {data.likeCount}개</p>
-                            </div>
-                            <div className="post-content__hash">
-                              {data.contentHashtagDTOList.map((data, idx) => {
-                                return <p key={idx}>#{data.hashtag}</p>;
+                                  );
+                                } else if (data.type === "video/mp4") {
+                                  return (
+                                    <video controls height="600" key={idx}>
+                                      <source
+                                        src={contentFilePath + data.name}
+                                        type="video/mp4"
+                                      />
+                                    </video>
+                                  );
+                                }
                               })}
-                            </div>
-                            <div className="post-content__article">
-                              <div className="post-content__id">
-                                <h4>{data.nickname}</h4>
-                              </div>
-                              <div className="post-content__serve">
-                                <p>{data.text}</p>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="post-content__time">
-                            <h6>{data.time}</h6>
+                            </Slider>
                           </div>
                         </div>
-                        <div className="post-etc__comment">
-                          <input
-                            type="text"
-                            placeholder="댓글 달기..."
-                            value={inputComment}
-                            onChange={onCommentHandler}
-                          />
-                          <button
-                            type="button"
-                            onClick={() => onClickCommentSubmit(data)}
-                          >
-                            게시
-                          </button>
+                        <div className="post-bottom">
+                          <div className="post-etc">
+                            <div className="post-etc__left">
+                              <p>
+                                {data.likeCheck ? (
+                                  <FaHeart
+                                    color="red"
+                                    onClick={() => onLikeHandler(data, idx)}
+                                  />
+                                ) : (
+                                  <FaRegHeart
+                                    onClick={() => onLikeHandler(data, idx)}
+                                  />
+                                )}
+                              </p>
+                              <p>
+                                <FaRegComment
+                                  onClick={() =>
+                                    onCommentModalHandler(data, idx)
+                                  }
+                                />
+                              </p>
+                              <p>
+                                <FaRegPaperPlane
+                                  onClick={() => onShareModalHandler(data)}
+                                />
+                              </p>
+                            </div>
+                            <div className="post-etc__right">
+                              <p>
+                                {data.savedYn === "Y" ? (
+                                  <FaBookmark
+                                    onClick={() => onSaveHandler(data, idx)}
+                                  />
+                                ) : (
+                                  <FaRegBookmark
+                                    onClick={() => onSaveHandler(data, idx)}
+                                  />
+                                )}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="post-etc2">
+                            <div className="post-content__article">
+                              <div className="post-content__like">
+                                <p key={idx}>좋아요 {data.likeCount}개</p>
+                              </div>
+                              <div className="post-content__hash">
+                                {data.contentHashtagDTOList.map((data, idx) => {
+                                  return <p key={idx}>#{data.hashtag}</p>;
+                                })}
+                              </div>
+                              <div className="post-content__article">
+                                <div className="post-content__id">
+                                  <h4>{data.nickname}</h4>
+                                </div>
+                                <div className="post-content__serve">
+                                  <p>{data.text}</p>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="post-content__time">
+                              <h6>{data.time}</h6>
+                            </div>
+                          </div>
+                          <div className="post-etc__comment">
+                            <input
+                              type="text"
+                              placeholder="댓글 달기..."
+                              value={inputComment}
+                              onChange={onCommentHandler}
+                            />
+                            <button
+                              type="button"
+                              onClick={() => onClickCommentSubmit(data)}
+                            >
+                              게시
+                            </button>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })
+                )}
               </div>
             </div>
             {/*랭킹*/}

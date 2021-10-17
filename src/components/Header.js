@@ -167,7 +167,11 @@ const Header = (props) => {
         </div>
       </div>
       <Modal isOpen={writeModalOn} setIsOpen={setWriteModalOn}>
-        <WriteModal setWriteModalOn={setWriteModalOn} />
+        <WriteModal
+          setWriteModalOn={setWriteModalOn}
+          profileData={profileData}
+          profileFilePath={profileFilePath}
+        />
       </Modal>
     </>
   );

@@ -28,7 +28,6 @@ const ProfileChangePassword = (props) => {
 
   // 이전 비밀번호 제어
   const onPreviewPwdChange = (e) => {
-    console.log(e.target.value);
     setPreViewPwd(e.target.value);
     if (e.target.value === "" || e.target.value.trim() === "") {
       setPreviewPwdCheck(false);

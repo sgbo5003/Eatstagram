@@ -8,39 +8,39 @@ const Recommend = (props) => {
   const { contentFilePath } = props;
   const categoryData = [
     {
-      src: "./images/한식.png",
+      src: "/public/images/한식.png",
       title: "한식",
     },
     {
-      src: "./images/양식.png",
+      src: "/public/images/양식.png",
       title: "양식",
     },
     {
-      src: "./images/일식.png",
+      src: "/public/images/일식.png",
       title: "일식",
     },
     {
-      src: "./images/중식.png",
+      src: "/public/images/중식.png",
       title: "중식",
     },
     {
-      src: "./images/치피햄.png",
+      src: "/public/images/치피햄.png",
       title: "치킨·피자·햄버거",
     },
     {
-      src: "./images/분식.png",
+      src: "/public/images/분식.png",
       title: "분식",
     },
     {
-      src: "./images/야식.png",
+      src: "/public/images/야식.png",
       title: "야식",
     },
     {
-      src: "./images/디저트.png",
+      src: "/public/images/디저트.png",
       title: "디저트",
     },
     {
-      src: "./images/아시안.png",
+      src: "/public/images/아시안.png",
       title: "아시안",
     },
   ];

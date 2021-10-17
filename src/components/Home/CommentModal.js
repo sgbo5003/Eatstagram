@@ -53,7 +53,6 @@ const CommentModal = (props) => {
 
   useEffect(() => {
     getCheckContent();
-    console.log("commentData", commentData);
     ws.current = new WebSocket(webSocketUrl);
     ws.current.onopen = () => {
       console.log("connected to " + webSocketUrl);
@@ -72,7 +71,6 @@ const CommentModal = (props) => {
       if (data.type === "error") {
         setResponse(false);
       } else {
-        console.log("data", data);
         items.push(data);
         items.forEach((item) => {
           getRegdate(item);

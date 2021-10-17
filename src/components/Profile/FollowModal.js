@@ -84,7 +84,6 @@ const FollowModal = (props) => {
 
   // 스크롤 감지
   const handleScroll = () => {
-    console.log("scroll");
     const scrollHeight = scrollRef.current.scrollHeight;
     const scrollTop = scrollRef.current.scrollTop;
     const clientHeight = scrollRef.current.clientHeight;
