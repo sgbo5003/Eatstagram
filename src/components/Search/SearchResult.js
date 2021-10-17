@@ -49,6 +49,7 @@ const SearchResult = (props) => {
             localUser={localUser}
             paramsId={paramsId}
             contentFilePath={contentFilePath}
+            profileFilePath={profileFilePath}
           />
         ) : (
           <SearchUserResult

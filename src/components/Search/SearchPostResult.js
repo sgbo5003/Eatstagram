@@ -6,7 +6,7 @@ import Modal from "../../Modal";
 import CommentModal from "../Home/CommentModal";
 
 const SearchPostResult = (props) => {
-  const { localUser, paramsId, contentFilePath } = props;
+  const { localUser, paramsId, contentFilePath, profileFilePath } = props;
   const [postList, setPostList] = useState([]);
   const [hover, setHover] = useState({}); // 마우스 hover
   const [commentModalOn, setCommentModalOn] = useState(false);
@@ -193,6 +193,8 @@ const SearchPostResult = (props) => {
           setItems={setItems}
           getRegdate={getRegdate}
           settings={settings}
+          contentFilePath={contentFilePath}
+          profileFilePath={profileFilePath}
         />
       </Modal>
     </div>
