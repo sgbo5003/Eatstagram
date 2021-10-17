@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import * as fncObj from "../../commonFunc/CommonObjFunctions";
 import * as fnc from "../../commonFunc/CommonFunctions";
 import profileDefaultImg from "../../../public/images/default_user.png";
+import rankImg from "../../../public/images/rank.png";
 import { useHistory } from "react-router";
 
 const Ranking = (props) => {
@@ -56,7 +57,7 @@ const Ranking = (props) => {
     <div className="main-area">
       <div className="ranking-area">
         <div className="ranking-title">
-          <img src="./images/rank.png" />
+          <img src={rankImg} />
           <h1>Eatstagram Ranking </h1>
         </div>
         <div className="ranking-list">

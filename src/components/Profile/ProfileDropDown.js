@@ -12,11 +12,11 @@ const ProfileDropDown = (props) => {
     setDropDown(false);
   };
 
-  const onLogOutClick = () => {
-    history.push("/");
+  const onLogOutClick = async () => {
     localStorage.removeItem("username");
     localStorage.removeItem("userNickname");
-    location.reload();
+    await history.push("/");
+    await location.reload();
   };
 
   const handleClickOutSide = (e) => {
