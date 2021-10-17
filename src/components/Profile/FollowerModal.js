@@ -83,7 +83,7 @@ const FollowerModal = (props) => {
 
   // 맞팔 & 언팔 & 팔로우 버튼 클릭 시
   const followBtnClick = (data, idx) => {
-    sendFollowYnData(data.follow, idx);
+    sendFollowYnData(data.follower, idx);
   };
 
   // 모달창 나가기 버튼 클릭 시
@@ -101,7 +101,6 @@ const FollowerModal = (props) => {
 
   // 스크롤 감지
   const handleScroll = () => {
-    console.log("scroll");
     const scrollHeight = scrollRef.current.scrollHeight;
     const scrollTop = scrollRef.current.scrollTop;
     const clientHeight = scrollRef.current.clientHeight;
@@ -151,7 +150,9 @@ const FollowerModal = (props) => {
                         <h5>{data.name}</h5>
                       </div>
                       {data.followYn === "N" && data.followerYn === "Y" ? (
-                        <button> • 팔로우</button>
+                        <button onClick={() => followBtnClick(data, idx)}>
+                          • 팔로우
+                        </button>
                       ) : (
                         ""
                       )}
