@@ -18,7 +18,7 @@ const Router = () => {
   const isLogin = localStorage.getItem("username");
   const history = useHistory();
   const [messageCount, setMessageCount] = useState(0); // 채팅 알림
-  const uploadPath = "upload/";
+  const uploadPath = "public/upload/";
   const profileFilePath = uploadPath + "profile/";
   const contentFilePath = uploadPath + "content/";
   const dmFilePath = uploadPath + "dm/";
