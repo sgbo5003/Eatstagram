@@ -903,6 +903,8 @@ const ChatRoom = (props) => {
           settings={settings}
           time={time}
           onProfileClick={onProfileClick}
+          contentFilePath={contentFilePath}
+          profileFilePath={profileFilePath}
         />
       </Modal>
     </>

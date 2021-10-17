@@ -56,7 +56,12 @@ const Router = () => {
           />
           <Route
             path="/Recommend"
-            render={() => <Recommend contentFilePath={contentFilePath} />}
+            render={() => (
+              <Recommend
+                contentFilePath={contentFilePath}
+                profileFilePath={profileFilePath}
+              />
+            )}
           />
 
           <Route

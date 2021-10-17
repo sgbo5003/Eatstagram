@@ -19,6 +19,7 @@ const ProfilePost = (props) => {
     onMouseOutHandler,
     paramsId,
     contentFilePath,
+    profileFilePath,
   } = props;
   const localUserName = localStorage.getItem("username");
   const [commentModalOn, setCommentModalOn] = useState(false);
@@ -240,6 +241,8 @@ const ProfilePost = (props) => {
           getRegdate={getRegdate}
           settings={settings}
           onProfileClick={onProfileClick}
+          contentFilePath={contentFilePath}
+          profileFilePath={profileFilePath}
         />
       </Modal>
     </>

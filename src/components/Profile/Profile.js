@@ -278,6 +278,7 @@ const Profile = (props) => {
                 onMouseOutHandler={onMouseOutHandler}
                 paramsId={paramsId}
                 contentFilePath={contentFilePath}
+                profileFilePath={profileFilePath}
               />
             ) : (
               <ProfilePost
@@ -289,6 +290,7 @@ const Profile = (props) => {
                 onMouseOutHandler={onMouseOutHandler}
                 paramsId={paramsId}
                 contentFilePath={contentFilePath}
+                profileFilePath={profileFilePath}
               />
             )}
           </div>

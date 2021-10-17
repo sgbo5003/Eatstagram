@@ -6,7 +6,7 @@ import CommentModal from "./Home/CommentModal";
 import { AiFillRightCircle, AiFillLeftCircle } from "react-icons/ai";
 import { useHistory } from "react-router";
 const Recommend = (props) => {
-  const { contentFilePath } = props;
+  const { contentFilePath, profileFilePath } = props;
   const categoryData = [
     {
       src: "/public/images/한식.png",
@@ -294,6 +294,8 @@ const Recommend = (props) => {
               getRegdate={getRegdate}
               settings={settings}
               onProfileClick={onProfileClick}
+              contentFilePath={contentFilePath}
+              profileFilePath={profileFilePath}
             />
           </Modal>
         </div>

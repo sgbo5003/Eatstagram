@@ -72,6 +72,12 @@
   cursor: pointer;
 }
 
+.category-post-li video {
+  width: 330px;
+  height: 330px;
+  cursor: pointer;
+}
+
 .post-empty-recommend {
   margin-left: 50%;
 }
