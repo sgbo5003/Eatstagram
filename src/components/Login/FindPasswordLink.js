@@ -3,6 +3,7 @@ import * as fncObj from "../../commonFunc/CommonObjFunctions";
 import * as fnc from "../../commonFunc/CommonFunctions";
 import { FaUserLock } from "react-icons/fa";
 import profileDefaultImg from "../../../public/images/default_user.png";
+import { useHistory } from "react-router";
 const FindPasswordLink = () => {
   const paramsId = location.search.split("=")[1];
   const [confirmNewPwd, setConfirmNewPwd] = useState("");
@@ -13,8 +14,9 @@ const FindPasswordLink = () => {
   const [passwordError, setPasswordError] = useState(false); // 비밀번호 양식 체크
 
   const sendNewPasswordData = () => {
+    const history = useHistory();
     fnc.executeQuery({
-      url: "changePasswordBeforeLoggingIn ",
+      url: "changePasswordBeforeLoggingIn",
       data: {
         username: paramsId,
         newPassword: newPwd,
@@ -22,12 +24,17 @@ const FindPasswordLink = () => {
       },
       success: (res) => {
         alert(res.msg);
+        history.push("/");
       },
       fail: (res) => {
         alert(res.data.msg);
+        setConfirmNewPwd("");
+        setNewPwd("");
       },
       error: (res) => {
         alert(res.msg);
+        setConfirmNewPwd("");
+        setNewPwd("");
       },
     });
   };
